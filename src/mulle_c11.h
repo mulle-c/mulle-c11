@@ -16,9 +16,11 @@
 #if defined( __clang__) || defined( __GNUC__)
 # define MULLE_C_ALWAYS_INLINE         __attribute__(( always_inline))
 # define MULLE_C_CONST_VALUE_RETURN    __attribute__(( const))
+# define MULLE_C_CONSTRUCTOR           __attribute__(( constructor))
 #else
 # define MULLE_C_ALWAYS_INLINE
 # define MULLE_C_CONST_VALUE_RETURN
+# define MULLE_C_CONSTRUCTOR
 #endif
 
 #endif
