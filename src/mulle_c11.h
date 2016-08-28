@@ -5,7 +5,8 @@
 // basic C11 stuff, that's missing on some platforms
 //
 #ifdef _WIN32
-# define alignof( x)  __alignof( x)
+# define alignof( x)  				__alignof( x)
+# define __builtin_expect( x, y)	x
 #else
 # include <stdalign.h>
 #endif
