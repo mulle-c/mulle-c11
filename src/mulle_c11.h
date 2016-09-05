@@ -7,8 +7,10 @@
 #ifdef _WIN32
 # define alignof( x)  				__alignof( x)
 # define __builtin_expect( x, y)	x
+# define MULLE_C_EXTERN_GLOBAL		extern __declspec( dllimport)
 #else
 # include <stdalign.h>
+# define MULLE_C_EXTERN_GLOBAL		extern
 #endif
 
 //
