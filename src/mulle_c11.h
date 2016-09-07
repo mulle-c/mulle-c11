@@ -58,12 +58,11 @@
 // 
 // Using -DMULLE_C_EXTERN_GLOBAL fails if your DLL links against other 
 // mulle_c11 derived dlls. Therefore it's best to define and use
-// your own package MULLE_C_GLOBAL and MULLE_C_EXTERN_GLOBAL defines
+// your own package MULLE_C_EXTERN_GLOBAL 
 // e.g.
 //    #ifndef MULLE_OBJC_EXTERN_GLOBAL
 // 	  # define MULLE_OBJC_EXTERN_GLOBAL  MULLE_C_EXTERN_GLOBAL
 //    #endif
-//    #define MULLE_OBJC_GLOBAL          MULLE_C_GLOBAL
 // and override that with
 // -DMULLE_OBJC_EXTERN_GLOBAL=extern
 //
@@ -71,14 +70,12 @@
 # ifndef MULLE_C_EXTERN_GLOBAL
 #  define MULLE_C_EXTERN_GLOBAL		extern  __declspec( dllimport)
 # endif
-#  define MULLE_C_GLOBAL            __declspec( dllexport)
-# endif
+# define MULLE_C_GLOBAL            __declspec( dllexport)
 #else
 # ifndef MULLE_C_EXTERN_GLOBAL
 #  define MULLE_C_EXTERN_GLOBAL		extern
-# define
-#  define MULLE_C_GLOBAL		
 # endif
+# define MULLE_C_GLOBAL		
 #endif
 
 //
