@@ -39,19 +39,44 @@
 #endif
 
 //
-// basic C11 stuff, that's missing on some platforms
+// basic C11 stuff, that's missing on "some" platforms
 //
 #ifdef _WIN32
 # define alignof( x)  				__alignof( x)
 # define __builtin_expect( x, y)	x
-# ifndef MULLE_C_GLOBAL
-#  define MULLE_C_EXTERN_GLOBAL		extern __declspec( dllimport)
+#else
+# include <stdalign.h>
+#endif
+
+
+// if you are compiling a Windows DLL with constituent static libraries use
+// -DMULLE_C_EXTERN_GLOBAL=extern. This ensures that global variables of those
+// libraries are internally (within the DLL) linked.
+//
+// > Remember a DLL can't link with itself and the __imp_ stuff is generated
+// > by the linker and is not available in the static LIBs
+// 
+// Using -DMULLE_C_EXTERN_GLOBAL fails if your DLL links against other 
+// mulle_c11 derived dlls. Therefore it's best to define and use
+// your own package MULLE_C_GLOBAL and MULLE_C_EXTERN_GLOBAL defines
+// e.g.
+//    #ifndef MULLE_OBJC_EXTERN_GLOBAL
+// 	  # define MULLE_OBJC_EXTERN_GLOBAL  MULLE_C_EXTERN_GLOBAL
+//    #endif
+//    #define MULLE_OBJC_GLOBAL          MULLE_C_GLOBAL
+// and override that with
+// -DMULLE_OBJC_EXTERN_GLOBAL=extern
+//
+#ifdef _WIN32
+# ifndef MULLE_C_EXTERN_GLOBAL
+#  define MULLE_C_EXTERN_GLOBAL		extern  __declspec( dllimport)
+# endif
 #  define MULLE_C_GLOBAL            __declspec( dllexport)
 # endif
 #else
-# include <stdalign.h>
-# ifndef MULLE_C_GLOBAL
+# ifndef MULLE_C_EXTERN_GLOBAL
 #  define MULLE_C_EXTERN_GLOBAL		extern
+# define
 #  define MULLE_C_GLOBAL		
 # endif
 #endif
