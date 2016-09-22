@@ -42,13 +42,22 @@
 // basic C11 stuff, that's missing on "some" platforms
 // https://gcc.gnu.org/wiki/C11Status
 //
-#if defined( _WIN32)
-# define alignof( x)    __alignof( x)
-#else
+#ifndef MULLE_C11_NO_STDALIGN
+# ifdef _WIN32
+#  define MULLE_C11_NO_STDALIGN
+# endif
+
 # ifdef __GNUC__
 #  if __GNUC__ < 4 || (__GNUC__ == 4 && __GNUC_MINOR__ < 7)
-#   define alignof( x)    __alignof( x)
+#   define MULLE_C11_NO_STDALIGN
+#  endif
 # endif
+#endif
+
+
+#ifdef MULLE_C11_NO_STDALIGN
+# define alignof( x)    __alignof( x)
+#else
 # include <stdalign.h>
 #endif
 
