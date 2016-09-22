@@ -40,12 +40,21 @@
 
 //
 // basic C11 stuff, that's missing on "some" platforms
+// https://gcc.gnu.org/wiki/C11Status
 //
-#ifdef _WIN32
-# define alignof( x)  				__alignof( x)
-# define __builtin_expect( x, y)	x
+#if defined( _WIN32)
+# define alignof( x)    __alignof( x)
 #else
+# ifdef __GNUC__
+#  if __GNUC__ < 4 || (__GNUC__ == 4 && __GNUC_MINOR__ < 7)
+#   define alignof( x)    __alignof( x)
+# endif
 # include <stdalign.h>
+#endif
+
+
+#ifdef _WIN32
+# define __builtin_expect( x, y) x
 #endif
 
 
@@ -55,10 +64,10 @@
 //
 // > Remember a DLL can't link with itself and the __imp_ stuff is generated
 // > by the linker and is not available in the static LIBs
-// 
-// Using -DMULLE_C_EXTERN_GLOBAL fails if your DLL links against other 
+//
+// Using -DMULLE_C_EXTERN_GLOBAL fails if your DLL links against other
 // mulle_c11 derived dlls. Therefore it's best to define and use
-// your own package MULLE_C_EXTERN_GLOBAL 
+// your own package MULLE_C_EXTERN_GLOBAL
 // e.g.
 //    #ifndef MULLE_OBJC_EXTERN_GLOBAL
 // 	  # define MULLE_OBJC_EXTERN_GLOBAL  MULLE_C_EXTERN_GLOBAL
@@ -75,7 +84,7 @@
 # ifndef MULLE_C_EXTERN_GLOBAL
 #  define MULLE_C_EXTERN_GLOBAL		extern
 # endif
-# define MULLE_C_GLOBAL		
+# define MULLE_C_GLOBAL
 #endif
 
 //
