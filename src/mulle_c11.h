@@ -1,8 +1,8 @@
 //
 //  mulle_c11.h
-//  mulle-cc11
 //
 //  Copyright © 2016 Mulle kybernetiK. All rights reserved.
+//  Copyright © 2016 Codeon GmbH. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -37,6 +37,10 @@
 #ifdef __cplusplus
 # error "C++ ? You're doing it wrong."
 #endif
+
+
+#define MULLE_C11_VERSION  ((1 << 20) | (0 << 8) | 0)
+
 
 //
 // basic C11 stuff, that's missing on "some" platforms
@@ -79,19 +83,19 @@
 // your own package MULLE_C_EXTERN_GLOBAL
 // e.g.
 //    #ifndef MULLE_OBJC_EXTERN_GLOBAL
-// 	  # define MULLE_OBJC_EXTERN_GLOBAL  MULLE_C_EXTERN_GLOBAL
+//      # define MULLE_OBJC_EXTERN_GLOBAL  MULLE_C_EXTERN_GLOBAL
 //    #endif
 // and override that with
 // -DMULLE_OBJC_EXTERN_GLOBAL=extern
 //
 #ifdef _WIN32
 # ifndef MULLE_C_EXTERN_GLOBAL
-#  define MULLE_C_EXTERN_GLOBAL		extern  __declspec( dllimport)
+#  define MULLE_C_EXTERN_GLOBAL   extern  __declspec( dllimport)
 # endif
-# define MULLE_C_GLOBAL            __declspec( dllexport)
+# define MULLE_C_GLOBAL           __declspec( dllexport)
 #else
 # ifndef MULLE_C_EXTERN_GLOBAL
-#  define MULLE_C_EXTERN_GLOBAL		extern
+#  define MULLE_C_EXTERN_GLOBAL   extern
 # endif
 # define MULLE_C_GLOBAL
 #endif
