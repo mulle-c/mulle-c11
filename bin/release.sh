@@ -66,7 +66,7 @@ git push "${ORIGIN}" "${branch}"
 git tag "${TAG}"
 git push "${ORIGIN}" "${branch}" --tags
 
-./bin/generate-brew-formula.sh  > "${HOMEBREWTAP}/${RBFILE}"
+./bin/generate-brew-formula.sh "${VERSION}" > "${HOMEBREWTAP}/${RBFILE}"
 (
 	cd "${HOMEBREWTAP}" ;
    git add "${RBFILE}" ;

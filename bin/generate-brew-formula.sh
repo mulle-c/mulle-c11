@@ -14,21 +14,7 @@ DESC="Cross-platform compiler glue"
 
 HOMEPAGE="http://www.mulle-kybernetik.com/software/git/${TARGET}"
 
-get_version()
-{
-   local filename
-
-   filename="$1"
-   fgrep "${VERSIONNAME}"  "${filename}" | \
-   sed 's|(\([0-9]*\) \<\< [0-9]*)|\1|g' | \
-   sed 's|^.*(\(.*\))|\1|' | \
-   sed 's/ | /./g'
-}
-
-
-VERSION=`get_version "${HEADER}"`
-VERSION="${1:-${VERSION}}"
-
+VERSION="$1"
 [ $# -eq 0 ] || shift
 ARCHIVEURL="${1:-http://www.mulle-kybernetik.com/software/git/${TARGET}/tarball/$VERSION}"
 [ $# -eq 0 ] || shift
@@ -75,10 +61,11 @@ class ${PROJECT} < Formula
   version "${VERSION}"
   sha256 "${HASH}"
 
-  depends_on 'cmake' => :build
+  depends_on 'mulle-bootstrap' => :build
+  depends_on 'mulle-install' => :build
 
   def install
-     system "./install.sh", "#{prefix}"
+     system "./install.sh", --prefix, "#{prefix}"
   end
 
   test do
