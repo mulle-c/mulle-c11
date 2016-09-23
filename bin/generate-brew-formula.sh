@@ -65,7 +65,7 @@ class ${PROJECT} < Formula
   depends_on 'mulle-install' => :build
 
   def install
-     system "./install.sh", --prefix, "#{prefix}"
+     system "./install.sh", "--prefix", "#{prefix}"
   end
 
   test do
