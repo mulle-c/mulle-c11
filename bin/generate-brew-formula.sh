@@ -62,10 +62,10 @@ class ${PROJECT} < Formula
   sha256 "${HASH}"
 
   depends_on 'mulle-bootstrap' => :build
-  depends_on 'mulle-install' => :build
+  depends_on 'mulle-build' => :build
 
   def install
-     system "./install.sh", "--prefix", "#{prefix}"
+     system "mulle-install", "--prefix", "#{prefix}"
   end
 
   test do
