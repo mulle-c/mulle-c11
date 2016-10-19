@@ -59,12 +59,16 @@ git_must_be_clean
 branch="`git rev-parse --abbrev-ref HEAD`"
 
 git push "${ORIGIN}" "${branch}"
+git checkout -B release
+git rebase "${branch}"
 
 # seperate step, as it's tedious to remove tag when
 # previous push fails
 
 git tag "${TAG}"
-git push "${ORIGIN}" "${branch}" --tags
+git push "${ORIGIN}" release --tags
+git push github release --tags
+git checkout "${branch}"
 
 ./bin/generate-brew-formula.sh "${VERSION}" > "${HOMEBREWTAP}/${RBFILE}"
 (
@@ -74,6 +78,5 @@ git push "${ORIGIN}" "${branch}" --tags
  	git push origin master
 )
 
-git checkout "${branch}"
 
 
