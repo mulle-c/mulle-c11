@@ -30,4 +30,6 @@ mkdir build 2> /dev/null
 
 ## Author
 
-[Nat!](//www.mulle-kybernetik.com/weblog) for [Mulle kybernetiK](//www.mulle-kybernetik.com) and [Codeon GmbH](//www.codeon.de)
+[Nat!](//www.mulle-kybernetik.com/weblog) for
+[Mulle kybernetiK](//www.mulle-kybernetik.com) and
+[Codeon GmbH](//www.codeon.de)
