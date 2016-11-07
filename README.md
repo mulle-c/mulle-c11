@@ -1,6 +1,6 @@
 # mulle-c11
 
-[![Build Status](https://travis-ci.org/mulle-clang/mulle-c11.svg)](https://travis-ci.org/mulle-clang/mulle-c11)
+[![Build Status](https://travis-ci.org/mulle-objc/mulle-c11.svg)](https://travis-ci.org/mulle-objc/mulle-c11)
 
 A C header that enables more feature-rich compilation across various compilers and platforms.
 
