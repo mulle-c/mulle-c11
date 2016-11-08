@@ -34,7 +34,6 @@ do
    esac
 done
 
-HOMEPAGE="`eval echo "${HOMEPAGE}"`"
 
 #
 # these can usually be deduced, if you follow the conventions
@@ -43,6 +42,8 @@ NAME="`get_name_from_project "${PROJECT}" "${LANGUAGE}"`"
 HEADER="`get_header_from_name "${NAME}"`"
 VERSIONNAME="`get_versionname_from_project "${PROJECT}"`"
 VERSION="`get_header_version "${HEADER}" "${VERSIONNAME}"`"
+
+HOMEPAGE="`eval echo "${HOMEPAGE}"`"
 
 
 # --- HOMEBREW TAP ---
