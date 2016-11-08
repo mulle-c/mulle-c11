@@ -39,7 +39,10 @@
 #endif
 
 
-#define MULLE_C11_VERSION  ((1 << 20) | (0 << 8) | 3)
+//
+// community version is always even
+//
+#define MULLE_C11_VERSION  ((1 << 20) | (0 << 8) | 5)
 
 
 //

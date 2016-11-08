@@ -1,82 +1,71 @@
 #! /bin/sh
+#
+# (c) 2016 Nat! for Mulle kybernetiK
+#
+# BSD3-License
+#
 
-NAME="mulle-c11"
-HEADER="src/mulle_c11.h"
-VERSIONNAME="MULLE_C11_VERSION"
-ORIGIN=public
+PROJECT="MulleC11"    # requires camel-case
+DESC="Cross-platform compiler glue"
+LANGUAGE=c            # c,cpp, objc
 
-RBFILE="${NAME}.rb"
-HOMEBREWTAP="../homebrew-software"
+#
+# Ideally you don't hafta change anything below this line
+#
+# source mulle-homebrew.sh (clumsily)
+MULLE_BOOTSTRAP_FAIL_PREFIX="release.sh"
 
-get_version()
+. ./bin/repository-info.sh || exit 1
+. ./bin/mulle-homebrew/mulle-homebrew.sh || exit 1
+
+# parse options
+homebrew_parse_options "$@"
+
+# dial past options
+while [ $# -ne 0 ]
+do
+   case "$1" in
+      -*)
+         shift
+      ;;
+      *)
+         break;
+      ;;
+   esac
+done
+
+#
+# these can usually be deduced, if you follow the conventions
+#
+NAME="`get_name_from_project "${PROJECT}" "${LANGUAGE}"`"
+HEADER="`get_header_from_name "${NAME}"`"
+VERSIONNAME="`get_versionname_from_project "${PROJECT}"`"
+VERSION="`get_header_version "${HEADER}" "${VERSIONNAME}"`"
+
+
+# --- HOMEBREW FORMULA ---
+# Information needed to construct a proper brew formula
+#
+HOMEPAGE="${REMOTEURL}/${NAME}"
+
+
+# --- HOMEBREW TAP ---
+# Specify to where and under what name to publish via your brew tap
+#
+RBFILE="${NAME}.rb"                    # ruby file for brew
+HOMEBREWTAP="../homebrew-software"     # your tap repository path
+
+
+# --- GIT ---
+# tag to tag your release
+# and the origin where
+TAG="${1:-${TAGPREFIX}${VERSION}}"
+
+
+main()
 {
-   local filename
-
-   filename="$1"
-   fgrep "${VERSIONNAME}" "${filename}" | \
-   sed 's|(\([0-9]*\) \<\< [0-9]*)|\1|g' | \
-   sed 's|^.*(\(.*\))|\1|' | \
-   sed 's/ | /./g'
+   git_main "${ORIGIN}" "${TAG}" || exit 1
+   homebrew_main
 }
 
-VERSION="`get_version ${HEADER}`"
-TAG="${1:-${VERSION}}"
-
-executable="`which mulle-bootstrap`"
-directory="`dirname -- "${executable}"`/../libexec/mulle-bootstrap"
-
-[ ! -d "${directory}" ] && echo "failed to locate mulle-bootstrap library" >&2 && exit 1
-
-. "${directory}/mulle-bootstrap-logging.sh"
-
-
-git_must_be_clean()
-{
-   local name
-   local clean
-
-   name="${1:-${PWD}}"
-
-   if [ ! -d .git ]
-   then
-      fail "\"${name}\" is not a git repository"
-   fi
-
-   clean=`git status -s --untracked-files=no`
-   if [ "${clean}" != "" ]
-   then
-      fail "repository \"${name}\" is tainted"
-   fi
-}
-
-
-[ ! -d "${HOMEBREWTAP}" ] && fail "failed to locate \"${HOMEBREWTAP}\""
-
-set -e
-
-git_must_be_clean
-
-branch="`git rev-parse --abbrev-ref HEAD`"
-
-git push "${ORIGIN}" "${branch}"
-git checkout -B release
-git rebase "${branch}"
-
-# seperate step, as it's tedious to remove tag when
-# previous push fails
-
-git tag "${TAG}"
-git push "${ORIGIN}" release --tags
-git push github release --tags
-git checkout "${branch}"
-
-./bin/generate-brew-formula.sh "${VERSION}" > "${HOMEBREWTAP}/${RBFILE}"
-(
-	cd "${HOMEBREWTAP}" ;
-   git add "${RBFILE}" ;
- 	git commit -m "${TAG} release of ${NAME}" "${RBFILE}" ;
- 	git push origin master
-)
-
-
-
+main "$@"

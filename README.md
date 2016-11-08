@@ -1,6 +1,6 @@
 # mulle-c11
 
-Release on [github](//github.com/mulle-nat/mulle-c11): [![Build Status](https://travis-ci.org/mulle-nat/mulle-c11.svg?branch=release)](https://travis-ci.org/mulle-nat/mulle-c11)
+[![Build Status](https://travis-ci.org/mulle-objc/mulle-c11.svg)](https://travis-ci.org/mulle-objc/mulle-c11)
 
 > Issues are on the [Community fork](//github.com/mulle-objc/mulle-c11)
 
