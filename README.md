@@ -5,7 +5,7 @@ A C header that enables more feature-rich compilation across various compilers a
 Used in various other mulle-projects.
 
 
-Fork      |  Build Status | Release Version 
+Fork      |  Build Status | Release Version
 ----------|---------------|-----------------------------------
 [Mulle kybernetiK](//github.com/mulle-nat/mulle-c11) | [![Build Status](https://travis-ci.org/mulle-nat/mulle-c11.svg?branch=release)](https://travis-ci.org/mulle-nat/mulle-c11) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-nat/mulle-c11.svg) [![Build Status](https://travis-ci.org/mulle-nat/mulle-c11.svg?branch=release)](https://travis-ci.org/mulle-nat/mulle-c11)
 [Community](https://github.com/mulle-objc/mulle-c11/tree/release) | [![Build Status](https://travis-ci.org/mulle-objc/mulle-c11.svg)](https://travis-ci.org/mulle-objc/mulle-c11) | ![Community tag](https://img.shields.io/github/tag/mulle-objc/mulle-c11.svg) [![Build Status](https://travis-ci.org/mulle-objc/mulle-c11.svg?branch=release)](https://travis-ci.org/mulle-objc/mulle-c11)
