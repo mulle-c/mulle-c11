@@ -5,11 +5,10 @@ A C header that enables more feature-rich compilation across various compilers a
 Used in various other mulle-projects.
 
 
-Fork         | Branch  | Version | Build Status 
--------------|-------- |---------|----------------
-[Mulle kybernetiK](//github.com/mulle-nat/mulle-c11)  | release | ![GitHub version](https://badge.fury.io/gh/mulle-nat%2Fmulle-c11.svg) | [![Build Status](https://travis-ci.org/mulle-nat/mulle-c11.svg?branch=release)](https://travis-ci.org/mulle-nat/mulle-c11)
-[Community](https://github.com/mulle-objc/mulle-c11/tree/release)      | release | ![GitHub version](https://badge.fury.io/gh/mulle-objc%2Fmulle-c11.svg) |  [![Build Status](https://travis-ci.org/mulle-objc/mulle-c11.svg?branch=release)](https://travis-ci.org/mulle-objc/mulle-c11)
-[Community](//github.com/mulle-objc/mulle-c11)    | master | current |  [![Build Status](https://travis-ci.org/mulle-objc/mulle-c11.svg?branch=master)](https://travis-ci.org/mulle-objc/mulle-c11)
+Fork      |  Build Status | Release Version 
+----------|---------------|-----------------------------------
+[Mulle kybernetiK](//github.com/mulle-nat/mulle-c11) | [![Build Status](https://travis-ci.org/mulle-nat/mulle-c11.svg?branch=release)](https://travis-ci.org/mulle-nat/mulle-c11) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-nat/mulle-c11.svg) [![Build Status](https://travis-ci.org/mulle-nat/mulle-c11.svg?branch=release)](https://travis-ci.org/mulle-nat/mulle-c11)
+[Community](https://github.com/mulle-objc/mulle-c11/tree/release) | [![Build Status](https://travis-ci.org/mulle-objc/mulle-c11.svg)](https://travis-ci.org/mulle-objc/mulle-c11) | ![Community tag](https://img.shields.io/github/tag/mulle-objc/mulle-c11.svg) [![Build Status](https://travis-ci.org/mulle-objc/mulle-c11.svg?branch=release)](https://travis-ci.org/mulle-objc/mulle-c11)
 
 
 ## Install
