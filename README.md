@@ -16,8 +16,7 @@ Fork      |  Build Status | Release Version
 Using [homebrew](//brew.sh):
 
 ```
-brew tap mulle-kybernetik/software
-brew install mulle-c11
+brew install mulle-objc/software/mulle-c11
 ```
 
 or
