@@ -6,3 +6,5 @@
 /addictions/
 /.repos/
 build/
+/.bootstrap.repos
+/stashes
