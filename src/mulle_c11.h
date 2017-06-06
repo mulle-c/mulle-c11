@@ -42,7 +42,7 @@
 //
 // community version is always even
 //
-#define MULLE_C11_VERSION  ((1 << 20) | (0 << 8) | 5)
+#define MULLE_C11_VERSION  ((1 << 20) | (1 << 8) | 1)
 
 
 //
@@ -122,9 +122,9 @@
 # define MULLE_C_ALWAYS_INLINE_NON_NULL_RETURN         __attribute__(( always_inline, returns_nonnull))
 # define MULLE_C_ALWAYS_INLINE_NON_NULL_CONST_RETURN   __attribute__(( always_inline, returns_nonnull, const))
 
+# define MULLE_C_DEPRECATED           __attribute__(( deprecated))
 
 #else
-
 
 # define MULLE_C_ALWAYS_INLINE
 # define MULLE_C_NEVER_INLINE
@@ -139,7 +139,8 @@
 # define MULLE_C_ALWAYS_INLINE_NON_NULL_RETURN
 # define MULLE_C_ALWAYS_INLINE_NON_NULL_CONST_RETURN
 
-#endif
+# define MULLE_C_DEPRECATED
 
+#endif
 
 #endif
