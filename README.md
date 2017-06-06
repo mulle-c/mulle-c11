@@ -1,6 +1,7 @@
 # mulle-c11
 
-A C header that enables more feature-rich compilation across various compilers and platforms.
+A C header that enables more feature-rich compilation across various compilers
+and platforms.
 
 Used in various other mulle-projects.
 
