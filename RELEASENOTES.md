@@ -1,3 +1,8 @@
+1.1.2
+===
+
+* community release
+
 1.0.6
 ===
 * improved README
