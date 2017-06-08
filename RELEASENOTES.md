@@ -1,7 +1,13 @@
+### 1.1.3
+
+* modernize project
+
 1.1.2
 ===
 
 * community release
+
+### 1.0.5
 
 1.0.6
 ===

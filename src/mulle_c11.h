@@ -42,7 +42,7 @@
 //
 // community version is always even
 //
-#define MULLE_C11_VERSION  ((1 << 20) | (1 << 8) | 2)
+#define MULLE_C11_VERSION  ((1 << 20) | (1 << 8) | 3)
 
 
 //
@@ -113,7 +113,9 @@
 
 # define MULLE_C_CONST_RETURN          __attribute__(( const))
 # define MULLE_C_NO_RETURN             __attribute__(( noreturn))
-# define MULLE_C_NON_NULL_RETURN       __attribute__(( returns_nonnull))
+
+// gcc doesn't like ‘returns_nonnull’ apparently ?
+
 
 # define MULLE_C_CONSTRUCTOR           __attribute__(( constructor))
 
@@ -131,7 +133,6 @@
 
 # define MULLE_C_CONST_RETURN
 # define MULLE_C_NO_RETURN
-# define MULLE_C_NON_NULL_RETURN
 
 # define MULLE_C_CONSTRUCTOR
 
@@ -141,6 +142,13 @@
 
 # define MULLE_C_DEPRECATED
 
+#endif
+
+// clang only (?)
+#if defined( __clang__)
+# define MULLE_C_NON_NULL_RETURN       __attribute__(( returns_nonnull))
+#else
+# define MULLE_C_NON_NULL_RETURN
 #endif
 
 #endif
