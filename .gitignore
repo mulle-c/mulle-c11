@@ -1,10 +1,10 @@
 .DS_Store
-/bin/mulle-homebrew/
-/.bootstrap.auto/
-/.bootstrap.local/
-/dependencies/
-/addictions/
-/.repos/
+/bin/mulle-homebrew
 build/
-/.bootstrap.repos
 /stashes
+/.bootstrap.repos
+/.bootstrap.auto
+/.bootstrap.local
+/dependencies
+/addictions
+/.repos

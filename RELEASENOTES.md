@@ -1,8 +1,19 @@
-1.0.5
+1.1.2
+===
 
+* community release
+
+1.0.6
+===
+* improved README
+
+
+1.0.5
+===
 * merged in community release
 
 1.0.4
+====
 
 * community release
 
