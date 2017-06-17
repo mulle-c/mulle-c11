@@ -1,3 +1,3 @@
-PROJECT="MulleC11"   # your project name, requires camel-case
+PROJECT="mulle-c11"
 DESC="Cross-platform compiler glue"
 DEPENDENCIES=''
