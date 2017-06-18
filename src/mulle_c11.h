@@ -119,7 +119,7 @@
 
 // some composites
 
-# define MULLE_C_DEPRECATED           __attribute__(( deprecated))
+# define MULLE_C_DEPRECATED            __attribute__(( deprecated))
 
 #else
 
@@ -148,7 +148,7 @@
 # define MULLE_C_NON_NULL_RETURN
 #endif
 
-# define MULLE_C_CONST_NON_NULL_RETURN                 MULLE_C_NON_NULL_RETURN __attribute__(( const, returns_nonnull))
+# define MULLE_C_CONST_NON_NULL_RETURN                 MULLE_C_NON_NULL_RETURN __attribute__(( const))
 # define MULLE_C_ALWAYS_INLINE_NON_NULL_RETURN         MULLE_C_NON_NULL_RETURN __attribute__(( always_inline))
 # define MULLE_C_ALWAYS_INLINE_NON_NULL_CONST_RETURN   MULLE_C_NON_NULL_RETURN __attribute__(( always_inline, const))
 
