@@ -1,3 +1,8 @@
+### 1.2.1
+
+* be smarter about gcc 4.8 not allowing non_null returns...
+
+
 ### 1.1.3
 
 * modernize project
