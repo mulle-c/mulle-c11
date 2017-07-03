@@ -1,3 +1,7 @@
+### 1.2.3
+
+* make project "C" for cmake
+
 ### 1.2.1
 
 * be smarter about gcc 4.8 not allowing non_null returns...
