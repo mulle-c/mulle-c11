@@ -73,8 +73,10 @@
 # define __builtin_expect( x, y) x
 #endif
 
-
-// if you are compiling a Windows DLL with constituent static libraries use
+// The following definitions are for the "outside looking in" not 
+// for compiling the shared library itself.
+//
+// If you are compiling a Windows DLL with constituent static libraries use
 // -DMULLE_C_EXTERN_GLOBAL=extern. This ensures that global variables of those
 // libraries are internally (within the DLL) linked.
 //
@@ -82,8 +84,9 @@
 // > by the linker and is not available in the static LIBs
 //
 // Using -DMULLE_C_EXTERN_GLOBAL fails if your DLL links against other
-// mulle_c11 derived dlls. Therefore it's best to define and use
-// your own package MULLE_C_EXTERN_GLOBAL
+// mulle_c11 derived dlls, because of conflicting settings. Therefore 
+// it's best to define and use your own package MULLE_C_EXTERN_GLOBAL
+//
 // e.g.
 //    #ifndef MULLE_OBJC_EXTERN_GLOBAL
 //      # define MULLE_OBJC_EXTERN_GLOBAL  MULLE_C_EXTERN_GLOBAL
@@ -114,27 +117,42 @@
 # define MULLE_C_CONST_RETURN          __attribute__(( const))
 # define MULLE_C_NO_RETURN             __attribute__(( noreturn))
 
-
 # define MULLE_C_CONSTRUCTOR           __attribute__(( constructor))
 
 // some composites
 
 # define MULLE_C_DEPRECATED            __attribute__(( deprecated))
 
+// use these for function pointer modifiers (because win...)
+# define _MULLE_C_NO_RETURN            MULLE_C_NO_RETURN           
+# define _MULLE_C_NEVER_INLINE         MULLE_C_NEVER_INLINE
+
+
 #else
 
+# ifdef _WIN32
+#  define MULLE_C_NO_RETURN            __declspec( noreturn)
+#  define MULLE_C_NEVER_INLINE         __declspec( noinline)
+
+#  define _MULLE_C_NO_RETURN           
+#  define _MULLE_C_NEVER_INLINE        
+
+// check this https://stackoverflow.com/questions/1113409/attribute-constructor-equivalent-in-vc
+// for MULLE_C_CONSTRUCTOR
+
+# else
+#  define MULLE_C_NO_RETURN
+#  define MULLE_C_NEVER_INLINE
+#  define _MULLE_C_NO_RETURN           
+#  define _MULLE_C_NEVER_INLINE        
+# endif
+
 # define MULLE_C_ALWAYS_INLINE
-# define MULLE_C_NEVER_INLINE
-
 # define MULLE_C_CONST_RETURN
-# define MULLE_C_NO_RETURN
-
 # define MULLE_C_CONSTRUCTOR
-
 # define MULLE_C_CONST_NON_NULL_RETURN
 # define MULLE_C_ALWAYS_INLINE_NON_NULL_RETURN
 # define MULLE_C_ALWAYS_INLINE_NON_NULL_CONST_RETURN
-
 # define MULLE_C_DEPRECATED
 
 #endif
