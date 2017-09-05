@@ -127,7 +127,6 @@
 # define _MULLE_C_NO_RETURN            MULLE_C_NO_RETURN           
 # define _MULLE_C_NEVER_INLINE         MULLE_C_NEVER_INLINE
 
-
 #else
 
 # ifdef _WIN32
@@ -150,9 +149,6 @@
 # define MULLE_C_ALWAYS_INLINE
 # define MULLE_C_CONST_RETURN
 # define MULLE_C_CONSTRUCTOR
-# define MULLE_C_CONST_NON_NULL_RETURN
-# define MULLE_C_ALWAYS_INLINE_NON_NULL_RETURN
-# define MULLE_C_ALWAYS_INLINE_NON_NULL_CONST_RETURN
 # define MULLE_C_DEPRECATED
 
 #endif
@@ -166,8 +162,15 @@
 # define MULLE_C_NON_NULL_RETURN
 #endif
 
+
+#if defined( __clang__) || defined( __GNUC__)
 # define MULLE_C_CONST_NON_NULL_RETURN                 MULLE_C_NON_NULL_RETURN __attribute__(( const))
 # define MULLE_C_ALWAYS_INLINE_NON_NULL_RETURN         MULLE_C_NON_NULL_RETURN __attribute__(( always_inline))
 # define MULLE_C_ALWAYS_INLINE_NON_NULL_CONST_RETURN   MULLE_C_NON_NULL_RETURN __attribute__(( always_inline, const))
+#else
+# define MULLE_C_CONST_NON_NULL_RETURN
+# define MULLE_C_ALWAYS_INLINE_NON_NULL_RETURN
+# define MULLE_C_ALWAYS_INLINE_NON_NULL_CONST_RETURN
+#endif
 
 #endif
