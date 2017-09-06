@@ -73,8 +73,10 @@
 # define __builtin_expect( x, y) x
 #endif
 
-// The following definitions are for the "outside looking in" not 
-// for compiling the shared library itself.
+// The following definitions are for the "outside looking in" not
+// for compiling the (shared) library itself.
+//
+// https://msdn.microsoft.com/en-us/library/aa271769(v=vs.60).aspx
 //
 // If you are compiling a Windows DLL with constituent static libraries use
 // -DMULLE_C_EXTERN_GLOBAL=extern. This ensures that global variables of those
@@ -84,7 +86,7 @@
 // > by the linker and is not available in the static LIBs
 //
 // Using -DMULLE_C_EXTERN_GLOBAL fails if your DLL links against other
-// mulle_c11 derived dlls, because of conflicting settings. Therefore 
+// mulle_c11 derived dlls, because of conflicting settings. Therefore
 // it's best to define and use your own package MULLE_C_EXTERN_GLOBAL
 //
 // e.g.
@@ -119,12 +121,10 @@
 
 # define MULLE_C_CONSTRUCTOR           __attribute__(( constructor))
 
-// some composites
-
 # define MULLE_C_DEPRECATED            __attribute__(( deprecated))
 
 // use these for function pointer modifiers (because win...)
-# define _MULLE_C_NO_RETURN            MULLE_C_NO_RETURN           
+# define _MULLE_C_NO_RETURN            MULLE_C_NO_RETURN
 # define _MULLE_C_NEVER_INLINE         MULLE_C_NEVER_INLINE
 
 #else
@@ -133,8 +133,8 @@
 #  define MULLE_C_NO_RETURN            __declspec( noreturn)
 #  define MULLE_C_NEVER_INLINE         __declspec( noinline)
 
-#  define _MULLE_C_NO_RETURN           
-#  define _MULLE_C_NEVER_INLINE        
+#  define _MULLE_C_NO_RETURN
+#  define _MULLE_C_NEVER_INLINE
 
 // check this https://stackoverflow.com/questions/1113409/attribute-constructor-equivalent-in-vc
 // for MULLE_C_CONSTRUCTOR
@@ -142,8 +142,8 @@
 # else
 #  define MULLE_C_NO_RETURN
 #  define MULLE_C_NEVER_INLINE
-#  define _MULLE_C_NO_RETURN           
-#  define _MULLE_C_NEVER_INLINE        
+#  define _MULLE_C_NO_RETURN
+#  define _MULLE_C_NEVER_INLINE
 # endif
 
 # define MULLE_C_ALWAYS_INLINE
@@ -163,14 +163,39 @@
 #endif
 
 
-#if defined( __clang__) || defined( __GNUC__)
-# define MULLE_C_CONST_NON_NULL_RETURN                 MULLE_C_NON_NULL_RETURN __attribute__(( const))
-# define MULLE_C_ALWAYS_INLINE_NON_NULL_RETURN         MULLE_C_NON_NULL_RETURN __attribute__(( always_inline))
-# define MULLE_C_ALWAYS_INLINE_NON_NULL_CONST_RETURN   MULLE_C_NON_NULL_RETURN __attribute__(( always_inline, const))
-#else
-# define MULLE_C_CONST_NON_NULL_RETURN
-# define MULLE_C_ALWAYS_INLINE_NON_NULL_RETURN
-# define MULLE_C_ALWAYS_INLINE_NON_NULL_CONST_RETURN
-#endif
+// some composites
+
+#define MULLE_C_CONST_NON_NULL_RETURN                 MULLE_C_NON_NULL_RETURN MULLE_C_CONST_RETURN
+#define MULLE_C_ALWAYS_INLINE_NON_NULL_RETURN         MULLE_C_NON_NULL_RETURN MULLE_C_ALWAYS_INLINE
+#define MULLE_C_ALWAYS_INLINE_NON_NULL_CONST_RETURN   MULLE_C_NON_NULL_RETURN MULLE_C_ALWAYS_INLINE MULLE_C_CONST_RETURN
+
+//
+// Some warnings are just too much for regular builds.
+// Sometimes if one has a weird error it's nice to enable
+// this though. So it is recommeded to compile with
+// -DMULLE_C11_NO_NOOB_WARNINGS=1 by default
+//
+// The alternative would be to gum up the code...
+//
+#if MULLE_C11_NO_NOOB_WARNINGS
+
+# if defined( __clang__)
+// if( x = next()) , don't need that warning all the time
+#  pragma clang diagnostic ignored "-Wparentheses"
+
+// switch( enum), don't need missing case warning ever really
+#  pragma clang diagnostic ignored "-Wswitch"
+
+// That's what a category is good for...
+#  pragma clang diagnostic ignored "-Wobjc-protocol-method-implementation"
+# endif
+
+
+# if defined( __GNUC__)
+#  pragma GCC diagnostic ignored "-Wparentheses"
+#  pragma GCC diagnostic ignored "-Wswitch"
+#  pragma GCC diagnostic ignored "-Wobjc-protocol-method-implementation"
+# endif
 
 #endif
+
