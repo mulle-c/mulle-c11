@@ -1,3 +1,8 @@
+### 1.3.1
+
+* MULLE_C11_NO_NOOB_WARNINGS diagnostic switch added
+* improve life for cl.exe, by making it worse for clang and gcc (_MULLE_C_...)
+
 ### 1.2.5
 
 ** modernize project
