@@ -1,0 +1,9 @@
+if( NOT __MULLE_C11_CMAKE_DEPENDENCIES_TXT__)
+   set( __MULLE_C11_CMAKE_DEPENDENCIES_TXT__ ON)
+
+   message( STATUS "# Include mulle-thread CMakeDependencies.txt")
+
+   # just here for orthogonality to other libraries
+endif()
+
+
