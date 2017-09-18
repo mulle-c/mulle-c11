@@ -6,4 +6,9 @@ set(HEADERS
 src/mulle_c11.h
 )
 
-INSTALL(FILES ${HEADERS} DESTINATION "include/mulle_c11")
+set( PUBLIC_HEADERS
+${HEADERS}
+CMakeDependencies.txt
+)
+
+INSTALL(FILES ${PUBLIC_HEADERS} DESTINATION "include/mulle_c11")

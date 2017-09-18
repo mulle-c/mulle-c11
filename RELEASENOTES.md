@@ -1,3 +1,7 @@
+### 1.3.3
+
+* refinements for mulle-configuration 3.1
+
 ### 1.3.1
 
 * MULLE_C11_NO_NOOB_WARNINGS diagnostic switch added
