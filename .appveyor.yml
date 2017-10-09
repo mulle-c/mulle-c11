@@ -1,14 +1,12 @@
 #install:
 #  - ps: choco install ninja
 
-
-# it doesn't work !!
-# if use ninja, then the default cc is clang (?) but the options emitted
+#
+# So far it doesn't work as a build-script.
+#
+# If I use ninja, then the default cc is clang (?) but the options emitted
 # by cmake are for clang-cl. clang-cl is not installed.
 # cmake -G "Visual Studio 15 2017" doesn't work either
 #
-build_script:
-  - mkdir build
-  - cd build
-  - cmake -G "Visual Studio 15 2017" ..
-  - msbuild
+before_build:
+  - cmake -G "Visual Studio 15 2017" .
