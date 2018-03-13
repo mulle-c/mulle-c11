@@ -24,8 +24,8 @@ ${CMAKE_FRAMEWORK_PATH}
 
 set( CMAKE_INCLUDES
 "cmake/DependenciesAndLibraries.cmake"
-".mulle-sde/data/cmake/_Dependencies.cmake"
-".mulle-sde/data/cmake/_Libraries.cmake"
+"cmake/_Dependencies.cmake"
+"cmake/_Libraries.cmake"
 )
 
 set( CMAKE_EDITABLE_FILES
