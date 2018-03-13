@@ -1,14 +1,48 @@
-cmake_minimum_required (VERSION 3.0)
+cmake_minimum_required( VERSION 3.0)
 
 project( mulle-c11 C)
 
-set(HEADERS
-src/mulle_c11.h
+
+### mulle-sde environment
+
+# add cmake module paths to search path
+list( INSERT CMAKE_MODULE_PATH 0 "${PROJECT_SOURCE_DIR}/.mulle-sde/share/cmake")
+list( INSERT CMAKE_MODULE_PATH 0 "${PROJECT_SOURCE_DIR}/.mulle-sde/etc/cmake")
+list( INSERT CMAKE_MODULE_PATH 0 "${PROJECT_SOURCE_DIR}/cmake")
+
+include( Environment)
+
+
+### Files
+
+include( PreFiles OPTIONAL)
+
+#
+# Include all non underscored .cmake files in ./cmake
+#
+file( GLOB LOCAL_CMAKE_INCLUDES
+   "cmake/[A-Za-z0-9]*.cmake"
 )
 
-set( PUBLIC_HEADERS
-${HEADERS}
-CMakeDependencies.txt
-)
+# message( STATUS "CMAKE_MODULE_PATH=\"${CMAKE_MODULE_PATH}\"")
 
-INSTALL(FILES ${PUBLIC_HEADERS} DESTINATION "include/mulle_c11")
+foreach( FILE ${LOCAL_CMAKE_INCLUDES} )
+#   message( STATUS "including \"${FILE}\"")
+   include( "${FILE}")
+endforeach()
+
+
+include_directories( ${INCLUDE_DIRS})
+
+include( PostFiles OPTIONAL)
+
+### Install
+
+include( PreInstall OPTIONAL)
+
+install( FILES ${PUBLIC_HEADERS}  DESTINATION "include/mulle-c11")
+install( FILES ${PRIVATE_HEADERS} DESTINATION "include/mulle-c11/private")
+
+install( FILES ${CMAKE_INCLUDES}  DESTINATION "include/mulle-c11/cmake")
+
+include( PostInstall OPTIONAL)
