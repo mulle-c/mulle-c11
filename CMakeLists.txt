@@ -16,6 +16,8 @@ include( Environment)
 
 include( PreFiles OPTIONAL)
 
+set( MULLE_C11_LIBRARY ON)
+
 #
 # Include all non underscored .cmake files in ./cmake
 #
@@ -23,10 +25,7 @@ file( GLOB LOCAL_CMAKE_INCLUDES
    "cmake/[A-Za-z0-9]*.cmake"
 )
 
-# message( STATUS "CMAKE_MODULE_PATH=\"${CMAKE_MODULE_PATH}\"")
-
 foreach( FILE ${LOCAL_CMAKE_INCLUDES} )
-#   message( STATUS "including \"${FILE}\"")
    include( "${FILE}")
 endforeach()
 
@@ -35,10 +34,31 @@ include_directories( ${INCLUDE_DIRS})
 
 include( PostFiles OPTIONAL)
 
+### Library
+
+include( PreLibrary OPTIONAL)
+
+add_library( "mulle-c11"
+${SOURCES}
+${PUBLIC_HEADERS}
+${PRIVATE_HEADERS}
+${CMAKE_EDITABLE_FILES}
+)
+
+if( BUILD_SHARED_LIBS)
+   target_link_libraries( mulle-c11
+${DEPENDENCIES_LIBRARIES}
+${OS_SPECIFIC_LIBRARIES}
+)
+endif()
+
+include( PostLibrary OPTIONAL)
+
 ### Install
 
 include( PreInstall OPTIONAL)
 
+install( TARGETS "mulle-c11" DESTINATION "lib")
 install( FILES ${PUBLIC_HEADERS}  DESTINATION "include/mulle-c11")
 install( FILES ${PRIVATE_HEADERS} DESTINATION "include/mulle-c11/private")
 
