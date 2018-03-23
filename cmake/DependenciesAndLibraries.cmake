@@ -9,7 +9,7 @@ if( NOT __MULLE_C11_DEPENDENCIES_AND_LIBRARIES_TXT__)
    # Put your find_library() statements here to import other libraries
    #
    # Add OS specific dependencies to OS_SPECIFIC_LIBRARIES
-   # Add all other dependencies (rest) to C_DEPENDENCIES_LIBRARIES
+   # Add all other dependencies (rest) to C_DEPENDENCY_LIBRARIES
 
 
    #

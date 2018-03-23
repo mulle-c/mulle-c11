@@ -2,12 +2,12 @@
 # Git mirror and Zip/TGZ cache to conserve bandwidth
 # Memo: override in os-specific env file
 #
-export MULLE_FETCH_MIRROR_DIR="${HOME:-/tmp}/.cache/mulle-fetch/git-mirrors"
+export MULLE_FETCH_MIRROR_DIR="${HOME:-/tmp}/.cache/mulle-fetch/git-mirror"
 
 #
 # Git mirror and Zip/TGZ cache to conserve bandwidth
 #
-export MULLE_FETCH_ARCHIVE_DIR="${HOME:-/tmp}/.cache/mulle-fetch/archives"
+export MULLE_FETCH_ARCHIVE_DIR="${HOME:-/tmp}/.cache/mulle-fetch/archive"
 
 #
 # PATH to search for git repositories locally
@@ -22,7 +22,7 @@ export MULLE_SYMLINK="YES"
 #
 # Use common folder for sharable projects
 #
-export MULLE_SOURCETREE_SHARE_DIR="${MULLE_VIRTUAL_ROOT}/stashes"
+export MULLE_SOURCETREE_SHARE_DIR="${MULLE_VIRTUAL_ROOT}/stash"
 
 #
 # Use common build directory
@@ -32,15 +32,21 @@ export BUILD_DIR="${MULLE_VIRTUAL_ROOT}/build"
 #
 # Share dependencies directory (absolute for ease of use)
 #
-export DEPENDENCIES_DIR="${MULLE_VIRTUAL_ROOT}/dependencies"
+export DEPENDENCY_DIR="${MULLE_VIRTUAL_ROOT}/dependency"
 
 #
 # Share addictions directory (absolute for ease of use)
 #
-export ADDICTIONS_DIR="${MULLE_VIRTUAL_ROOT}/addictions"
+export ADDICTION_DIR="${MULLE_VIRTUAL_ROOT}/addiction"
 #
 #
 #
 export MULLE_SDE_CMAKE_SOURCES_FILE="NONE"
+
+
+#
+#
+#
+export MULLE_SDE_DEPENDENCIES_HEADER_FILE="NONE"
 
 
