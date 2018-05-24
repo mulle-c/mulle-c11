@@ -1,3 +1,8 @@
+# 2.0.0
+
+* migrated to mulle-sde
+* renamed header to mulle-c11.h with a hyphen
+
 ### 1.3.5
 
 * fixed scion wrapper command
