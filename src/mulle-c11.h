@@ -42,7 +42,7 @@
 //
 // community version is always even
 //
-#define MULLE_C11_VERSION  ((2 << 20) | (0 << 8) | 0)
+#define MULLE_C11_VERSION  ((2 << 20) | (0 << 8) | 1)
 
 
 //
