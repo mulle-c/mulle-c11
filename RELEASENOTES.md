@@ -1,3 +1,7 @@
+### 2.0.2
+
+* use old .travis.yml file
+
 ### 2.0.1
 
 * fix travis.yml
