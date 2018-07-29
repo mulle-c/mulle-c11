@@ -1,7 +1,3 @@
-### 3.0.1
-
-* `MULLE_C_CONSTRUCTOR` gains a parameter for WINDOWS
-
 # 3.0.0
 
 * MULLE_C_CONSTRUCTOR gains a parameter for WINDOWS
