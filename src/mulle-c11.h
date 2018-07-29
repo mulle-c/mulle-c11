@@ -42,7 +42,7 @@
 //
 // community version is always even
 //
-#define MULLE_C11_VERSION  ((2 << 20) | (0 << 8) | 2)
+#define MULLE_C11_VERSION  ((3 << 20) | (0 << 8) | 1)
 
 
 //
@@ -168,6 +168,29 @@
 #define MULLE_C_CONST_NON_NULL_RETURN                 MULLE_C_NON_NULL_RETURN MULLE_C_CONST_RETURN
 #define MULLE_C_ALWAYS_INLINE_NON_NULL_RETURN         MULLE_C_NON_NULL_RETURN MULLE_C_ALWAYS_INLINE
 #define MULLE_C_ALWAYS_INLINE_NON_NULL_CONST_RETURN   MULLE_C_NON_NULL_RETURN MULLE_C_ALWAYS_INLINE MULLE_C_CONST_RETURN
+
+
+//
+// cross platform __attribute__((constructor)) 
+// place in front of function w/o ;
+// https://stackoverflow.com/questions/1113409/attribute-constructor-equivalent-in-vc
+//
+#ifdef _MSC_VER
+# pragma section(".CRT$XCU",read)
+# define MULLE_C_CONSTRUCTOR2_(f,p) \
+        static void f(void); \
+        __declspec(allocate(".CRT$XCU")) void (*f##_)(void) = f; \
+        __pragma(comment(linker,"/include:" p #f "_")) \
+# ifdef _WIN64
+#  define MULLE_C_CONSTRUCTOR(f) MULLE_C_CONSTRUCTOR2_(f,"")
+# else
+#  define MULLE_C_CONSTRUCTOR(f) MULLE_C_CONSTRUCTOR2_(f,"_")
+# endif
+#else
+# define MULLE_C_CONSTRUCTOR( f) \
+        __attribute__((constructor)) \
+#endif
+
 
 //
 // Some warnings are just too much for regular builds.
