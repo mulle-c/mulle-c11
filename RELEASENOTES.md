@@ -1,3 +1,7 @@
+### 3.0.2
+
+* fix again, what had been fixed already :(
+
 ### 3.0.1
 
 * fix what had been fixed already :(

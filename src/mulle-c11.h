@@ -42,7 +42,7 @@
 //
 // community version is always even
 //
-#define MULLE_C11_VERSION  ((3 << 20) | (0 << 8) | 1)
+#define MULLE_C11_VERSION  ((3 << 20) | (0 << 8) | 2)
 
 
 //
@@ -177,7 +177,7 @@
 # define MULLE_C_CONSTRUCTOR2_(f,p) \
         static void f(void); \
         __declspec(allocate(".CRT$XCU")) void (*f##_)(void) = f; \
-        __pragma(comment(linker,"/include:" p #f "_")) \
+        __pragma(comment(linker,"/include:" p #f "_")) 
 # ifdef _WIN64
 #  define MULLE_C_CONSTRUCTOR(f) MULLE_C_CONSTRUCTOR2_(f,"")
 # else
@@ -185,7 +185,7 @@
 # endif
 #else
 # define MULLE_C_CONSTRUCTOR( f) \
-        __attribute__((constructor)) \
+        __attribute__((constructor)) 
 #endif
 
 
