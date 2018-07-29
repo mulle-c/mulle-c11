@@ -42,7 +42,7 @@
 //
 // community version is always even
 //
-#define MULLE_C11_VERSION  ((3 << 20) | (0 << 8) | 0)
+#define MULLE_C11_VERSION  ((3 << 20) | (0 << 8) | 1)
 
 
 //
@@ -119,8 +119,6 @@
 # define MULLE_C_CONST_RETURN          __attribute__(( const))
 # define MULLE_C_NO_RETURN             __attribute__(( noreturn))
 
-# define MULLE_C_CONSTRUCTOR           __attribute__(( constructor))
-
 # define MULLE_C_DEPRECATED            __attribute__(( deprecated))
 
 // use these for function pointer modifiers (because win...)
@@ -148,7 +146,6 @@
 
 # define MULLE_C_ALWAYS_INLINE
 # define MULLE_C_CONST_RETURN
-# define MULLE_C_CONSTRUCTOR
 # define MULLE_C_DEPRECATED
 
 #endif
