@@ -1,3 +1,7 @@
+### 3.0.1
+
+* fix what had been fixed already :(
+
 # 3.0.0
 
 * MULLE_C_CONSTRUCTOR gains a parameter for WINDOWS
