@@ -1,3 +1,7 @@
+# 3.0.0
+
+* MULLE_C_CONSTRUCTOR gains a parameter for WINDOWS
+
 ### 2.0.2
 
 * use old .travis.yml file
