@@ -1,3 +1,8 @@
+## 3.1.0
+
+* add `__has_feature` and `__has_attribute` capability (somewhat experimentally)
+
+
 ### 3.0.2
 
 * fix again, what had been fixed already :(

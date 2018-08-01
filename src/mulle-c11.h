@@ -39,10 +39,19 @@
 #endif
 
 
+#ifndef __has_feature          // Optional.
+# define __has_feature( x) 0   // Compatibility with non-clang compilers.
+#endif
+
+#ifndef __has_attribute
+# define __has_attribute( x) 0
+#endif
+
+
 //
 // community version is always even
 //
-#define MULLE_C11_VERSION  ((3 << 20) | (0 << 8) | 2)
+#define MULLE_C11_VERSION  ((3 << 20) | (1 << 8) | 0)
 
 
 //
@@ -168,7 +177,7 @@
 
 
 //
-// cross platform __attribute__((constructor)) 
+// cross platform __attribute__((constructor))
 // place in front of function w/o ;
 // https://stackoverflow.com/questions/1113409/attribute-constructor-equivalent-in-vc
 //
@@ -177,7 +186,7 @@
 # define MULLE_C_CONSTRUCTOR2_(f,p) \
         static void f(void); \
         __declspec(allocate(".CRT$XCU")) void (*f##_)(void) = f; \
-        __pragma(comment(linker,"/include:" p #f "_")) 
+        __pragma(comment(linker,"/include:" p #f "_"))
 # ifdef _WIN64
 #  define MULLE_C_CONSTRUCTOR(f) MULLE_C_CONSTRUCTOR2_(f,"")
 # else
@@ -185,7 +194,7 @@
 # endif
 #else
 # define MULLE_C_CONSTRUCTOR( f) \
-        __attribute__((constructor)) 
+        __attribute__((constructor))
 #endif
 
 
@@ -220,4 +229,4 @@
 #endif
 
 
-#endif // h 
+#endif // h
