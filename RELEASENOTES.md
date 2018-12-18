@@ -1,3 +1,7 @@
+### 3.1.1
+
+* simplified CMakeLists.txt
+
 ## 3.1.0
 
 * add `__has_feature` and `__has_attribute` capability (somewhat experimentally)
