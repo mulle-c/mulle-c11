@@ -1,3 +1,7 @@
+### 3.1.2
+
+* improve README
+
 ### 3.1.1
 
 * simplified CMakeLists.txt
