@@ -15,38 +15,26 @@ export MULLE_FETCH_ARCHIVE_DIR="${HOME:-/tmp}/.cache/mulle-fetch/archive"
 export MULLE_FETCH_SEARCH_PATH="${MULLE_VIRTUAL_ROOT}/.."
 
 #
-# Prefer symlinks to local git repositories found via MULLE_FETCH_SEARCH_PATH
+# Prefer symlinking to local git repositories found via MULLE_FETCH_SEARCH_PATH
 #
 export MULLE_SYMLINK="YES"
 
 #
 # Use common folder for sharable projects
 #
-export MULLE_SOURCETREE_SHARE_DIR="${MULLE_VIRTUAL_ROOT}/stash"
+export MULLE_SOURCETREE_SHARE_DIR="stash"
+
+#
+# Share dependency directory (absolute for ease of use)
+#
+export DEPENDENCY_DIR="${MULLE_VIRTUAL_ROOT}/dependency"
+
+#
+# Share addiction directory (absolute for ease of use)
+#
+export ADDICTION_DIR="${MULLE_VIRTUAL_ROOT}/addiction"
 
 #
 # Use common build directory
 #
 export BUILD_DIR="${MULLE_VIRTUAL_ROOT}/build"
-
-#
-# Share dependencies directory (absolute for ease of use)
-#
-export DEPENDENCY_DIR="${MULLE_VIRTUAL_ROOT}/dependency"
-
-#
-# Share addictions directory (absolute for ease of use)
-#
-export ADDICTION_DIR="${MULLE_VIRTUAL_ROOT}/addiction"
-#
-#
-#
-export MULLE_SDE_CMAKE_SOURCES_FILE="NONE"
-
-
-#
-#
-#
-export MULLE_SDE_DEPENDENCIES_HEADER_FILE="NONE"
-
-
