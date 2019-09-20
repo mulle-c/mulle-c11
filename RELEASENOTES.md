@@ -1,3 +1,7 @@
+### 3.1.4
+
+* Various small improvements
+
 ### 3.1.3
 
 * modernized to mulle-sde with .mulle folder
