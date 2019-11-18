@@ -180,22 +180,55 @@
 // cross platform __attribute__((constructor))
 // place in front of function w/o ;
 // https://stackoverflow.com/questions/1113409/attribute-constructor-equivalent-in-vc
+// Use C++ initialized. C (.CRT$XIU) doesn't work, I guess, because on windows
+// it returns a value (possibly terminating) and we are void here.
 //
+// The underscore method is global and will conflict with other symbols!
+//
+
 #ifdef _MSC_VER
 # pragma section(".CRT$XCU",read)
-# define MULLE_C_CONSTRUCTOR2_(f,p) \
+# define MULLE_C_CONSTRUCTOR2_( f, p) \
         static void f(void); \
         __declspec(allocate(".CRT$XCU")) void (*f##_)(void) = f; \
         __pragma(comment(linker,"/include:" p #f "_"))
 # ifdef _WIN64
-#  define MULLE_C_CONSTRUCTOR(f) MULLE_C_CONSTRUCTOR2_(f,"")
+#  define MULLE_C_CONSTRUCTOR( f) MULLE_C_CONSTRUCTOR2_(f,"")
 # else
-#  define MULLE_C_CONSTRUCTOR(f) MULLE_C_CONSTRUCTOR2_(f,"_")
+#  define MULLE_C_CONSTRUCTOR (f) MULLE_C_CONSTRUCTOR2_(f,"_")
 # endif
 #else
 # define MULLE_C_CONSTRUCTOR( f) \
         __attribute__((constructor))
 #endif
+
+
+//
+// cross platform __attribute__((destructor)). It's not really clear when and
+// if this runs though. This is just compiler decl stuff.  
+//
+// https://www.gonwan.com/2014/02/13/msvc-crt-initialization/
+// ".CRT$XTU" is basically guessed
+//
+// Use XTU for "user" terminator C which is void:
+// https://github.com/wyrover/book-code/blob/master/Linux%E4%B8%8B%E7%9A%84C%E5%BA%93%E5%87%BD%E6%95%B0%E6%BA%90%E4%BB%A3%E7%A0%81/%E6%9C%80%E5%85%A8%E7%9A%84Linux%E4%B8%8B%E7%9A%84C%E5%BA%93%E5%87%BD%E6%95%B0%E6%BA%90%E4%BB%A3%E7%A0%811/src/crt0dat.c        
+//
+#ifdef _MSC_VER
+# pragma section(".CRT$XTU",read)
+# define MULLE_C_DESTRUCTOR2_( f, p) \
+        static void f(void); \
+        __declspec(allocate(".CRT$XTU")) void (*f##_)(void) = f; \
+        __pragma(comment(linker,"/include:" p #f "_"))
+# ifdef _WIN64
+#  define MULLE_C_DESTRUCTOR( f) MULLE_C_DESTRUCTOR2_(f,"")
+# else
+#  define MULLE_C_DESTRUCTOR( f) MULLE_C_DESTRUCTOR2_(f,"_")
+# endif
+#else
+# define MULLE_C_DESTRUCTOR( f) \
+        __attribute__((destructor))
+#endif
+
 
 
 //

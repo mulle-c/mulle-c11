@@ -1,0 +1,27 @@
+MULLE_C_DESTRUCTOR doesn't work on windows
+But then __attribute__(( destructor)) doesn't work either ?
+
+#include <stdio.h>
+
+
+__attribute__((constructor))
+void  load( void)
+{
+   printf( "%s\n", __FUNCTION__);
+}
+
+
+__attribute__((destructor))
+void  unload( void)
+{
+   printf( "%s\n", __FUNCTION__);
+}
+
+
+int  main( void)
+{
+   printf( "%s\n", __FUNCTION__);
+   return( 0);
+}
+
+
