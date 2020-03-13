@@ -1,3 +1,9 @@
+# 4.0.0
+
+* added NONNULL parameter checks (from mulle-container) and renamed existing `NON_NULL` defines to NONNULL
+* add `MULLE_C_DESTRUCTOR` and some tests
+
+
 ### 3.1.4
 
 * Various small improvements
