@@ -40,4 +40,4 @@ add_mulle_kybernetik_to_apt_sources()
 get_mulle_kybernetik_gpg_key && \
 add_mulle_kybernetik_to_apt_sources &&  \
 sudo apt-get update && \
-sudo apt-get -y install mulle-sde mulle-test
+sudo apt-get -y install mulle-sde-developer ninja-build cmake
