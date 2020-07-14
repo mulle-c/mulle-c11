@@ -168,9 +168,15 @@
 
 // some composites
 
-#define MULLE_C_CONST_NONNULL_RETURN                 MULLE_C_NONNULL_RETURN MULLE_C_CONST_RETURN
-#define MULLE_C_ALWAYS_INLINE_NONNULL_RETURN         MULLE_C_NONNULL_RETURN MULLE_C_ALWAYS_INLINE
-#define MULLE_C_ALWAYS_INLINE_NONNULL_CONST_RETURN   MULLE_C_NONNULL_RETURN MULLE_C_ALWAYS_INLINE MULLE_C_CONST_RETURN
+#define MULLE_C_CONST_NONNULL_RETURN                 MULLE_C_NONNULL_RETURN \
+                                                     MULLE_C_CONST_RETURN
+
+#define MULLE_C_ALWAYS_INLINE_NONNULL_RETURN         MULLE_C_NONNULL_RETURN \
+                                                     MULLE_C_ALWAYS_INLINE
+
+#define MULLE_C_ALWAYS_INLINE_NONNULL_CONST_RETURN   MULLE_C_NONNULL_RETURN \
+                                                     MULLE_C_ALWAYS_INLINE \
+                                                     MULLE_C_CONST_RETURN
 
 
 //
