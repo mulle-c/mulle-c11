@@ -60,9 +60,11 @@
 #  define MULLE_C11_NO_STDALIGN
 # endif
 
-# ifdef __GNUC__
-#  if __GNUC__ < 4 || (__GNUC__ == 4 && __GNUC_MINOR__ < 7)
-#   define MULLE_C11_NO_STDALIGN
+# ifndef __clang__
+#  ifdef __GNUC__
+#   if __GNUC__ < 4 || (__GNUC__ == 4 && __GNUC_MINOR__ < 7)
+#    define MULLE_C11_NO_STDALIGN
+#   endif
 #  endif
 # endif
 #endif
