@@ -1,6 +1,6 @@
 # mulle-c11
 
-#### #️⃣ Cross-platform C compiler glue
+#### 🔀 Cross-platform C compiler glue
 
 A C header that enables more feature-rich compilation across various compilers
 and platforms.
@@ -11,7 +11,7 @@ For example `MULLE_C11_CONSTRUCTOR( f) void  f( void);` will expand differently,
 
 ```
 __attribute__((constructor)) void  f( void);
-``` 
+```
 
 ##### MicroSoft Windows
 
