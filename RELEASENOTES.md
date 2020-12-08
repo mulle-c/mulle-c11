@@ -1,3 +1,10 @@
+## 4.1.0
+
+* added STEAL.md dox
+* moved syntax dox from mulle-container here
+* improved stdalign detection
+
+
 # 4.0.0
 
 * added NONNULL parameter checks (from mulle-container) and renamed existing `NON_NULL` defines to NONNULL

@@ -2,18 +2,34 @@
 
 #### 🔀 Cross-platform C compiler glue
 
-A C header that enables more feature-rich compilation across various compilers
-and platforms.
+This project provides a C header that enables more feature-rich compilation
+across various compilers and platforms. It also contains the basic
+documentation for mulle-c development. **mulle-c11** is used by all
+*mulle-c* or *mulle-objc* projects.
 
-For example `MULLE_C11_CONSTRUCTOR( f) void  f( void);` will expand differently, depending on the compiler and operating system:
+* [STEAL.md](dox/STEAL.md) on how to steal mulle-c source code and incorporate
+it in your own projects. In effect somewhat like single-header convenience
+with multiple files.
+* [SYNTAX.md](dox/SYNTAX.md) explains the naming scheme used in mulle-c data structure
 
-##### clang/gcc
+
+Build Status | Release Version
+-------------|-----------------------------------
+[![Build Status](https://travis-ci.org/mulle-c/mulle-c11.svg?branch=release)](https://travis-ci.org/mulle-c/mulle-c11) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-c11.svg) [![Build Status](https://travis-ci.org/mulle-c/mulle-c11.svg?branch=release)](https://travis-ci.org/mulle-c/mulle-c11)
+
+
+## Glue example
+
+For example `MULLE_C11_CONSTRUCTOR( f) void  f( void);` will expand
+differently, depending on the compiler and operating system:
+
+### clang/gcc
 
 ```
 __attribute__((constructor)) void  f( void);
 ```
 
-##### MicroSoft Windows
+### MicroSoft Windows
 
 ```
 static void f(void);
@@ -22,12 +38,13 @@ static void f(void);
 ```
 
 
-Used in various other mulle-projects.
+## Add
 
+Use [mulle-sde](//github.com/mulle-sde) to add mulle-c11 to your project:
 
-Build Status | Release Version
--------------|-----------------------------------
-[![Build Status](https://travis-ci.org/mulle-c/mulle-c11.svg?branch=release)](https://travis-ci.org/mulle-c/mulle-c11) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-c11.svg) [![Build Status](https://travis-ci.org/mulle-c/mulle-c11.svg?branch=release)](https://travis-ci.org/mulle-c/mulle-c11)
+```
+mulle-sde dependency add --c --github mulle-c mulle-c11
+```
 
 
 ## Install
@@ -51,6 +68,19 @@ mkdir build 2> /dev/null
    make install
 )
 ```
+
+
+
+### Platforms and Compilers
+
+* clang based compilers
+* gcc based compilers
+* probably any other C11 compiler
+
+* FreeBSD
+* Linux
+* MacOS
+* Windows (MinGW)
 
 
 ## Author
