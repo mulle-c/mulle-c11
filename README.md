@@ -13,9 +13,9 @@ with multiple files.
 * [SYNTAX.md](dox/SYNTAX.md) explains the naming scheme used in mulle-c data structure
 
 
-Build Status | Release Version
--------------|-----------------------------------
-[![Build Status](https://travis-ci.org/mulle-c/mulle-c11.svg?branch=release)](https://travis-ci.org/mulle-c/mulle-c11) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-c11.svg) [![Build Status](https://travis-ci.org/mulle-c/mulle-c11.svg?branch=release)](https://travis-ci.org/mulle-c/mulle-c11)
+| Release Version
+|-----------------------------------
+| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-c11.svg?branch=release) [![Build Status](https://github.com/mulle-c/mulle-c11/workflows/CI/badge.svg?branch=release)](https://github.com/mulle-c/mulle-c11/actions)
 
 
 ## Glue example
