@@ -1,0 +1,15 @@
+{
+   "name" : "mulle-c11",
+   "version" : "4.1.0",
+   "description" : "🔀 Cross-platform C compiler glue",
+   "homepage" : "https://github.com/mulle-c/mulle-c11",
+   "bugs" : "https://github.com/mulle-c/mulle-c11/issues",
+   "keywords" : [],
+   "license" : "BSD-3-Clause",
+   "repository" : {
+      "type" : "git",
+      "url" : "mulle-c/mulle-c11"
+   },
+   "dependencies" : {
+   }
+}
