@@ -261,7 +261,7 @@
 # if defined( __GNUC__)
 #  pragma GCC diagnostic ignored "-Wparentheses"
 #  pragma GCC diagnostic ignored "-Wswitch"
-#  pragma GCC diagnostic ignored "-Wobjc-protocol-method-implementation"
+// #  pragma GCC diagnostic ignored "-Wobjc-protocol-method-implementation"
 # endif
 
 #endif

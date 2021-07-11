@@ -167,8 +167,11 @@ verb                : [a-z][a-z0-9]+
                     | "insert"
                     | "make"
                     | "member"
+                    | "push"
+                    | "pop"
                     | "next"
                     | "register"
+                    | "remove"
                     | "reset"
                     | "reserve"
                     | "search"
@@ -181,6 +184,7 @@ object              : [a-z][a-z0-9_]*
                     | "count"
                     | "data"
                     | "items"
+                    | "last"
                     | "length"
                     | "notakey"
                     | "string"
@@ -273,6 +277,9 @@ add         | sequential access write, into empty space
 extract     | destructive get, with ownership transfer (caller must free)
 insert      | random access write, not overwriting
 member      | returns 1 (yes) or 0 (no) depending on presence in container
+push        | add to end
+pop         | get and remove from end
+remove      | random access remove, always returns `void` (sic!)
 register    | a get or set operation, returns the previous value , with ownership transfer (caller must free)
 set         | a destructive insert (may or may not return previous value)
 
