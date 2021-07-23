@@ -1,3 +1,7 @@
+### 4.1.1
+
+* -Wobjc-protocol-method-implementation no longer disabled
+
 ## 4.1.0
 
 * added STEAL.md dox
