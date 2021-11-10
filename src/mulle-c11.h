@@ -200,7 +200,7 @@
 # ifdef _WIN64
 #  define MULLE_C_CONSTRUCTOR( f) MULLE_C_CONSTRUCTOR2_(f,"")
 # else
-#  define MULLE_C_CONSTRUCTOR (f) MULLE_C_CONSTRUCTOR2_(f,"_")
+#  define MULLE_C_CONSTRUCTOR( f) MULLE_C_CONSTRUCTOR2_(f,"_")
 # endif
 #else
 # define MULLE_C_CONSTRUCTOR( f) \
@@ -209,6 +209,9 @@
 
 
 //
+// This doesn't work on windows, if the CRT is linked as a DLL.
+// I don't really need it on windows though, because atexit works there.
+//        
 // cross platform __attribute__((destructor)). It's not really clear when and
 // if this runs though. This is just compiler decl stuff.
 //
