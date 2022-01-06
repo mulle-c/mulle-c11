@@ -1,10 +1,16 @@
+#
+# STEAL is not supported currently as header #include emission is not using
+# the dual approach by default. Reason being, that it exploded the -I
+# commandline too much....
+#
+
 # How to steal mulle-c code
 
-The easiest way to get mulle-c code into your project is to use [mulle-sde](//github.com/mulle-sde/mulle-sde)
-and be done.
+The easiest way to get mulle-c code into your project is to use
+[mulle-sde](//github.com/mulle-sde/mulle-sde) and be done.
 
-Stealing the source files and headers, as to incorporate them into your project,
-has advantages and disadvantages
+But "stealing" the source files and headers to incorporate them into your
+project, has advantages (and disadvantages).
 
 
 ### Advantages
@@ -57,7 +63,7 @@ and `include-private.h` files and the `reflect` folder contents. If there is
 no `reflect` folder, then you are done.
 
 That should be it, when you are using a clang or gcc based compiler, that supports
-`__had_include`. If your compiler doesn't support this feature, you will have
+`__has_include`. If your compiler doesn't support this feature, you will have
 to edit the files copied from the `reflect` folder. They will contain lines
 such as this:
 

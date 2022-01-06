@@ -1,3 +1,7 @@
+### 4.1.2
+
+* Various small improvements
+
 ### 4.1.1
 
 * -Wobjc-protocol-method-implementation no longer disabled
