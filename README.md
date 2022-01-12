@@ -7,9 +7,12 @@ across various compilers and platforms. It also contains the basic
 documentation for mulle-c development. **mulle-c11** is used by all
 *mulle-c* or *mulle-objc* projects.
 
+<!-- 
 * [STEAL.md](dox/STEAL.md) on how to steal mulle-c source code and incorporate
 it in your own projects. In effect somewhat like single-header convenience
 with multiple files.
+-->
+
 * [SYNTAX.md](dox/SYNTAX.md) explains the naming scheme used in mulle-c data structure
 
 
