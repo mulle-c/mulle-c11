@@ -1,8 +1,9 @@
-#
-# STEAL is not supported currently as header #include emission is not using
-# the dual approach by default. Reason being, that it exploded the -I
-# commandline too much....
-#
+> # WARNING
+> >
+> STEAL is not supported currently as header #include emission is not using
+> the dual approach by default. Reason being, that it exploded the -I
+> commandline too much....
+>
 
 # How to steal mulle-c code
 
