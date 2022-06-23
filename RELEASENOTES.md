@@ -1,3 +1,9 @@
+## 4.2.0
+
+* improved GLOBAL attributes for Windows
+* change GLOBAL definition for Windows
+
+
 ### 4.1.2
 
 * Various small improvements

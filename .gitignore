@@ -41,3 +41,6 @@ environment-host-*.sh
 !environment-host-ci*.sh
 
 .mulle-sourcetree-fix
+.mulle-make-build-dir
+version.old
+.gdb_history
