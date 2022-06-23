@@ -48,7 +48,7 @@
 #endif
 
 
-#define MULLE_C11_VERSION  ((4 << 20) | (1 << 8) | 2)
+#define MULLE_C11_VERSION  ((4 << 20) | (2 << 8) | 0)
 
 
 //
@@ -81,8 +81,38 @@
 # define __builtin_expect( x, y) x
 #endif
 
-// The following definitions are for the "outside looking in" not
-// for compiling the (shared) library itself.
+// ## Current thought model on DLLs.
+// 
+// When you have a function foo() its gonna be 
+// compiled as _foo no matter how you decorate it and no matter if you are 
+// compiling a static or dynamic library or an executable. 
+// If you mark it as __declspec((export)) the linker will create an 
+// '__imp__foo' stub for dynamic libraries possibly also executables.
+// _foo is always hidden to the outside (but not to the inside!). During a 
+// build you will not call __imp__ functions of your own library, 
+// you call _foo.
+// If you include a header with __declspec((import)) you will be 
+// referencing __imp__foo, otherwise just _foo. 
+// Stipulation: adorning a static library function with __declspec((export))
+// is relatively harmless, potentially beneficial.
+//
+// Scenario #1: Including a static library
+//  extern
+//
+// Scenario #2: Compiling a static library
+//  __declspec(( export))
+//
+// Scenario #3: Including a dynamic library 
+//  __declspec(( import))
+//
+// Scenario #3: Compiling a dynamic library or static library for standalone
+//  __declspec(( export))
+//
+// The header can't know on its own, if its being used 
+// * from the inside as a static library (no declspec wanted)
+// * from the inside as a dynamic library declspec((export))
+// * from the outside as a static library
+// * from the outside as a dynamic library declspec((import))
 //
 // https://msdn.microsoft.com/en-us/library/aa271769(v=vs.60).aspx
 //
@@ -90,30 +120,20 @@
 // -DMULLE_C_EXTERN_GLOBAL=extern. This ensures that global variables of those
 // libraries are internally (within the DLL) linked.
 //
-// > Remember a DLL can't link with itself and the __imp_ stuff is generated
-// > by the linker and is not available in the static LIBs
-//
-// Using -DMULLE_C_EXTERN_GLOBAL fails if your DLL links against other
-// mulle_c11 derived dlls, because of conflicting settings. Therefore
-// it's best to define and use your own package MULLE_C_EXTERN_GLOBAL
-//
-// e.g.
-//    #ifndef MULLE_OBJC_EXTERN_GLOBAL
-//      # define MULLE_OBJC_EXTERN_GLOBAL  MULLE_C_EXTERN_GLOBAL
-//    #endif
-// and override that with
-// -DMULLE_OBJC_EXTERN_GLOBAL=extern
+// Why is everything extern ? You need this for variables, which would be
+// redefined. For functions it doesn't matter if there is an extern 
+// keyword or not.
 //
 #ifdef _WIN32
 # ifndef MULLE_C_EXTERN_GLOBAL
 #  define MULLE_C_EXTERN_GLOBAL   extern  __declspec( dllimport)
 # endif
-# define MULLE_C_GLOBAL           __declspec( dllexport)
+# define MULLE_C_GLOBAL           extern __declspec( dllexport)
 #else
 # ifndef MULLE_C_EXTERN_GLOBAL
 #  define MULLE_C_EXTERN_GLOBAL   extern
 # endif
-# define MULLE_C_GLOBAL
+# define MULLE_C_GLOBAL           extern __attribute__(( visibility( "default")))
 #endif
 
 //
