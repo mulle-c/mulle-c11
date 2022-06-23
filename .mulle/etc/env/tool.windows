@@ -1,0 +1,5 @@
+cmake;remove
+cmake.exe
+shasum
+nmake.exe
+wslpath
