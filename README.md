@@ -18,7 +18,7 @@ with multiple files.
 
 | Release Version
 |-----------------------------------
-| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-c11.svg?branch=release) [![Build Status](https://github.com/mulle-c/mulle-c11/workflows/CI/badge.svg?branch=release)](https://github.com/mulle-c/mulle-c11/actions)
+| ![Mulle kybernetiK tag](//img.shields.io/github/tag/mulle-c/mulle-c11.svg?branch=release) [![Build Status](//github.com/mulle-c/mulle-c11/workflows/CI/badge.svg?branch=release)](//github.com/mulle-c/mulle-c11/actions)
 
 
 ## Glue example
@@ -62,7 +62,7 @@ Install the prerequisites first:
 
 | Prerequisites                                 |
 |-----------------------------------------------|
-| [cmake](cmake.org)                            |
+| [cmake](//cmake.org)                            |
 
 
 Install into /usr/local:
