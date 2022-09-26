@@ -1,3 +1,7 @@
+### 4.2.1
+
+* Various small improvements
+
 ## 4.2.0
 
 * improved GLOBAL attributes for Windows
