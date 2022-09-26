@@ -48,7 +48,7 @@
 #endif
 
 
-#define MULLE_C11_VERSION  ((4 << 20) | (2 << 8) | 0)
+#define MULLE_C11_VERSION  ((4 << 20) | (2 << 8) | 1)
 
 
 //
@@ -57,13 +57,20 @@
 //
 #ifndef MULLE_C11_NO_STDALIGN
 # ifdef _WIN32
-#  define MULLE_C11_NO_STDALIGN
+#  define MULLE_C11_NO_STDALIGN 2
+# endif
+
+// to get to __COSMOPOLITAN__ we need to have included "cosmopolitan.h"
+// before, which we can't guarantee. So the mulle-gcc.cosmopolitan
+// compiler defines __MULLE_COSMOPOLITAN__ for use
+# if defined( __COSMOPOLITAN__) || defined( __MULLE_COSMOPOLITAN__)
+#  define MULLE_C11_NO_STDALIGN 1
 # endif
 
 # ifndef __clang__
 #  ifdef __GNUC__
 #   if __GNUC__ < 4 || (__GNUC__ == 4 && __GNUC_MINOR__ < 7)
-#    define MULLE_C11_NO_STDALIGN
+#    define MULLE_C11_NO_STDALIGN 2
 #   endif
 #  endif
 # endif
@@ -71,7 +78,13 @@
 
 
 #ifdef MULLE_C11_NO_STDALIGN
-# define alignof( x)    __alignof( x)
+# if MULLE_C11_NO_STDALIGN == 1
+#  define alignof( x)    _Alignof( x)
+#  define alignas( x)    _Alignas( x)
+# else
+#  define alignof( x)    __alignof( x)
+#  define alignas( x)    __alignas( x)
+# endif
 #else
 # include <stdalign.h>
 #endif

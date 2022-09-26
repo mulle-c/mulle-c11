@@ -28,13 +28,13 @@ differently, depending on the compiler and operating system:
 
 ### clang/gcc
 
-```
+``` c
 __attribute__((constructor)) void  f( void);
 ```
 
 ### MicroSoft Windows
 
-```
+``` c
 static void f(void);
   __declspec(allocate(".CRT$XCU")) void (*f_)(void) = f;
   __pragma(comment(linker,"/include:" p "f_"))
@@ -51,7 +51,7 @@ static void f(void);
 
 Use [mulle-sde](//github.com/mulle-sde) to add mulle-c11 to your project:
 
-```
+``` sh
 mulle-sde dependency add --c --github mulle-c mulle-c11
 ```
 
@@ -67,15 +67,13 @@ Install the prerequisites first:
 
 Install into /usr/local:
 
-```
-mkdir build 2> /dev/null
-(
-   cd build ;
-   cmake -DCMAKE_INSTALL_PREFIX=/usr/local \
-         -DCMAKE_PREFIX_PATH=/usr/local \
-         -DCMAKE_BUILD_TYPE=Release .. ;
-   make install
-)
+``` sh
+cmake -B build \
+      -DCMAKE_INSTALL_PREFIX=/usr/local \
+      -DCMAKE_PREFIX_PATH=/usr/local \
+      -DCMAKE_BUILD_TYPE=Release &&
+cmake --build build --config Release &&
+cmake --install build --config Release
 ```
 
 
