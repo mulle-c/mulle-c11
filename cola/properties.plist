@@ -1,0 +1,12 @@
+{
+   project =
+   {
+      description="🔀 Cross-platform C compiler glue (and some cpp conveniences)";
+      domain="github";
+      name="mulle-c11";
+      user="mulle-c";
+      repo="mulle-c11";
+      homepage="https://github.com/mulle-c/mulle-c11";
+      license="BSD-3-Clause"
+   };
+}
