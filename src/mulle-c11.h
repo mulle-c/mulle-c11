@@ -48,7 +48,7 @@
 #endif
 
 
-#define MULLE_C11_VERSION  ((4 << 20) | (2 << 8) | 1)
+#define MULLE_C11_VERSION  ((4 << 20) | (3 << 8) | 0)
 
 
 //
@@ -146,7 +146,11 @@
 # ifndef MULLE_C_EXTERN_GLOBAL
 #  define MULLE_C_EXTERN_GLOBAL   extern
 # endif
-# define MULLE_C_GLOBAL           extern __attribute__(( visibility( "default")))
+# if defined( __clang__) || defined( __GNUC__)
+#  define MULLE_C_GLOBAL          extern __attribute__(( visibility( "default")))
+# else
+#  define MULLE_C_EXTERN_GLOBAL   extern
+# endif
 #endif
 
 //
@@ -272,6 +276,9 @@
 
 
 
+#define MULLE_C_UNUSED( x)  ((void)(x))
+
+
 //
 // Some warnings are just too much for regular builds.
 // Sometimes if one has a weird error it's nice to enable
@@ -350,4 +357,19 @@
 # define MULLE_C_NONNULL_FIFTH
 #endif
 
-#endif // h
+#define MULLE_C_STRINGIFY( a)       #a
+#define MULLE_C_CONCAT( a, b)       a ## b
+
+//
+// this is a compile time assert
+// stolen from linux kernel BUG_ON and then modified somewhat
+// You can add some text after the 'e' and hope it shows up in the compiler
+// error message backtrace, or just leave it out
+//
+#ifndef NDEBUG
+# define MULLE_C_ASSERT( e, ...)   ((struct { int:-!(e); char *s;}){ 0 })
+#else
+# define MULLE_C_ASSERT( e, ...)
+#endif
+
+#endif

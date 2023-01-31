@@ -1,0 +1,6 @@
+This project provides a C header that enables more feature-rich compilation
+across various compilers and platforms. It also contains the basic
+documentation for mulle-c development. **mulle-c11** is used by all
+*mulle-c* and *mulle-objc* projects.
+
+* [SYNTAX.md](dox/SYNTAX.md) explains the naming scheme used in mulle-c data structure
