@@ -1,3 +1,10 @@
+## 4.3.0
+
+* remove package.json as it conflicts with clib.json
+* mulle-c11-eval.h is a new header
+* add ``MULLE_C_UNUSED``
+
+
 ### 4.2.1
 
 * Various small improvements

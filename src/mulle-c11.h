@@ -149,7 +149,7 @@
 # if defined( __clang__) || defined( __GNUC__)
 #  define MULLE_C_GLOBAL          extern __attribute__(( visibility( "default")))
 # else
-#  define MULLE_C_EXTERN_GLOBAL   extern
+#  define MULLE_C_GLOBAL          extern
 # endif
 #endif
 
