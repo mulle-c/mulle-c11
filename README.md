@@ -2,21 +2,20 @@
 
 #### 🔀 Cross-platform C compiler glue (and some cpp conveniences)
 
-## API 
-
-* [SYNTAX.md](dox/SYNTAX.md) explains the naming scheme used in mulle-c data structures
+This project provides a C header that enables more feature-rich compilation
+across various compilers and platforms. It also contains the basic
+documentation for mulle-c development. mulle-c11 is used by all mulle-c or
+mulle-objc projects.
 
 | Release Version                                       | Release Notes
 |-------------------------------------------------------|--------------
 | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-c11.svg?branch=release) [![Build Status](https://github.com/mulle-c/mulle-c11/workflows/CI/badge.svg?branch=release)](//github.com/mulle-c/mulle-c11/actions)| [RELEASENOTES](RELEASENOTES.md) |
 
 
-This project provides a C header that enables more feature-rich compilation
-across various compilers and platforms. It also contains the basic
-documentation for mulle-c development. **mulle-c11** is used by all
-*mulle-c* and *mulle-objc* projects.
+## API
 
 * [SYNTAX.md](dox/SYNTAX.md) explains the naming scheme used in mulle-c data structure
+
 
 
 ## Cross platform attributes
@@ -129,5 +128,6 @@ cmake --install build --config Release
 ## Author
 
 [Nat!](https://mulle-kybernetik.com/weblog) for Mulle kybernetiK
+
 
 
