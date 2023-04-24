@@ -1,0 +1,5 @@
+## Acknowledgments
+
+The Preprocessor evaluation feature of is indebted mostly to
+[C Preprocessor tricks, tips, and idioms](https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms) and
+[Preprocessor: `__VA_ARGS__` : count arguments](https://renenyffenegger.ch/notes/development/languages/C-C-plus-plus/preprocessor/macros/__VA_ARGS__/count-arguments)
