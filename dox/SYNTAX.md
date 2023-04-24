@@ -1,10 +1,10 @@
 # Syntax
 
-mulle-c libaries (should) use a consistent naming scheme for its data
+mulle-c libaries (should) use a consistent naming scheme for their data
 structures and functions. After a bit of use, you should easily figure out
 how a function is supposed to be named, that performs a certain action.
 Conversely just by looking at the function name, you can discern the scope of
-the function, its arguments and the orde in which they appear.
+the function, its arguments and the order in which they appear.
 
 
 ## Data structure
@@ -210,7 +210,7 @@ modifier            : [a-z][a-z0-9]+
 
 Generally verbs act on the first parameter of the function call.
 (e.g. mulle_map_get( map)). If that is not the case the verb is
-preceeded by the scope of the verb. That could be "thread_get" for
+preceded by the scope of the verb. That could be "thread_get" for
 example for accessing thread-local storage.
 
 ### Verb considerations
@@ -227,75 +227,74 @@ avoided with little structs)
 
 ### Initialization and Destruction
 
-Verb    | Meaning
---------|---------------
-alloc   | allocate memory from heap
-copy    | create + copy items
-done    | tear down struct on stack or heap
-free    | deallocate memory to heap
-init    | setup struct on stack or heap
-make    | construct on the fly (e.g. return a struct by value)
+| Verb    | Meaning
+|---------|---------------
+| alloc   | allocate memory from heap
+| copy    | create + copy items
+| done    | tear down struct on stack or heap
+| free    | deallocate memory to heap
+| init    | setup struct on stack or heap
+| make    | construct on the fly (e.g. return a struct by value)
 
-Verb    | Decomposition
---------|---------------
-create  | alloc + init
-destroy | done + free
-reset   | remove all, keep allocation though
+| Verb    | Decomposition
+|---------|---------------
+| create  | alloc + init
+| destroy | done + free
+| reset   | remove all, keep allocation though
 
-Verb    | Opposite
---------|----------
-alloc   | free
-copy    | destroy
-create  | destroy
-init    | done
+| Verb    | Opposite
+|---------|----------
+| alloc   | free
+| copy    | destroy
+| create  | destroy
+| init    | done
 
 
 ### Memory mamagement
 
-Verb      | Opposite
-----------|----------
-guarantee | Ensure that there is space for 'n' elements without realloc. A pointer
-to the guaranteed memory area is returned
-advance   | Reserve space for 'n' elements, returning a pointer to the first space
-reserve   | Reserve space for 1 element, returning a pointer to it
+| Verb      | Opposite
+|-----------|----------
+| guarantee | Ensure that there is space for 'n' elements without realloc. A pointer to the guaranteed memory area is returned
+| advance   | Reserve space for 'n' elements, returning a pointer to the first space
+| reserve   | Reserve space for 1 element, returning a pointer to it
 
 ### Element Access Read
 
-Verb        | Meaning
-------------|---------------
-count       | get number of elements (non char or byte)
-get         | random access read
-next        | sequential access read
-member      | returns 1 (yes) or 0 (no) depending on presence in container
+| Verb        | Meaning
+|-------------|---------------
+| count       | get number of elements (non char or byte)
+| get         | random access read
+| next        | sequential access read
+| member      | returns 1 (yes) or 0 (no) depending on presence in container
 
 
 ### Element Access Write
 
-Verb        | Meaning
-------------|---------------
-add         | sequential access write, into empty space
-extract     | destructive get, with ownership transfer (caller must free)
-insert      | random access write, not overwriting
-member      | returns 1 (yes) or 0 (no) depending on presence in container
-push        | add to end
-pop         | get and remove from end
-remove      | random access remove, always returns `void` (sic!)
-register    | a get or set operation, returns the previous value , with ownership transfer (caller must free)
-set         | a destructive insert (may or may not return previous value)
+| Verb        | Meaning
+|-------------|---------------
+| add         | sequential access write, into empty space
+| extract     | destructive get, with ownership transfer (caller must free)
+| insert      | random access write, not overwriting
+| member      | returns 1 (yes) or 0 (no) depending on presence in container
+| push        | add to end
+| pop         | get and remove from end
+| remove      | random access remove, always returns `void` (sic!)
+| register    | a get or set operation, returns the previous value , with ownership | transfer (caller must free)
+| set         | a destructive insert (may or may not return previous value)
 
 
 ### Misc. Operations
 
-Verb        | Meaning
-------------|---------------
-enumerate   | create enumerator
-find        | a search that is linear, returns an index (mulle_not_found_e) or key
-search      | a search that's not linear, probably a binary search, returns the value
+| Verb        | Meaning
+|-------------|---------------
+| enumerate   | create enumerator
+| find        | a search that is linear, returns an index (mulle_not_found_e) or key
+| search      | a search that's not linear, probably a binary search, returns the value
 
 
-Verb/Object | Meaning
-------------|---------------
-copy_items  | copy each item from source to destination struct [ dst, src]
+| Verb/Object | Meaning
+|-------------|---------------
+| copy_items  | copy each item from source to destination struct [ dst, src]
             |
 
 
@@ -306,15 +305,15 @@ is the **verb** and **length** is the object. There are a few standardized
 objects with specific meanings. Underscores following an initial letter are
 fine, but should not be the last character.
 
-Object         | Meaning
----------------|----------
-length         | a quantity in bytes or characters
-count          | a quantity of something other than bytes (usually pointers)
-notakey        | the value used for indicating an invalid key (often NULL)
-size           | the current maximum quantity
-size_as_length | as above but in bytes
-used           | the amount of the maximum quantity in use
-used_as_length | as above but in bytes
+| Object         | Meaning
+|----------------|----------
+| length         | a quantity in bytes or characters
+| count          | a quantity of something other than bytes (usually pointers)
+| notakey        | the value used for indicating an invalid key (often NULL)
+| size           | the current maximum quantity
+| size_as_length | as above but in bytes
+| used           | the amount of the maximum quantity in use
+| used_as_length | as above but in bytes
 
 If there are multiple verb modifiers, append them in sorted order.
 
@@ -324,11 +323,11 @@ If there are multiple verb modifiers, append them in sorted order.
 After the object, or if no object is present after the verb, there can be a
 number of modifiers. These are concatenated in sorted order.
 
-Verb        | Meaning
-------------|----------
-inline      | A inlining variant of another non-inlining function
-nofail      | The function will never fail, like a search that is guaranteed
-            | to find something. The function may throw, abort or exit
+| Verb        | Meaning
+|-------------|----------
+| inline      | A inlining variant of another non-inlining function
+| nofail      | The function will never fail, like a search that is guaranteed
+|             | to find something. The function may throw, abort or exit
 
 
 
