@@ -7,6 +7,7 @@ across various compilers and platforms. It also contains the basic
 documentation for mulle-c development. mulle-c11 is used by all mulle-c or
 mulle-objc projects.
 
+
 | Release Version                                       | Release Notes
 |-------------------------------------------------------|--------------
 | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-c11.svg?branch=release) [![Build Status](https://github.com/mulle-c/mulle-c11/workflows/CI/badge.svg?branch=release)](//github.com/mulle-c/mulle-c11/actions)| [RELEASENOTES](RELEASENOTES.md) |
@@ -97,6 +98,13 @@ static void f(void);
 
 
 ## Add
+
+**This project is a component of the [mulle-core](//github.com/mulle-core/mulle-core) library. As such you usually will *not* add or install it
+individually, unless you specifically do not want to link against
+`mulle-core`.**
+
+
+### Add as an individual component
 
 Use [mulle-sde](//github.com/mulle-sde) to add mulle-c11 to your project:
 

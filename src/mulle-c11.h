@@ -48,7 +48,7 @@
 #endif
 
 
-#define MULLE_C11_VERSION  ((4 << 20) | (3 << 8) | 0)
+#define MULLE__C11_VERSION  ((4 << 20) | (3 << 8) | 0)
 
 
 //
@@ -173,27 +173,46 @@
 #else
 
 # ifdef _WIN32
+
 #  define MULLE_C_NO_RETURN            __declspec( noreturn)
 #  define MULLE_C_NEVER_INLINE         __declspec( noinline)
 
 #  define _MULLE_C_NO_RETURN
 #  define _MULLE_C_NEVER_INLINE
+#  define MULLE_C_ALWAYS_INLINE        __forceinline
 
 // check this https://stackoverflow.com/questions/1113409/attribute-constructor-equivalent-in-vc
 // for MULLE_C_CONSTRUCTOR
 
 # else
+
 #  define MULLE_C_NO_RETURN
 #  define MULLE_C_NEVER_INLINE
 #  define _MULLE_C_NO_RETURN
 #  define _MULLE_C_NEVER_INLINE
+#  define MULLE_C_ALWAYS_INLINE         inline
 # endif
 
-# define MULLE_C_ALWAYS_INLINE
 # define MULLE_C_CONST_RETURN
 # define MULLE_C_DEPRECATED
 
 #endif
+
+
+#if defined( __clang__) || defined( __GNUC__) || defined( _WIN32)
+
+# define MULLE_C_LIKELY( expr)         __builtin_expect( (expr), 1)
+# define MULLE_C_UNLIKELY( expr)       __builtin_expect( (expr), 0)
+# define MULLE_C_EXPECT( expr, value)  __builtin_expect( (expr), value)
+
+#else
+
+# define MULLE_C_LIKELY( expr)         (expr)
+# define MULLE_C_UNLIKELY( expr)       (expr)
+# define MULLE_C_EXPECT( expr, value)  (expr)
+
+#endif
+
 
 // clang only (?)
 // gcc (at least < 4.8) doesn't like ‘returns_nonnull’ apparently ?
@@ -311,7 +330,7 @@
 
 
 //
-// mark functions arguments a nonnull. This will indicate that a null argument
+// Mark functions arguments a nonnull. This will indicate that a null argument
 // will make the the function crash. Nothing more, nothing less.
 //
 // For mulle code adorn only `_` prefixed functions with MULLE_C_NONNULL_.
@@ -322,38 +341,68 @@
 // wrap them into a struct!
 //
 #if defined( __clang__) || defined( __GNUC__)
-# define MULLE_C_NONNULL_FIRST                __attribute__((nonnull(1)))
-# define MULLE_C_NONNULL_FIRST_SECOND         __attribute__((nonnull(1,2)))
-# define MULLE_C_NONNULL_FIRST_SECOND_THIRD   __attribute__((nonnull(1,2,3)))
-# define MULLE_C_NONNULL_FIRST_SECOND_FOURTH  __attribute__((nonnull(1,2,4)))
-# define MULLE_C_NONNULL_FIRST_SECOND_FIFTH   __attribute__((nonnull(1,2,5)))
-# define MULLE_C_NONNULL_FIRST_SECOND_FOURTH_FIFTH __attribute__((nonnull(1,2,4,5)))
-# define MULLE_C_NONNULL_FIRST_THIRD          __attribute__((nonnull(1,3)))
-# define MULLE_C_NONNULL_FIRST_THIRD_FOURTH   __attribute__((nonnull(3,4)))
-# define MULLE_C_NONNULL_FIRST_FOURTH         __attribute__((nonnull(1,4)))
-# define MULLE_C_NONNULL_FIRST_FIFTH          __attribute__((nonnull(1,5)))
-# define MULLE_C_NONNULL_SECOND               __attribute__((nonnull(2)))
-# define MULLE_C_NONNULL_SECOND_THIRD         __attribute__((nonnull(2,3)))
-# define MULLE_C_NONNULL_THIRD                __attribute__((nonnull(3)))
-# define MULLE_C_NONNULL_FOURTH               __attribute__((nonnull(4)))
-# define MULLE_C_NONNULL_THIRD_FOURTH         __attribute__((nonnull(3,4)))
-# define MULLE_C_NONNULL_FIFTH                __attribute__((nonnull(4)))
+# define MULLE_C_NONNULL_FIRST                            __attribute__((nonnull(1)))
+# define MULLE_C_NONNULL_FIRST_SECOND                     __attribute__((nonnull(1,2)))
+# define MULLE_C_NONNULL_FIRST_SECOND_THIRD               __attribute__((nonnull(1,2,3)))
+# define MULLE_C_NONNULL_FIRST_SECOND_THIRD_FOURTH        __attribute__((nonnull(1,2,3,4)))
+# define MULLE_C_NONNULL_FIRST_SECOND_THIRD_FOURTH_FIFTH  __attribute__((nonnull(1,2,3,4,5)))
+# define MULLE_C_NONNULL_FIRST_SECOND_THIRD_FIFTH         __attribute__((nonnull(1,2,3,5)))
+# define MULLE_C_NONNULL_FIRST_SECOND_FOURTH              __attribute__((nonnull(1,2,4)))
+# define MULLE_C_NONNULL_FIRST_SECOND_FOURTH_FIFTH        __attribute__((nonnull(1,2,4,5)))
+# define MULLE_C_NONNULL_FIRST_SECOND_FIFTH               __attribute__((nonnull(1,2,5)))
+# define MULLE_C_NONNULL_FIRST_THIRD                      __attribute__((nonnull(1,3)))
+# define MULLE_C_NONNULL_FIRST_THIRD_FOURTH               __attribute__((nonnull(1,3,4)))
+# define MULLE_C_NONNULL_FIRST_THIRD_FOURTH_FIFTH         __attribute__((nonnull(1,3,4,5)))
+# define MULLE_C_NONNULL_FIRST_THIRD_FIFTH                __attribute__((nonnull(1,3,5)))
+# define MULLE_C_NONNULL_FIRST_FOURTH                     __attribute__((nonnull(1,4)))
+# define MULLE_C_NONNULL_FIRST_FOURTH_FIFTH               __attribute__((nonnull(1,4,5)))
+# define MULLE_C_NONNULL_FIRST_FIFTH                      __attribute__((nonnull(1,5)))
+# define MULLE_C_NONNULL_SECOND                           __attribute__((nonnull(2)))
+# define MULLE_C_NONNULL_SECOND_THIRD                     __attribute__((nonnull(2,3)))
+# define MULLE_C_NONNULL_SECOND_THIRD_FOURTH              __attribute__((nonnull(2,3,4)))
+# define MULLE_C_NONNULL_SECOND_THIRD_FOURTH_FIFTH        __attribute__((nonnull(2,3,4,5)))
+# define MULLE_C_NONNULL_SECOND_THIRD_FIFTH               __attribute__((nonnull(2,3,5)))
+# define MULLE_C_NONNULL_SECOND_FOURTH                    __attribute__((nonnull(2,4)))
+# define MULLE_C_NONNULL_SECOND_FOURTH_FIFTH              __attribute__((nonnull(2,4,5)))
+# define MULLE_C_NONNULL_SECOND_FIFTH                     __attribute__((nonnull(2,5)))
+# define MULLE_C_NONNULL_THIRD                            __attribute__((nonnull(3)))
+# define MULLE_C_NONNULL_THIRD_FOURTH                     __attribute__((nonnull(3,4)))
+# define MULLE_C_NONNULL_THIRD_FOURTH_FIFTH               __attribute__((nonnull(3,4,5)))
+# define MULLE_C_NONNULL_THIRD_FIFTH                      __attribute__((nonnull(3,5)))
+# define MULLE_C_NONNULL_FOURTH                           __attribute__((nonnull(4)))
+# define MULLE_C_NONNULL_FOURTH_FIFTH                     __attribute__((nonnull(4,5)))
+# define MULLE_C_NONNULL_FIFTH                            __attribute__((nonnull(5)))
 #else
 # define MULLE_C_NONNULL_FIRST
 # define MULLE_C_NONNULL_FIRST_SECOND
 # define MULLE_C_NONNULL_FIRST_SECOND_THIRD
+# define MULLE_C_NONNULL_FIRST_SECOND_THIRD_FOURTH
+# define MULLE_C_NONNULL_FIRST_SECOND_THIRD_FOURTH_FIFTH
+# define MULLE_C_NONNULL_FIRST_SECOND_THIRD_FIFTH
 # define MULLE_C_NONNULL_FIRST_SECOND_FOURTH
-# define MULLE_C_NONNULL_FIRST_SECOND_FIFTH
 # define MULLE_C_NONNULL_FIRST_SECOND_FOURTH_FIFTH
+# define MULLE_C_NONNULL_FIRST_SECOND_FIFTH
 # define MULLE_C_NONNULL_FIRST_THIRD
 # define MULLE_C_NONNULL_FIRST_THIRD_FOURTH
+# define MULLE_C_NONNULL_FIRST_THIRD_FOURTH_FIFTH
+# define MULLE_C_NONNULL_FIRST_THIRD_FIFTH
 # define MULLE_C_NONNULL_FIRST_FOURTH
+# define MULLE_C_NONNULL_FIRST_FOURTH_FIFTH
 # define MULLE_C_NONNULL_FIRST_FIFTH
 # define MULLE_C_NONNULL_SECOND
 # define MULLE_C_NONNULL_SECOND_THIRD
+# define MULLE_C_NONNULL_SECOND_THIRD_FOURTH
+# define MULLE_C_NONNULL_SECOND_THIRD_FOURTH_FIFTH
+# define MULLE_C_NONNULL_SECOND_THIRD_FIFTH
+# define MULLE_C_NONNULL_SECOND_FOURTH
+# define MULLE_C_NONNULL_SECOND_FOURTH_FIFTH
+# define MULLE_C_NONNULL_SECOND_FIFTH
 # define MULLE_C_NONNULL_THIRD
 # define MULLE_C_NONNULL_THIRD_FOURTH
+# define MULLE_C_NONNULL_THIRD_FOURTH_FIFTH
+# define MULLE_C_NONNULL_THIRD_FIFTH
 # define MULLE_C_NONNULL_FOURTH
+# define MULLE_C_NONNULL_FOURTH_FIFTH
 # define MULLE_C_NONNULL_FIFTH
 #endif
 
@@ -367,7 +416,7 @@
 // error message backtrace, or just leave it out
 //
 #ifndef NDEBUG
-# define MULLE_C_ASSERT( e, ...)   ((struct { int:-!(e); char *s;}){ 0 })
+# define MULLE_C_ASSERT( e, ...)   ((void) ((struct { int:-!(e); char *s;}){ 0 }))
 #else
 # define MULLE_C_ASSERT( e, ...)
 #endif
