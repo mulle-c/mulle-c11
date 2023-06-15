@@ -33,7 +33,8 @@
 #define mulle_c11_eval_h__
 
 // MEMO: currently not exposed in mulle-c11.h, because it's fairly obscure
-//       and rarely needed
+//       and rarely needed. These techniques may or may not become obsolete
+//       with constexpr
 
 /*
  * EVALUATION FUNCTIONS FOR PREPROCESSOR VARARGS

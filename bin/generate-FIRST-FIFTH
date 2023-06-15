@@ -1,0 +1,28 @@
+#! /usr/bin/env mulle-bash
+
+# generated pretty much on its own by gpt-4
+
+
+generate_combinations()
+{
+  local start="$1"
+  local max="$2"
+  local current_comb="$3"
+
+  if [[ $start -gt $max ]]; then
+    if [[ ! -z "$current_comb" ]]; then
+      variable="`echo "MULLE_C_NONNULL_${current_comb%,}" | \
+         sed 's/,/_/g; s/1/FIRST/g; s/2/SECOND/g; s/3/THIRD/g; s/4/FOURTH/g; s/5/FIFTH/g'`"
+      echo "#define ${variable}    __attribute__((nonnull(${current_comb%,})))"
+    fi
+  else
+    generate_combinations $((start + 1)) $max "$current_comb$start,"
+    generate_combinations $((start + 1)) $max "$current_comb"
+  fi
+}
+
+max_number=5
+for i in $(seq 1 $max_number); do
+  generate_combinations $i $max_number ""
+done | sort | uniq | column -t
+
