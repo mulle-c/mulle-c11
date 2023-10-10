@@ -421,4 +421,69 @@
 # define MULLE_C_ASSERT( e, ...)
 #endif
 
+
+// useful builtin functions that are easy to re-implement
+// with static inline functions
+
+#if defined( __has_builtin) & __has_builtin( __builtin_popcount)
+static inline int   mulle_c_popcount( unsigned int bits)
+{
+   return( __builtin_popcount( bits));
+}
+#else
+static inline int   mulle_c_popcount( unsigned int bits)
+{
+   int   n;
+
+   n = 0;
+   while( bits)
+   {
+      n     += bits & 1;
+      bits >>= 1;
+   }
+   return( n);
+}
+#endif
+
+#if defined( __has_builtin) & __has_builtin( __builtin_popcountl)
+static inline int   mulle_c_popcountl( unsigned long bits)
+{
+   return( __builtin_popcountl( bits));
+}
+#else
+static inline int   mulle_c_popcountl( unsigned long bits)
+{
+   int   n;
+
+   n = 0;
+   while( bits)
+   {
+      n     += bits & 1;
+      bits >>= 1;
+   }
+   return( n);
+}
+#endif
+
+
+#if defined( __has_builtin) & __has_builtin( __builtin_popcountll)
+static inline int   mulle_c_popcountll( unsigned long long bits)
+{
+   return( __builtin_popcountll( bits));
+}
+#else
+static inline int   mulle_c_popcountll( unsigned long long bits)
+{
+   int   n;
+
+   n = 0;
+   while( bits)
+   {
+      n     += bits & 1;
+      bits >>= 1;
+   }
+   return( n);
+}
+#endif
+
 #endif
