@@ -26,7 +26,7 @@ int   main( void)
    printf( "%d\n", MULLE_C_VA_ARGS_COUNT( 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14));
    printf( "%d\n", MULLE_C_VA_ARGS_COUNT( 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15));
 
-   // also fifteen, you can't helpt it
+   // also fifteen, you can't help it
    printf( "%d\n", MULLE_C_VA_ARGS_COUNT( 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
 
    return( 0);

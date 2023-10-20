@@ -1,7 +1,7 @@
 {
    "name" : "mulle-c11",
-   "version" : "4.3.0",
-   "description" : "Cross-platform C compiler glue (and some cpp conveniences)",
+   "version" : "4.4.0",
+   "description" : "🔀 Cross-platform C compiler glue (and some cpp conveniences)",
    "keywords" : [],
    "license" : "BSD-3-Clause",
    "repo" : "mulle-c/mulle-c11",
