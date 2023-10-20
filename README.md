@@ -137,6 +137,8 @@ mulle-sde install --prefix /usr/local \
 ### Manual Installation
 
 
+Download the latest [tar](https://github.com/mulle-c/mulle-c11/archive/refs/tags/latest.tar.gz) or [zip](https://github.com/mulle-c/mulle-c11/archive/refs/tags/latest.zip) archive and unpack it.
+
 Install **mulle-c11** into `/usr/local` with [cmake](https://cmake.org):
 
 ``` sh

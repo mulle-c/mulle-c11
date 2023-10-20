@@ -48,7 +48,7 @@
 #endif
 
 
-#define MULLE__C11_VERSION  ((4 << 20) | (3 << 8) | 0)
+#define MULLE__C11_VERSION  ((4 << 20) | (4 << 8) | 0)
 
 
 //
