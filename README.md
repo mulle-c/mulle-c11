@@ -8,9 +8,10 @@ documentation for mulle-c development. mulle-c11 is used by all mulle-c or
 mulle-objc projects.
 
 
+
 | Release Version                                       | Release Notes
 |-------------------------------------------------------|--------------
-| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-c11.svg?branch=release) [![Build Status](https://github.com/mulle-c/mulle-c11/workflows/CI/badge.svg?branch=release)](//github.com/mulle-c/mulle-c11/actions)| [RELEASENOTES](RELEASENOTES.md) |
+| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-c11.svg?branch=release) [![Build Status](https://github.com/mulle-c/mulle-c11/workflows/CI/badge.svg?branch=release)](//github.com/mulle-c/mulle-c11/actions) | [RELEASENOTES](RELEASENOTES.md) |
 
 
 ## Features
@@ -158,7 +159,7 @@ The Preprocessor evaluation feature is indebted mostly to
 
 ## Author
 
-[Nat!](https://mulle-kybernetik.com/weblog) for Mulle kybernetiK
+[Nat!](https://mulle-kybernetik.com/weblog) for Mulle kybernetiK  
 
 
 
