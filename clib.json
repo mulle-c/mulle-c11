@@ -6,7 +6,9 @@
    "license" : "BSD-3-Clause",
    "repo" : "mulle-c/mulle-c11",
    "src" : [
+      "src/mulle-c11-bool.h",
       "src/mulle-c11-eval.h",
+      "src/mulle-c11-integer.h",
       "src/mulle-c11.h"
    ]
 }

@@ -1,3 +1,12 @@
+## 4.4.0
+
+* added mulle-c11-bool.h for BOOL
+* added mulle-c11-integer for NSInteger and NSUInteger
+* added `mulle_c_popcount` and relatives
+* rework `MULLE_C_NONNULL_...`
+* add `MULLE_C_LIKELY,` `MULLE_C_EXPECT,` `MULLE_C_UNLIKELY`
+
+
 ## 4.3.0
 
 * remove package.json as it conflicts with clib.json
