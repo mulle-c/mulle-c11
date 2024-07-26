@@ -165,6 +165,7 @@ verb                : [a-z][a-z0-9]+
                     | "guarantee"
                     | "init"
                     | "insert"
+                    | "lookup"
                     | "make"
                     | "member"
                     | "push"
@@ -250,7 +251,7 @@ avoided with little structs)
 | init    | done
 
 
-### Memory mamagement
+### Memory management
 
 | Verb      | Opposite
 |-----------|----------
@@ -278,24 +279,46 @@ avoided with little structs)
 | member      | returns 1 (yes) or 0 (no) depending on presence in container
 | push        | add to end
 | pop         | get and remove from end
-| remove      | random access remove, always returns `void` (sic!)
 | register    | a get or set operation, returns the previous value , with ownership | transfer (caller must free)
-| set         | a destructive insert (may or may not return previous value)
+| remove      | random access remove, always returns `void` (sic!)
+| set         | a destructive insert (does not return previous value)
+| update      | a destructive insert (returns the previous value, if ownership transfer permits it)
+
+A register does not destroy a previously inserted value, an exchange does.
 
 
-### Misc. Operations
+### Element Searches
+
+Cache verbs are slightly different (see below)
 
 | Verb        | Meaning
 |-------------|---------------
 | enumerate   | create enumerator
 | find        | a search that is linear, returns an index (mulle_not_found_e) or key
+| lookup      | a hashtable or similiar indexing (but not a get)
 | search      | a search that's not linear, probably a binary search, returns the value
 
 
 | Verb/Object | Meaning
 |-------------|---------------
 | copy_items  | copy each item from source to destination struct [ dst, src]
-            |
+
+
+### Misc. Operations on Caches and Containers with Caches
+
+A cache is a non-complete subset of a larger backing store. The backing store
+can be part of the data-structure or it can be separate.
+
+| Verb        | Meaning
+|-------------|-----------
+| fill        | just a cache update with no previous probe or search
+| find        | a search that is linear, returns an index (mulle_not_found_e) or key
+| lookup      | a cache lookup probe followed possibly by a search and refresh if the lookup failed.
+| probe       | a hashtable or similiar indexing (but not a get)
+| refresh     | a search with a cache update (must not probe)
+| search      | a search that's not linear, probably a binary search, returns the value
+
+
 
 
 ## Objects
@@ -310,9 +333,9 @@ fine, but should not be the last character.
 | length         | a quantity in bytes or characters
 | count          | a quantity of something other than bytes (usually pointers)
 | notakey        | the value used for indicating an invalid key (often NULL)
-| size           | the current maximum quantity
+| size           | the current maximum quantity (max count)
 | size_as_length | as above but in bytes
-| used           | the amount of the maximum quantity in use
+| used           | the amount of the maximum quantity in use (like count, but there could be holes that make used larger than count)
 | used_as_length | as above but in bytes
 
 If there are multiple verb modifiers, append them in sorted order.
@@ -328,8 +351,4 @@ number of modifiers. These are concatenated in sorted order.
 | inline      | A inlining variant of another non-inlining function
 | nofail      | The function will never fail, like a search that is guaranteed
 |             | to find something. The function may throw, abort or exit
-
-
-
-
 

@@ -47,8 +47,13 @@
 # define __has_attribute( x) 0
 #endif
 
+#ifndef __has_builtin
+# define __has_builtin( x) 0
+#endif
 
-#define MULLE__C11_VERSION  ((4UL << 20) | (4 << 8) | 0)
+
+
+#define MULLE__C11_VERSION  ((4UL << 20) | (4 << 8) | 1)
 
 
 //
@@ -425,7 +430,7 @@
 // useful builtin functions that are easy to re-implement
 // with static inline functions
 
-#if defined( __has_builtin) & __has_builtin( __builtin_popcount)
+#if __has_builtin( __builtin_popcount)
 static inline int   mulle_c_popcount( unsigned int bits)
 {
    return( __builtin_popcount( bits));
@@ -445,7 +450,7 @@ static inline int   mulle_c_popcount( unsigned int bits)
 }
 #endif
 
-#if defined( __has_builtin) & __has_builtin( __builtin_popcountl)
+#if __has_builtin( __builtin_popcountl)
 static inline int   mulle_c_popcountl( unsigned long bits)
 {
    return( __builtin_popcountl( bits));
@@ -466,7 +471,7 @@ static inline int   mulle_c_popcountl( unsigned long bits)
 #endif
 
 
-#if defined( __has_builtin) & __has_builtin( __builtin_popcountll)
+#if __has_builtin( __builtin_popcountll)
 static inline int   mulle_c_popcountll( unsigned long long bits)
 {
    return( __builtin_popcountll( bits));
