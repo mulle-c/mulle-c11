@@ -39,7 +39,13 @@
 //
 
 #include <stddef.h>
-#include <stdbool.h>
+
+// i forgot why this was needed
+#ifdef __has_include
+# if __has_include(<stdbool.h>)
+#  include <stdbool.h>
+# endif
+#endif
 
 //
 // having YES, NO as an enum messes up the boxed expressions @YES @NO
