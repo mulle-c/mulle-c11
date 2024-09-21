@@ -491,4 +491,31 @@ static inline int   mulle_c_popcountll( unsigned long long bits)
 }
 #endif
 
+
+//
+// substitute mulle_c_pointer_postincrement( p, double)
+// for code like *((double *) p)++
+// which some language lawyer killed as invalid from the C language
+//
+// void *demo(void * num)
+// {
+//     *mulle_c_pointer_postincrement( num, int) = 1848;
+//     return( num);
+// }
+//
+// compiles down to (-O):
+//
+// demo(void*):
+//         mov     DWORD PTR [rdi], 1848
+//         lea     rax, [rdi+4]
+//         ret
+//
+#define mulle_c_pointer_postincrement( p, type) \
+   (p = (void *) &((char *) p)[ sizeof( type)], \
+    (type *) &((char *) p)[- sizeof( type)])
+
+#define mulle_c_pointer_predecrement( p, type) \
+   ((type *) (p = (void *) &((char *) p)[ - sizeof( type)]))
+
+
 #endif
