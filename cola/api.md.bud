@@ -9,8 +9,9 @@ string from the given identifier (`MULLE_C_STRINGIFY( a)` creates `"a"`).
 * provides the `MULLE_C_CONCAT` macro to concatenate two
 identifiers (`MULLE_C_CONCAT( a, b)` creates `ab`).
 * provides `MULLE_C_ASSERT` for compile time assertions, e.g. `MULLE_C_ASSERT( sizeof( foo) <= sizeof( void *)`
-* provides support for constructor and destructor functions see below
+* provides support for constructor and destructor functions 
 * provides a collection of undocumented, fancy preprocessor evaluation macros in [mulle-c11/mulle-c11-eval.h](src/mulle-c11-eval.h)
+* provides `__LITTLE_ENDIAN__` and `__BIG_ENDIAN__` to be queried with `#if` in [mulle-c11/mulle-c11-endian.h](src/mulle-c11-endian.h)
 
 
 ## API
