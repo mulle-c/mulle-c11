@@ -25,8 +25,9 @@ string from the given identifier (`MULLE_C_STRINGIFY( a)` creates `"a"`).
 * provides the `MULLE_C_CONCAT` macro to concatenate two
 identifiers (`MULLE_C_CONCAT( a, b)` creates `ab`).
 * provides `MULLE_C_ASSERT` for compile time assertions, e.g. `MULLE_C_ASSERT( sizeof( foo) <= sizeof( void *)`
-* provides support for constructor and destructor functions see below
+* provides support for constructor and destructor functions 
 * provides a collection of undocumented, fancy preprocessor evaluation macros in [mulle-c11/mulle-c11-eval.h](src/mulle-c11-eval.h)
+* provides `__LITTLE_ENDIAN__` and `__BIG_ENDIAN__` to be queried with `#if` in [mulle-c11/mulle-c11-endian.h](src/mulle-c11-endian.h)
 
 
 ## API
@@ -34,6 +35,33 @@ identifiers (`MULLE_C_CONCAT( a, b)` creates `ab`).
 * [SYNTAX.md](dox/SYNTAX.md) explains the naming scheme in data structures used throughout the mulle-c projects
 
 
+
+
+## Preprocessor Conveniences
+
+| mulle-c11                      | Description                                        |
+|--------------------------------|----------------------------------------------------|
+| `MULLE_C_ASSERT`               | Perform a compile time assertion (must be placed inside a function)
+| `MULLE_C_CONCAT`               | Concatenate the two given identifiers
+| `MULLE_C_CONSTRUCTOR`          | Constructor function executed on load
+| `MULLE_C_GLOBAL`               | Declare a global variable (`extern` on Unix, `declspec...` on Windows)
+| `MULLE_C_STRINGIFY`            | Stringify the given identifier
+| `__has_attribute( x)`          | If the compiler does not support `__has_attribute` this will always return 0
+| `__has_builtin( x)`            | If the compiler does not support `__has_builtin` this will always return 0
+| `__has_feature( x)`            | If the compiler does not support `__has_feature` this will always return 0
+
+
+## Cross platform code generation hints
+
+Some gcc builtins are provided, in case the compiler does not support them.
+
+| mulle-c11                      | Description                                          |
+|--------------------------------|------------------------------------------------------|
+| `MULLE_C_LIKELY( expr)`        | Predict branch to be taken
+| `MULLE_C_UNLIKELY( expr)`      | Predict branch not to be taken
+| `MULLE_C_EXPECT( expr,value)`  | Special case when expression does not return 0 / 1 (or for style)| `mulle_c_popcount`   | Count the number of set bits in `unsigned int`                |
+| `mulle_c_popcountl`            | Count the number of set bits in `unsigned long`      |
+| `mulle_c_popcountll`           | Count the number of set bits in `unsigned long long` |
 
 
 ## Cross platform attributes
@@ -44,15 +72,23 @@ compilers.
 
 | Attribute         | mulle-c11                | Description                                        |
 |-------------------|--------------------------|----------------------------------------------------|
-| `always_inline`   | `MULLE_C_ALWAYS_INLINE`  | Force inlining of function                         |
-| `const`           | `MULLE_C_CONST`          | Mark function return value as constant given same input parameters  |
-| `deprecated`      | `MULLE_C_DEPRECATED`     | Mark function as deprecated                        |
-| `never_inline`    | `MULLE_C_NEVER_INLINE`   | Prevent inlining of function                       |
-| `nonnull`         | `MULLE_C_NONNULL_FIRST`  | Marks first function parameter as not accepting NULL. There is also `MULLE_C_NONNULL_SECOND` and combinations like `MULLE_C_NONNULL_FIRST_FOURTH` up to five parameters  |
-| `noreturn`        | `MULLE_C_NO_RETURN`      | Mark function as not returning (e.g. `abort`)      |
-| `returns_nonnull` | `MULLE_C_NONNULL_RETURN` | Mark function as never returning zero (NULL)       |
+| `always_inline`   | `MULLE_C_ALWAYS_INLINE`  | Force inlining of the annotated function
+| `const`           | `MULLE_C_CONST`          | Mark the function return value as constant for same input
+| `deprecated`      | `MULLE_C_DEPRECATED`     | Mark the function as deprecated
+| `never_inline`    | `MULLE_C_NEVER_INLINE`   | Prevent inlining of the annotated function
+| `nonnull`         | `MULLE_C_NONNULL_FIRST`  | Mark the first function parameter as not accepting NULL. There is also `MULLE_C_NONNULL_SECOND` and combinations like `MULLE_C_NONNULL_FIRST_FOURTH` up to five parameters
+| `returns_nonnull` | `MULLE_C_NONNULL_RETURN` | Mark the function as never returning NULL
+| `noreturn`        | `MULLE_C_NO_RETURN`      | Mark the function as not returning (e.g. abort)
+| `pure`            | `MULLE_C_PURE`           | Mark the function as having no side effects
+| `unused`          | `MULLE_C_UNUSED`         | Mark the parameter as unused
 
-### Constructor/destructor example
+
+### Constructor / destructor functions
+
+| mulle-c11                | Description                                        |
+|--------------------------|----------------------------------------------------|
+| `MULLE_C_CONSTRUCTOR`    | Constructor function executed on unload
+| `MULLE_C_DESTRUCTOR`     | Destructor function executed on unload
 
 Constructor functions are executed when the containing object
 file is loaded. In a static executable, this is guaranteed before `main`.
@@ -126,8 +162,6 @@ Add `-isystem src/mulle-c` to your `CFLAGS` and compile all the sources that wer
 
 ## Install
 
-### Install with mulle-sde
-
 Use [mulle-sde](//github.com/mulle-sde) to build and install mulle-c11:
 
 ``` sh
@@ -135,7 +169,7 @@ mulle-sde install --prefix /usr/local \
    https://github.com/mulle-c/mulle-c11/archive/latest.tar.gz
 ```
 
-### Manual Installation
+### Legacy Installation
 
 
 Download the latest [tar](https://github.com/mulle-c/mulle-c11/archive/refs/tags/latest.tar.gz) or [zip](https://github.com/mulle-c/mulle-c11/archive/refs/tags/latest.zip) archive and unpack it.

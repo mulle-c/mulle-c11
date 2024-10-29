@@ -61,4 +61,16 @@ typedef intptr_t    NSInteger;
 #define NSUIntegerMin   (0)
 
 
+// not usually defined
+static inline NSInteger   NSIntegerMaximum( NSInteger x, NSInteger y)
+{
+   return( x > y ? x : y);
+}
+
+
+static inline NSInteger   NSIntegerMinimum( NSInteger x, NSInteger y)
+{
+   return( x < y ? x : y);
+}
+
 #endif

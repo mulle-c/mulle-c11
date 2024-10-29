@@ -53,3 +53,5 @@ coverage*.html
 *.gcno
 cola/wilted/
 cmake-build-*/
+.idea/
+log
