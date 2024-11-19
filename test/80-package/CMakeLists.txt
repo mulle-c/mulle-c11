@@ -6,5 +6,5 @@ add_subdirectory( ../.. ${CMAKE_CURRENT_BINARY_DIR}/mulle-c11)
 
 add_executable( ${PROJECT_NAME}.exe main.c)
 
-#target_link_libraries( ${PROJECT_NAME}.exe PRIVATE mulle-c11)
+target_link_libraries( ${PROJECT_NAME}.exe PRIVATE mulle-c11)
 
