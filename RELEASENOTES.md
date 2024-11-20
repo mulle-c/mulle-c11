@@ -1,3 +1,32 @@
+## 4.5.0
+
+
+
+* NSInteger update with NSIntegerMaximum and NSIntegerMinimum
+* Moved endian swap code from MulleObjC to mulle-c11 for better code organization
+  * Preserved Darwin naming conventions for better self-documentation
+  * Added functions like NSSwapShort, NSSwapInt, NSSwapLongLong etc.
+* Added mulle-c11-endian.h providing cross-platform endianness checks
+* Added mulle-c11-bool.h with BOOL type support
+* Added mulle-c11-integer.h with NSInteger and NSUInteger types
+* Added popcount functionality:
+  * `mulle_c_popcount` for unsigned int
+  * `mulle_c_popcountl` for unsigned long
+  * `mulle_c_popcountll` for unsigned long long
+* Enhanced compiler directives:
+  * Reworked `MULLE_C_NONNULL_...` macros
+  * Added `MULLE_C_LIKELY,` `MULLE_C_EXPECT,` `MULLE_C_UNLIKELY`
+  * Fixed `MULLE_C_ALWAYS_INLINE` for Windows
+* Simplified `__has_builtin` checks with custom implementation for non-supporting compilers
+* Updated CMake build system for better cross-platform support
+* Removed STEAL.md as it's now obsolete due to clib integration
+* Bumped version to 4.5.0
+
+* mulle-c11-endian.h (optional include) provides endianness checks across compilers/platforms
+
+* simplify some `has_builtin` checks, with a custom `has_builtin` if the compilerdoesn't provide it
+
+
 ## 4.4.0
 
 * added mulle-c11-bool.h for BOOL
