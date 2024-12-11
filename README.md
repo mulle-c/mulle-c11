@@ -11,7 +11,7 @@ mulle-objc projects.
 
 | Release Version                                       | Release Notes
 |-------------------------------------------------------|--------------
-| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-c11.svg?branch=master) [![Build Status](https://github.com/mulle-c/mulle-c11/workflows/CI/badge.svg?branch=master)](//github.com/mulle-c/mulle-c11/actions) | [RELEASENOTES](RELEASENOTES.md) |
+| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-c11.svg) [![Build Status](https://github.com/mulle-c/mulle-c11/workflows/CI/badge.svg)](//github.com/mulle-c/mulle-c11/actions) | [RELEASENOTES](RELEASENOTES.md) |
 
 
 ## Features

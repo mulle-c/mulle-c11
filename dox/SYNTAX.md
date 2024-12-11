@@ -275,7 +275,7 @@ avoided with little structs)
 |-------------|---------------
 | add         | sequential access write, into empty space
 | extract     | destructive get, with ownership transfer (caller must free)
-| insert      | random access write, not overwriting
+| insert      | random access write, not overwriting (may return success)
 | member      | returns 1 (yes) or 0 (no) depending on presence in container
 | push        | add to end
 | pop         | get and remove from end

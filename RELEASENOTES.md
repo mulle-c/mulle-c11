@@ -1,3 +1,8 @@
+## 4.6.0
+
+* added `MULLE_C_STRINGIFY_MACRO`
+
+
 ## 4.5.0
 
 
