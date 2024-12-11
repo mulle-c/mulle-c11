@@ -53,7 +53,7 @@
 
 
 
-#define MULLE__C11_VERSION  ((4UL << 20) | (5 << 8) | 0)
+#define MULLE__C11_VERSION  ((4UL << 20) | (6 << 8) | 0)
 
 
 //
@@ -411,8 +411,9 @@
 # define MULLE_C_NONNULL_FIFTH
 #endif
 
-#define MULLE_C_STRINGIFY( a)       #a
-#define MULLE_C_CONCAT( a, b)       a ## b
+#define MULLE_C_STRINGIFY_MACRO( a)   MULLE_C_STRINGIFY( a)
+#define MULLE_C_STRINGIFY( a)         #a
+#define MULLE_C_CONCAT( a, b)         a ## b
 
 //
 // this is a compile time assert

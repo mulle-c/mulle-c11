@@ -1,6 +1,6 @@
 cmake_minimum_required( VERSION 3.5)
 
-project( mulle-c11 VERSION 4.5.0 LANGUAGES C)
+project( mulle-c11 VERSION 4.6.0 LANGUAGES C)
 
 set( PUBLIC_HEADERS "src/mulle-c11.h"
 "src/mulle-c11-eval.h"
