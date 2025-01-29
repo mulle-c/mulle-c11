@@ -324,14 +324,17 @@ can be part of the data-structure or it can be separate.
 ## Objects
 
 The verb may be followed by an object, like for example in `get_length`, get
-is the **verb** and **length** is the object. There are a few standardized
-objects with specific meanings. Underscores following an initial letter are
-fine, but should not be the last character.
+is the **verb** and **length** is the object. That this is called an "object"
+is purely linguistically, you can also call it "attribute" or "field" or
+"property".
+There are a few standardized objects with specific meanings. Underscores
+following an initial letter are fine, but should not be the last character.
 
 | Object         | Meaning
 |----------------|----------
-| length         | a quantity in bytes or characters
+| capacity       | the desired user capacity, not the actual size, which will be larger when allocated
 | count          | a quantity of something other than bytes (usually pointers)
+| length         | a quantity in bytes or characters
 | notakey        | the value used for indicating an invalid key (often NULL)
 | size           | the current maximum quantity (max count)
 | size_as_length | as above but in bytes
