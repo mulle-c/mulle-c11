@@ -1,6 +1,6 @@
 ### 4.6.1
 
-Various small improvements
+* introduced MULLE_C_FALLTHROUGH
 
 ## 4.6.0
 

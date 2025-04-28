@@ -171,6 +171,8 @@
 
 # define MULLE_C_DEPRECATED            __attribute__(( deprecated))
 
+# define MULLE_C_FALLTHROUGH           __attribute__(( fallthrough))
+
 // use these for function pointer modifiers (because win...)
 # define _MULLE_C_NO_RETURN            MULLE_C_NO_RETURN
 # define _MULLE_C_NEVER_INLINE         MULLE_C_NEVER_INLINE
@@ -185,6 +187,7 @@
 #  define _MULLE_C_NO_RETURN
 #  define _MULLE_C_NEVER_INLINE
 #  define MULLE_C_ALWAYS_INLINE        __forceinline
+#  define MULLE_C_FALLTHROUGH          __fallthrough
 
 // check this https://stackoverflow.com/questions/1113409/attribute-constructor-equivalent-in-vc
 // for MULLE_C_CONSTRUCTOR
@@ -196,6 +199,7 @@
 #  define _MULLE_C_NO_RETURN
 #  define _MULLE_C_NEVER_INLINE
 #  define MULLE_C_ALWAYS_INLINE         inline
+#  define MULLE_C_FALLTHROUGH
 # endif
 
 # define MULLE_C_CONST_RETURN
