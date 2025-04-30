@@ -1,5 +1,6 @@
 ### 4.6.1
 
+* added MULLE_C_STATIC_ALWAYS_INLINE
 * introduced MULLE_C_FALLTHROUGH
 
 ## 4.6.0
