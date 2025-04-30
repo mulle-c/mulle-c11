@@ -47,7 +47,9 @@ use `MULLE_C_ALWAYS_STATIC_INLINE` in your function definitions though, if
 you want to keep windows happier:
 
 ``` c
-MULLE_C_ALWAYS_STATIC_INLINE void  foo( void) {}
+MULLE_C_ALWAYS_STATIC_INLINE void  foo( void)
+{
+}
 ```
 
 

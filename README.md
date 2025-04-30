@@ -82,6 +82,15 @@ compilers.
 | `pure`            | `MULLE_C_PURE`           | Mark the function as having no side effects
 | `unused`          | `MULLE_C_UNUSED`         | Mark the parameter as unused
 
+use `MULLE_C_ALWAYS_STATIC_INLINE` in your function definitions though, if
+you want to keep windows happier:
+
+``` c
+MULLE_C_ALWAYS_STATIC_INLINE void  foo( void)
+{
+}
+```
+
 
 ### Constructor / destructor functions
 
@@ -177,9 +186,11 @@ Download the latest [tar](https://github.com/mulle-c/mulle-c11/archive/refs/tags
 Install **mulle-c11** into `/usr/local` with [cmake](https://cmake.org):
 
 ``` sh
-cmake -B build \
-      -DCMAKE_INSTALL_PREFIX=/usr/local \
-      -DCMAKE_PREFIX_PATH=/usr/local \
+PREFIX_DIR="/usr/local"
+cmake -B build                               \
+      -DMULLE_SDK_PATH="${PREFIX_DIR}"       \
+      -DCMAKE_INSTALL_PREFIX="${PREFIX_DIR}" \
+      -DCMAKE_PREFIX_PATH="${PREFIX_DIR}"    \
       -DCMAKE_BUILD_TYPE=Release &&
 cmake --build build --config Release &&
 cmake --install build --config Release
