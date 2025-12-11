@@ -34,6 +34,8 @@
 #ifndef mulle_c11_h__
 #define mulle_c11_h__
 
+// MEMO: THIS FILE MUST NOT INCLUDE ANYTHING
+
 #ifdef __cplusplus
 # error "C++ ? You're doing it wrong."
 #endif
@@ -81,91 +83,25 @@
 # endif
 #endif
 
-
-#ifdef MULLE_C11_NO_STDALIGN
-# if MULLE_C11_NO_STDALIGN == 1
-#  define alignof( x)    _Alignof( x)
-#  define alignas( x)    _Alignas( x)
-# else
-#  define alignof( x)    __alignof( x)
-#  define alignas( x)    __alignas( x)
-# endif
-#else
-# include <stdalign.h>
-#endif
+#define MULLE_C_UNUSED( x)  ((void)(x))
 
 
 #ifdef _WIN32
 # define __builtin_expect( x, y) x
 #endif
 
-// ## Current thought model on DLLs.
-// 
-// When you have a function foo() its gonna be 
-// compiled as _foo no matter how you decorate it and no matter if you are 
-// compiling a static or dynamic library or an executable. 
-// If you mark it as __declspec((export)) the linker will create an 
-// '__imp__foo' stub for dynamic libraries possibly also executables.
-// _foo is always hidden to the outside (but not to the inside!). During a 
-// build you will not call __imp__ functions of your own library, 
-// you call _foo.
-// If you include a header with __declspec((import)) you will be 
-// referencing __imp__foo, otherwise just _foo. 
-// Stipulation: adorning a static library function with __declspec((export))
-// is relatively harmless, potentially beneficial.
-//
-// Scenario #1: Including a static library
-//  extern
-//
-// Scenario #2: Compiling a static library
-//  __declspec(( export))
-//
-// Scenario #3: Including a dynamic library 
-//  __declspec(( import))
-//
-// Scenario #3: Compiling a dynamic library or static library for standalone
-//  __declspec(( export))
-//
-// The header can't know on its own, if its being used 
-// * from the inside as a static library (no declspec wanted)
-// * from the inside as a dynamic library declspec((export))
-// * from the outside as a static library
-// * from the outside as a dynamic library declspec((import))
-//
-// https://msdn.microsoft.com/en-us/library/aa271769(v=vs.60).aspx
-//
-// If you are compiling a Windows DLL with constituent static libraries use
-// -DMULLE_C_EXTERN_GLOBAL=extern. This ensures that global variables of those
-// libraries are internally (within the DLL) linked.
-//
-// Why is everything extern ? You need this for variables, which would be
-// redefined. For functions it doesn't matter if there is an extern 
-// keyword or not.
-//
-#ifdef _WIN32
-# ifndef MULLE_C_EXTERN_GLOBAL
-#  define MULLE_C_EXTERN_GLOBAL   extern  __declspec( dllimport)
-# endif
-# define MULLE_C_GLOBAL           extern __declspec( dllexport)
-#else
-# ifndef MULLE_C_EXTERN_GLOBAL
-#  define MULLE_C_EXTERN_GLOBAL   extern
-# endif
-# if defined( __clang__) || defined( __GNUC__)
-#  define MULLE_C_GLOBAL          extern __attribute__(( visibility( "default")))
-# else
-#  define MULLE_C_GLOBAL          extern
-# endif
-#endif
-
-//
-// stuff only clang and gcc understands
+// ## Syntax and Optimization attributes
+// stuff only clang and gcc understands, these attributes must not change
+// symbol output (like weak does) for cross compilation use another batch
+// of definitons (see above)
 //
 #if defined( __clang__) || defined( __GNUC__)
 
 # define MULLE_C_STATIC_ALWAYS_INLINE  static inline  __attribute__(( always_inline))
 # define MULLE_C_ALWAYS_INLINE         __attribute__(( always_inline))
 # define MULLE_C_NEVER_INLINE          __attribute__(( noinline))
+// uses for __cyg_profile_func_enter and __cyg_profile_func_leave
+# define MULLE_C_NO_INSTRUMENT_FUNCTION __attribute__(( no_instrument_function))
 
 # define MULLE_C_CONST_RETURN          __attribute__(( const))
 # define MULLE_C_NO_RETURN             __attribute__(( noreturn))
@@ -185,9 +121,8 @@
 #  define MULLE_C_NO_RETURN            __declspec( noreturn)
 #  define MULLE_C_NEVER_INLINE         __declspec( noinline)
 
-#  define _MULLE_C_NO_RETURN
-#  define _MULLE_C_NEVER_INLINE
 #  define MULLE_C_STATIC_ALWAYS_INLINE static __forceinline
+
 #  define MULLE_C_ALWAYS_INLINE        __forceinline
 #  define MULLE_C_FALLTHROUGH          __fallthrough
 
@@ -198,15 +133,17 @@
 
 #  define MULLE_C_NO_RETURN
 #  define MULLE_C_NEVER_INLINE
-#  define _MULLE_C_NO_RETURN
-#  define _MULLE_C_NEVER_INLINE
 #  define MULLE_C_ALWAYS_INLINE
-#  define MULLE_C_STATIC_ALWAYS_INLINE static inline
+#  define MULLE_C_STATIC_ALWAYS_INLINE   static inline
 #  define MULLE_C_FALLTHROUGH
 # endif
 
+# define MULLE_C_NO_INSTRUMENT_FUNCTION
 # define MULLE_C_CONST_RETURN
 # define MULLE_C_DEPRECATED
+
+# define _MULLE_C_NO_RETURN
+# define _MULLE_C_NEVER_INLINE
 
 #endif
 
@@ -248,6 +185,119 @@
                                                      MULLE_C_ALWAYS_INLINE \
                                                      MULLE_C_CONST_RETURN
 
+// ## Linker and Symbol attributes
+//
+// ### DLL Export/Import Mechanics (MSVC)
+// 
+// #### 1. **`__declspec(dllexport)`**
+// 
+// * **Exports a symbol** (e.g., `foo`) from a DLL.
+// * Creates a corresponding **import symbol** (`__imp_foo`), which is used by other code that links to the DLL.
+// * The **DLL contains the real function symbol** (`foo`), while the **import library (.lib)** contains a reference to `__imp_foo`.
+// * The **Import Address Table (IAT)** is created when the DLL is loaded, holding the address of `foo`.
+// 
+// #### 2. **`__declspec(dllimport)`**
+// 
+// * **Imports a symbol** (e.g., `foo`) from a DLL.
+// * Causes the compiler to **generate indirection** through `__imp_foo` (IAT entry) instead of directly calling `foo`.
+// * The import does not “choose” between symbols but makes calls indirect.
+// 
+// #### 3. **What Happens with `p = &foo`**
+// 
+// * **Inside the DLL**: `foo` is a real function, so `&foo` directly points to its address in the DLL.
+// * **Outside the DLL** (in client code): `&foo` refers to `__imp_foo`, which is an IAT pointer. The loader resolves this at runtime to the actual address of `foo` in the DLL.
+// 
+// #### 4. **Static Library vs DLL**
+// 
+// * **DLL**: Symbols are exported with `__declspec(dllexport)` and imported with `__declspec(dllimport)`. The IAT provides runtime resolution.
+// * **Static Library**: Symbols are linked **statically** at compile time. There’s no runtime indirection or IAT; the function addresses are resolved directly.
+// 
+// #### 5. **Dual-use DLL/Static Library**
+// 
+// * For code that may be **both a DLL and a static library**, use a conditional macro:
+// 
+//   ```cpp
+//   #ifdef BUILDING_DLL
+//   #define API __declspec(dllexport)
+//   #else
+//   #define API __declspec(dllimport)
+//   #endif
+//   ```
+// * This ensures proper symbol linkage whether the code is being compiled as a DLL or linked as a static library.
+// 
+// #### 6. **Linker Behavior**
+// 
+// * **DLL**: The import library contains references to `__imp_foo`. At runtime, the loader resolves `__imp_foo` to the actual function `foo` in the DLL.
+// * **Static Library**: The `.lib` directly resolves symbols to their actual code (no IAT, no indirection).
+// ---
+// See research/dll:    
+//
+// `__declspec(dllexport)` in static libraries is harmlesss
+// If you use `__declspec(dllimport)` in static code though, the compiler 
+// will expect dynamic linking (bad).
+// For dual-use libraries, always conditionally define the import/export macros 
+// to handle both static and dynamic linking scenarios like so:
+//
+// ```c
+// #ifdef BUILDING_DLL
+//   #ifdef _WIN32
+//     #define API __declspec(dllexport)
+//   #else
+//     #define API __attribute__((visibility("default")))
+//   #endif
+// #elif defined(USING_DLL)
+//   #ifdef _WIN32
+//     #define API __declspec(dllimport)
+//   #else
+//     #define API
+//   #endif
+// #else
+//   #define API
+// #endif
+// ```
+// ---
+// The header can't know on its own, if its being used 
+// * from the inside as a static library (no declspec wanted)
+// * from the inside as a dynamic library declspec((export))
+// * from the outside as a static library
+// * from the outside as a dynamic library declspec((import))
+//
+// https://msdn.microsoft.com/en-us/library/aa271769(v=vs.60).aspx
+//
+// If you are compiling a Windows DLL with constituent static libraries use
+// -DMULLE_C_EXTERN_GLOBAL=extern. This ensures that global variables of those
+// libraries are internally (within the DLL) linked.
+//
+// Why is everything extern ? You need this for variables, which would be
+// redefined. For functions it doesn't matter if there is an extern 
+// keyword or not.
+//
+// Bottomline: In the .c file, you don't need to use __declspec only in .h.
+//                                                     
+#ifdef _WIN32
+# ifndef MULLE_C_EXTERN_GLOBAL
+#  define MULLE_C_EXTERN_GLOBAL   extern __declspec( dllimport)
+# endif
+# define MULLE_C_GLOBAL           extern __declspec( dllexport)
+# define MULLE_C_WEAK            
+#else
+# ifndef MULLE_C_EXTERN_GLOBAL
+#  define MULLE_C_EXTERN_GLOBAL   extern
+# endif
+# if defined( __clang__) || defined( __GNUC__)
+#  define MULLE_C_GLOBAL          extern __attribute__(( visibility( "default")))
+#  define MULLE_C_WEAK            __attribute__(( weak))
+# else
+#  define MULLE_C_GLOBAL          extern
+#  define MULLE_C_WEAK            
+# endif
+#endif
+
+// For rendezvous functions, it must be ascertained that the actual symbol
+// is STATICALLY linked to the executable. Then MULLE_C_EXTERN_GLOBAL should
+// not be used but just.
+#define MULLE_C_RENDEZVOUS_SYMBOL            MULLE_C_GLOBAL  // MULLE_C_RENDEZVOUS_SYMBOL must not be declared in a dynamic compiled library 
+#define MULLE_C_EXTERN_RENDEZVOUS_SYMBOL     MULLE_C_WEAK    
 
 //
 // cross platform __attribute__((constructor))
@@ -304,10 +354,6 @@
 # define MULLE_C_DESTRUCTOR( f) \
         __attribute__((destructor))
 #endif
-
-
-
-#define MULLE_C_UNUSED( x)  ((void)(x))
 
 
 //

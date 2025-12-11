@@ -3,6 +3,7 @@ cmake_minimum_required( VERSION 3.13...99.99)
 project( mulle-c11 VERSION 4.6.1 LANGUAGES C)
 
 set( PUBLIC_HEADERS "src/mulle-c11.h"
+"src/mulle-c11-align.h"
 "src/mulle-c11-eval.h"
 "src/mulle-c11-bool.h"
 "src/mulle-c11-integer.h"

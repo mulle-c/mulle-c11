@@ -6,7 +6,6 @@ how a function is supposed to be named, that performs a certain action.
 Conversely just by looking at the function name, you can discern the scope of
 the function, its arguments and the order in which they appear.
 
-
 ## Data structure
 
 A [data structure](https://en.wikipedia.org/wiki/Data_structure)
@@ -16,7 +15,7 @@ is a collection of a struct and functions operating on it.
 ### Struct
 
 If a data structure interfaces with mulle-allocator
-(see: mulle-allocator) it is significant. It is distinguished bythe syntax,
+(see: mulle-allocator) it is significant. It is distinguished by the syntax,
 if the data structure keeps track of the allocator in its struct:
 
 ``` c
@@ -224,6 +223,13 @@ the pointer first, immediately followed by the length.
 * a by-reference return value is always the last argument (multiple reference values can be
 avoided with little structs)
 * an allocator is the last argument, unless a by-reference return value is present
+* a simple struct (s) that needs no deallocation (e.g. CGPoint) is constructed with make, and you do not specify alloc/copy/done/free/init but only use `make`
+
+### Construction
+
+| Verb    | Meaning
+|---------|---------------
+| make    | construct a simple struct (e.g. return a struct by value)
 
 
 ### Initialization and Destruction
@@ -235,7 +241,8 @@ avoided with little structs)
 | done    | tear down struct on stack or heap
 | free    | deallocate memory to heap
 | init    | setup struct on stack or heap
-| make    | construct on the fly (e.g. return a struct by value)
+
+
 
 | Verb    | Decomposition
 |---------|---------------
@@ -263,7 +270,6 @@ avoided with little structs)
 
 | Verb        | Meaning
 |-------------|---------------
-| count       | get number of elements (non char or byte)
 | get         | random access read
 | next        | sequential access read
 | member      | returns 1 (yes) or 0 (no) depending on presence in container
@@ -297,6 +303,7 @@ Cache verbs are slightly different (see below)
 | find        | a search that is linear, returns an index (mulle_not_found_e) or key
 | lookup      | a hashtable or similiar indexing (but not a get)
 | search      | a search that's not linear, probably a binary search, returns the value
+| count       | get number of elements (non char or byte), probably a "find"
 
 
 | Verb/Object | Meaning
@@ -317,8 +324,6 @@ can be part of the data-structure or it can be separate.
 | probe       | a hashtable or similiar indexing (but not a get)
 | refresh     | a search with a cache update (must not probe)
 | search      | a search that's not linear, probably a binary search, returns the value
-
-
 
 
 ## Objects

@@ -1,1 +1,1 @@
-mulle-c11;${MULLE__C11_NODETYPE:-tar};;51E288E8-83F8-42EF-BBEC-638A55230DDD;${MULLE__C11_URL:-https://github.com/mulle-nat/mulle-c11/archive/${MULLE_TAG}.tar.gz};${MULLE__C11_BRANCH};${MULLE__C11_TAG:-latest};;
+mulle-c11;${MULLE__C11_NODETYPE:-tar};;901C6CC3-EDD4-46F7-B1F2-293874CE9ACF;${MULLE__C11_URL:-https://github.com/nat/mulle-c11/archive/${MULLE_TAG}.tar.gz};${MULLE__C11_BRANCH};${MULLE__C11_TAG:-latest};;
