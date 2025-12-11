@@ -143,6 +143,18 @@ static void f(void);
 
 
 
+## Quickstart
+
+Install [mulle-core developer](https://github.com/MulleFoundation/foundation-developer?tab=readme-ov-file#install)
+then:
+
+
+``` sh
+mulle-sde init -d my-project -m mulle-core/c-developer executable
+cd my-project
+mulle-sde run
+```
+
 ## Add
 
 **This project is a component of the [mulle-core](//github.com/mulle-core/mulle-core) library. As such you usually will *not* add or install it

@@ -33,19 +33,6 @@
 #ifndef MULLE_BOOL_DEFINED
 #define MULLE_BOOL_DEFINED
 
-//
-// Used to be in mulle-objc, but now it's here to be included on-demand
-// not by default in the mulle-c11.h header.
-//
-
-#include <stddef.h>
-
-// i forgot why this was needed
-#ifdef __has_include
-# if __has_include(<stdbool.h>)
-#  include <stdbool.h>
-# endif
-#endif
 
 //
 // having YES, NO as an enum messes up the boxed expressions @YES @NO
@@ -53,7 +40,7 @@
 //
 // TODO: an intptr_t would be wasteful in properties but would ease the
 //       pain in metaabi calls. So this could turn into a typedef of NSInteger
-//
+//       except when its defined on windows already and we can't....
 
 
 enum _MulleBool
@@ -70,17 +57,39 @@ static inline char   *_MulleBoolUTF8String( enum _MulleBool result)
 
 
 //
-// the hated BOOL. here it is an int
-// on windows it unfortunately already exists in "minwindef.h" (when
-// compiling with mingw)
+// the hated BOOL. here it is an int on windows it unfortunately exists in 
+// "minwindef.h" (when compiling with mingw at least):
+// 
+// #ifndef _DEF_WINBOOL_
+// #define _DEF_WINBOOL_
+// typedef int WINBOOL;
+// #pragma push_macro("BOOL")
+// #undef BOOL
+// #if !defined(__OBJC__) && !defined(__OBJC_BOOL) && !defined(__objc_INCLUDE_GNU) && !defined(_NO_BOOL_TYPEDEF)
+//   typedef int BOOL;
+// #endif
+// #define BOOL WINBOOL
+// typedef BOOL *PBOOL;
+// typedef BOOL *LPBOOL;
+// #pragma pop_macro("BOOL")
+// #endif /* _DEF_WINBOOL_ */
+//
 // so don't typedef it
 //
 #if defined( _WIN32)
-# ifndef _MINWINDEF_
-//#  error "The #include <minwindef.h> is missing. Include <windows.h> somewhere."
+# ifdef _DEF_WINBOOL_
+#  error "you need to include <mulle-c11/mulle-c11-bool.h> before <windows.h> (specifically before <minwindef.h>"
 # endif
-#else
+# define _NO_BOOL_TYPEDEF  // possibly only MINGW
+#endif
+
 typedef enum _MulleBool   BOOL;
+
+// i forgot why this was needed or desirable
+#ifdef __has_include
+# if __has_include(<stdbool.h>)
+#  include <stdbool.h>
+# endif
 #endif
 
 #endif
