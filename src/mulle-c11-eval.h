@@ -32,6 +32,7 @@
 #ifndef mulle_c11_eval_h__
 #define mulle_c11_eval_h__
 
+
 // MEMO: currently not exposed in mulle-c11.h, because it's fairly obscure
 //       and rarely needed. These techniques may or may not become obsolete
 //       with constexpr
@@ -44,7 +45,9 @@
 //
 
 // treat __VA_ARGS__ like a C array, index starts at 0
-
+//
+// BUG: __VA_OPT__ only works on gcc and clang or C23
+//
 // MULLE_C_VA_ARGS_0 can be called MULLE_C_VA_ARGS_0() as a0 will be nothing
 #define MULLE_C_VA_ARGS_0(  a0, ...) a0
 #define MULLE_C_VA_ARGS_1(  a0, a1, ...) a1
@@ -62,6 +65,11 @@
 #define MULLE_C_VA_ARGS_13( a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, ...) a13
 #define MULLE_C_VA_ARGS_14( a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, ...) a14
 #define MULLE_C_VA_ARGS_15( a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, ...) a15
+
+#define _MULLE_C_HAS_VA_OPT_TEST(...)   MULLE_C_VA_ARGS_2(__VA_OPT__(,),1,0,)
+#define MULLE_C_HAS_VA_OPT              MULLE_C_HAS_VA_OPT(x)
+
+
 
 #define MULLE_C_VA_ARGS_COUNT( ...) \
    MULLE_C_VA_ARGS_15( dummy __VA_OPT__(,) __VA_ARGS__, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)

@@ -1,4 +1,5 @@
 # mulle-c11 Library Documentation for AI
+<!-- Keywords: c11, portability, compiler-macros -->
 
 ## 1. Introduction & Purpose
 

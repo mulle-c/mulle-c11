@@ -97,6 +97,7 @@
 //
 #if defined( __clang__) || defined( __GNUC__)
 
+# define MULLE_C_WEAK                 __attribute__(( weak))
 # define MULLE_C_STATIC_ALWAYS_INLINE  static inline  __attribute__(( always_inline))
 # define MULLE_C_ALWAYS_INLINE         __attribute__(( always_inline))
 # define MULLE_C_NEVER_INLINE          __attribute__(( noinline))
@@ -114,6 +115,7 @@
 # define _MULLE_C_NO_RETURN            MULLE_C_NO_RETURN
 # define _MULLE_C_NEVER_INLINE         MULLE_C_NEVER_INLINE
 
+
 #else
 
 # ifdef _WIN32
@@ -121,6 +123,7 @@
 #  define MULLE_C_NO_RETURN            __declspec( noreturn)
 #  define MULLE_C_NEVER_INLINE         __declspec( noinline)
 
+// MEMO: this apparently leads to problems with setjmp on windows!!
 #  define MULLE_C_STATIC_ALWAYS_INLINE static __forceinline
 
 #  define MULLE_C_ALWAYS_INLINE        __forceinline
@@ -138,6 +141,7 @@
 #  define MULLE_C_FALLTHROUGH
 # endif
 
+# define MULLE_C_WEAK
 # define MULLE_C_NO_INSTRUMENT_FUNCTION
 # define MULLE_C_CONST_RETURN
 # define MULLE_C_DEPRECATED
@@ -153,12 +157,14 @@
 # define MULLE_C_LIKELY( expr)         __builtin_expect( (expr), 1)
 # define MULLE_C_UNLIKELY( expr)       __builtin_expect( (expr), 0)
 # define MULLE_C_EXPECT( expr, value)  __builtin_expect( (expr), value)
+# define MULLE_C_TYPE_OF( expr)        __typeof__( expr)
 
 #else
 
 # define MULLE_C_LIKELY( expr)         (expr)
 # define MULLE_C_UNLIKELY( expr)       (expr)
 # define MULLE_C_EXPECT( expr, value)  (expr)
+# define MULLE_C_TYPE_OF( expr)        __typeof( expr)
 
 #endif
 
@@ -172,6 +178,13 @@
 # define MULLE_C_NONNULL_RETURN
 #endif
 
+#if defined( __MULLE_OBJC__) && ! defined( MULLE_OBJC_NO_CONFINED_LOOP)
+# define MULLE_C_CONFINED_LOOP        __attribute__(( mulle_confined_loop))
+# define MULLE_C_CONFINED_RETURN      __attribute__(( mulle_confined_return))
+#else
+# define MULLE_C_CONFINED_LOOP
+# define MULLE_C_CONFINED_RETURN
+#endif
 
 // some composites (soon to be deprecated)
 
@@ -273,31 +286,45 @@
 // keyword or not.
 //
 // Bottomline: In the .c file, you don't need to use __declspec only in .h.
-//                                                     
+//
+// Use:
+//
+// #ifdef MULLE__DATA_BUILD
+// # define MULLE__DATA_GLOBAL    MULLE_C_GLOBAL
+// #else
+// # if defined( MULLE__DATA_INCLUDE_DYNAMIC) || defined( MULLE_INCLUDE_DYNAMIC)
+// #  define MULLE__DATA_GLOBAL   MULLE_C_EXTERN_GLOBAL
+// # else
+// #  define MULLE__DATA_GLOBAL   extern
+// # endif
+// #endif
+//
+// | MULLE__DATA_BUILD | MULLE_INCLUDE_DYNAMIC | Result                       | Scenario                     |
+// |-------------------|-----------------------|------------------------------|------------------------------|
+// | 1                 | 0                     | extern __declspec(dllexport) | Building this library as DLL |
+// | 1                 | 1                     | extern __declspec(dllexport) | Building this library as DLL (DYNAMIC ignored) |
+// | 0                 | 1                     | extern __declspec(dllimport) | Using this library as DLL    |
+// | 0                 | 0                     | extern                       | Using this library as static |
+
+
 #ifdef _WIN32
 # ifndef MULLE_C_EXTERN_GLOBAL
 #  define MULLE_C_EXTERN_GLOBAL   extern __declspec( dllimport)
 # endif
 # define MULLE_C_GLOBAL           extern __declspec( dllexport)
-# define MULLE_C_WEAK            
+# define MULLE_C_GLOBAL_VAR       __declspec( dllexport)
 #else
 # ifndef MULLE_C_EXTERN_GLOBAL
 #  define MULLE_C_EXTERN_GLOBAL   extern
 # endif
 # if defined( __clang__) || defined( __GNUC__)
 #  define MULLE_C_GLOBAL          extern __attribute__(( visibility( "default")))
-#  define MULLE_C_WEAK            __attribute__(( weak))
 # else
 #  define MULLE_C_GLOBAL          extern
-#  define MULLE_C_WEAK            
 # endif
+# define MULLE_C_GLOBAL_VAR
 #endif
 
-// For rendezvous functions, it must be ascertained that the actual symbol
-// is STATICALLY linked to the executable. Then MULLE_C_EXTERN_GLOBAL should
-// not be used but just.
-#define MULLE_C_RENDEZVOUS_SYMBOL            MULLE_C_GLOBAL  // MULLE_C_RENDEZVOUS_SYMBOL must not be declared in a dynamic compiled library 
-#define MULLE_C_EXTERN_RENDEZVOUS_SYMBOL     MULLE_C_WEAK    
 
 //
 // cross platform __attribute__((constructor))
