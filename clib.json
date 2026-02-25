@@ -6,6 +6,7 @@
    "license" : "BSD-3-Clause",
    "repo" : "mulle-c/mulle-c11",
    "src" : [
+      "asset/dox/TOC.md",
       "src/mulle-c11-align.h",
       "src/mulle-c11-bool.h",
       "src/mulle-c11-endian.h",
