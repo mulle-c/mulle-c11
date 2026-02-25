@@ -62,3 +62,10 @@ test*/**/*.test.*
 !/AGENTS.md
 !/README.md
 build-*/
+cmake
+src/generic
+src/reflect
+.mulle/share/sourcetree/
+.mulle/share/monitor
+.mulle/share/howto
+.mulle/share/match
