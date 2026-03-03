@@ -9,9 +9,15 @@
       "asset/dox/TOC.md",
       "src/mulle-c11-align.h",
       "src/mulle-c11-bool.h",
+      "src/mulle-c11-builtin.h",
       "src/mulle-c11-endian.h",
       "src/mulle-c11-eval.h",
+      "src/mulle-c11-feature.h",
       "src/mulle-c11-integer.h",
+      "src/mulle-c11-swap.h",
       "src/mulle-c11.h"
-   ]
+   ],
+   "dependencies" : {
+      "mulle-c/mulle-c11": "*"
+   }
 }

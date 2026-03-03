@@ -37,7 +37,7 @@ export PROJECT_SOURCE_DIR="src"
 #
 #
 #
-export PROJECT_ASSET_DIR="DEFAULT"
+export PROJECT_ASSET_DIR="asset"
 
 
 #
