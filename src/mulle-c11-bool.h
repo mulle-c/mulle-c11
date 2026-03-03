@@ -86,10 +86,10 @@ static inline char   *_MulleBoolUTF8String( enum _MulleBool result)
 typedef enum _MulleBool   BOOL;
 
 // i forgot why this was needed or desirable
-#ifdef __has_include
-# if __has_include(<stdbool.h>)
-#  include <stdbool.h>
-# endif
-#endif
+//#ifdef __has_include
+//# if __has_include(<stdbool.h>)
+//#  include <stdbool.h>
+//# endif
+//#endif
 
 #endif

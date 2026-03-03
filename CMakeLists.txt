@@ -4,8 +4,11 @@ project( mulle-c11 VERSION 4.7.0 LANGUAGES C)
 
 set( PUBLIC_HEADERS "src/mulle-c11.h"
 "src/mulle-c11-align.h"
-"src/mulle-c11-eval.h"
 "src/mulle-c11-bool.h"
+"src/mulle-c11-builtin.h"
+"src/mulle-c11-endian.h"
+"src/mulle-c11-eval.h"
+"src/mulle-c11-feature.h"
 "src/mulle-c11-integer.h"
 )
 
