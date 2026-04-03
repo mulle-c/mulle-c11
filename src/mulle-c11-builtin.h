@@ -34,6 +34,8 @@
 #ifndef mulle_c11_builtin_h__
 #define mulle_c11_builtin_h__
 
+#include <stddef.h>
+
 // useful builtin functions that are easy to re-implement
 // with static inline functions
 
@@ -123,6 +125,22 @@ static inline int   mulle_c_popcountll( unsigned long long bits)
 
 #define mulle_c_pointer_predecrement( p, type) \
    ((type *) (p = (void *) &((char *) p)[ - (int) sizeof( type)]))
+
+
+
+#if __has_builtin( __builtin_memcpy)
+static inline void   mulle_c_memcpy( void *dst, const void *src, size_t n)
+{
+   __builtin_memcpy( dst, src, n);
+}
+#else
+static inline void   mulle_c_memcpy( void *dst, const void *src, size_t n)
+{
+   extern void   memcpy( void *dst, const void *src, size_t n);
+
+   memcpy( dst, src, n);
+}
+#endif
 
 
 #endif
