@@ -69,3 +69,5 @@ src/reflect
 .mulle/share/monitor
 .mulle/share/howto
 .mulle/share/match
+.roam
+.graveyard
