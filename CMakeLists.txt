@@ -1,6 +1,6 @@
 cmake_minimum_required( VERSION 3.13...99.99)
 
-project( mulle-c11 VERSION 4.7.0 LANGUAGES C)
+project( mulle-c11 VERSION 4.8.0 LANGUAGES C)
 
 set( PUBLIC_HEADERS "src/mulle-c11.h"
 "src/mulle-c11-align.h"
