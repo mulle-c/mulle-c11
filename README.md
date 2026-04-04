@@ -14,6 +14,20 @@ mulle-objc projects.
 | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-c11.svg) [![Build Status](https://github.com/mulle-c/mulle-c11/workflows/CI/badge.svg)](//github.com/mulle-c/mulle-c11/actions) | [RELEASENOTES](RELEASENOTES.md) | [DeepWiki for mulle-c11](https://deepwiki.com/mulle-c/mulle-c11)
 
 
+## Includes
+
+
+| Header                    | Description
+|---------------------------|----------------------------------------------------------------
+| `mulle-c11.h`             | includes a minimal set of headers: feature, builtin, bool, integer
+| `mulle-c11-align.h`       | includes `<stdalign.h>`, if detected as available, or provides replacement code. This enables `alignof` and ` alignas`.
+| `mulle-c11-bool.h`        | supplies the `BOOL` type, which is typically `int`
+| `mulle-c11-integer.h`     | supplies the `NSInteger` and `NSUInteger` types, which are based on `intptr_t`
+| `mulle-c11-endian.h`      | provides endianness detection support and swapping functions like `NSSwapLong`
+| `mulle-c11-eval.h`        | preprocessor evaluation support for really special needs
+| `mulle-c11-feature.h`     | abstracted compile features like attributes and constructors
+
+
 ## Features
 
 * includes `<stdalign.h>`, if detected as available, or provides replacement code. This enables `alignof` and ` alignas`.
