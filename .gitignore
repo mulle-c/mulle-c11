@@ -71,3 +71,5 @@ src/reflect
 .mulle/share/match
 .roam
 .graveyard
+*.tmp.*
+.roam.json

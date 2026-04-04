@@ -1,5 +1,5 @@
 # mulle-c11 Library Documentation for AI
-<!-- Keywords: c11, portability, compiler-macros -->
+<!-- Keywords: c11, macros, preprocessor, attributes, endian, constructors, utilities -->
 
 ## 1. Introduction & Purpose
 
