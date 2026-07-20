@@ -488,9 +488,13 @@
 # define MULLE_C_NONNULL_FIFTH
 #endif
 
-#define MULLE_C_STRINGIFY_MACRO( a)   MULLE_C_STRINGIFY( a)
-#define MULLE_C_STRINGIFY( a)         #a
-#define MULLE_C_CONCAT( a, b)         a ## b
+#define MULLE_C_STRINGIFY_MACRO( a)      MULLE_C_STRINGIFY( a)
+#define MULLE_C_STRINGIFY( a)            #a
+#define MULLE_C_CONCAT( a, b)            a ## b
+#define MULLE_C_CONCAT2( a, b)           a ## b
+#define MULLE_C_CONCAT3( a, b, c)        a ## b ## c
+#define MULLE_C_CONCAT4( a, b, c, d)     a ## b ## c ## d
+#define MULLE_C_CONCAT5( a, b, c, d, e)  a ## b ## c ## d ## e
 
 //
 // this is a compile time assert

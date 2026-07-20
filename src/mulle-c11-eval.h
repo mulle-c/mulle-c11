@@ -66,31 +66,10 @@
 #define MULLE_C_VA_ARGS_14( a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, ...) a14
 #define MULLE_C_VA_ARGS_15( a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, ...) a15
 
-#define _MULLE_C_HAS_VA_OPT_TEST(...)   MULLE_C_VA_ARGS_2(__VA_OPT__(,),1,0,)
-#define MULLE_C_HAS_VA_OPT              MULLE_C_HAS_VA_OPT(x)
-
-
-
-#define MULLE_C_VA_ARGS_COUNT( ...) \
-   MULLE_C_VA_ARGS_15( dummy __VA_OPT__(,) __VA_ARGS__, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
 
 //
 // https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms
 //
-#define MULLE_C_IS_EMPTY( ...)  \
-        _MULLE_C_IS_ ##  __VA_OPT__( NON_) ## EMPTY
-#define _MULLE_C_IS_NON_EMPTY    0
-#define _MULLE_C_IS_EMPTY        1
-
-#define MULLE_C_VA_ARGS_WITH_DEFAULT( d, ...)  \
-        _MULLE_C_ ##  __VA_OPT__( NON_) ## EMPTY_VA_ARGS_WITH_DEFAULT( d, __VA_ARGS__ )
-#define MULLE_C_VA_ARGS_0_WITH_DEFAULT( d, ...)  \
-        _MULLE_C_ ##  __VA_OPT__( NON_) ## EMPTY_VA_ARGS_WITH_DEFAULT( d, MULLE_C_VA_ARGS_0( __VA_ARGS__))
-
-#define _MULLE_C_NON_EMPTY_VA_ARGS_WITH_DEFAULT( d, ...)  __VA_ARGS__
-#define _MULLE_C_EMPTY_VA_ARGS_WITH_DEFAULT( d, ...)      d
-
-
 #define MULLE_C_CAT( a, ...)             MULLE_C_PRIMITIVE_CAT( a, __VA_ARGS__)
 #define MULLE_C_PRIMITIVE_CAT( a, ...)   a ## __VA_ARGS__
 
@@ -130,9 +109,39 @@
 
 #define MULLE_C_EVAL(...)      MULLE_C_EVAL64( __VA_ARGS__)
 
+
+#define _MULLE_C_HAS_VA_OPT_TEST(...)   MULLE_C_VA_ARGS_2(__VA_OPT__(,),1,0,)
+#define MULLE_C_HAS_VA_OPT              _MULLE_C_HAS_VA_OPT_TEST(x)
+
+
+// --------------------------------------------------------------------------
+// From here on we need __VA_OPT__ which is C23, gcc, clang only
+// MEMO: mulle-c23-eval.h ?  mulle-c23/mulle-c23-eval.h ?
+// --------------------------------------------------------------------------
+#if MULLE_C_HAS_VA_OPT
+
+#define MULLE_C_VA_ARGS_COUNT( ...) \
+   MULLE_C_VA_ARGS_15( dummy __VA_OPT__(,) __VA_ARGS__, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
+
+
 #define MULLE_C_HAS_ARGS( ...)     MULLE_C_HAS_ARGS_ ## __VA_OPT__(1) ()
 #define MULLE_C_HAS_ARGS_()        0
 #define MULLE_C_HAS_ARGS_1()       1
+
+#define MULLE_C_IS_EMPTY( ...)  \
+        _MULLE_C_IS_ ##  __VA_OPT__( NON_) ## EMPTY
+#define _MULLE_C_IS_NON_EMPTY    0
+#define _MULLE_C_IS_EMPTY        1
+
+#define MULLE_C_VA_ARGS_WITH_DEFAULT( d, ...)  \
+        _MULLE_C_ ##  __VA_OPT__( NON_) ## EMPTY_VA_ARGS_WITH_DEFAULT( d, __VA_ARGS__ )
+#define MULLE_C_VA_ARGS_0_WITH_DEFAULT( d, ...)  \
+        _MULLE_C_ ##  __VA_OPT__( NON_) ## EMPTY_VA_ARGS_WITH_DEFAULT( d, MULLE_C_VA_ARGS_0( __VA_ARGS__))
+
+#define _MULLE_C_NON_EMPTY_VA_ARGS_WITH_DEFAULT( d, ...)  __VA_ARGS__
+#define _MULLE_C_EMPTY_VA_ARGS_WITH_DEFAULT( d, ...)      d
+
+
 
 // this is actually original, yay
 #define MULLE_C_FOR_EACH_WITH_SEPARATOR( macro, s, sep, first, ...) \
@@ -204,5 +213,7 @@
 //      MULLE_C_EVAL( MULLE_C_FOR_EACH_WITH_COMMA_SEPARATOR( STRUCT_VALUE, __VA_ARGS__)) \
 //    }
 // MULLE_C_EVAL( STRUCT_FOR_VALUES( my_struct, 1.0f, "VfL Bochum", 1848LL))
+
+#endif
 
 #endif
