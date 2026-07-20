@@ -73,3 +73,5 @@ src/reflect
 .graveyard
 *.tmp.*
 .roam.json
+*.test.*
+.idea
