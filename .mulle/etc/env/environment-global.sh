@@ -34,3 +34,9 @@ export MULLE_SOURCETREE_TO_CMAKE_RUN="DISABLE"
 export MULLE_MATCH_TO_C_RUN="DISABLE"
 
 
+#
+#
+#
+export vibecoding="off"
+
+
