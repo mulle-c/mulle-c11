@@ -50,6 +50,11 @@ identifiers (`MULLE_C_CONCAT( a, b)` creates `ab`).
 
 
 
+## Documentation & Guides
+
+* [API Summary](asset/dox/api/toc)
+
+
 
 ## Preprocessor Conveniences
 
