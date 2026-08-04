@@ -1,8 +1,11 @@
 //
-//  mulle_c11.h
+//  mulle-c11-feature.h
+//  mulle-c11
 //
-//  Copyright © 2016 Mulle kybernetiK. All rights reserved.
-//  Copyright © 2016 Codeon GmbH. All rights reserved.
+//  Copyright (c) 2026 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2016 Codeon GmbH.
+//  All rights reserved.
+//
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -30,7 +33,6 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-
 #ifndef mulle_c11_feature_h__
 #define mulle_c11_feature_h__
 
