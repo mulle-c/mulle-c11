@@ -1,9 +1,8 @@
 //
-//  mulle-c11.h
+//  mulle-c11-rotate.h
 //  mulle-c11
 //
-//  Copyright (c) 2018 Nat! - Mulle kybernetiK.
-//  Copyright (c) 2016 Codeon GmbH.
+//  Copyright (c) 2026 Nat! - Mulle kybernetiK.
 //  All rights reserved.
 //
 //
@@ -33,35 +32,51 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#ifndef mulle_c11_h__
-#define mulle_c11_h__
+#ifndef mulle_c11_rotate_h__
+#define mulle_c11_rotate_h__
 
-#ifdef __cplusplus
-# error "C++ ? You're doing it wrong."
-#endif
+#include <stdint.h>
 
 
-#define MULLE__C11_VERSION  ((4UL << 20) | (8 << 8) | 1)
+//
+// Portable rotate functions that compile to single ror/rol instructions
+// on GCC and Clang with -O2. Uses the if-guard pattern to avoid undefined
+// behavior when shift count is 0 or equals the type width.
+//
 
-#include "mulle-c11-feature.h"
+static inline uint32_t   mulle_rotate_right_uint32( uint32_t value, unsigned shift)
+{
+   shift &= 31;
+   if( shift)
+      value = (value >> shift) | (value << (32 - shift));
+   return( value);
+}
 
-// this needs to be ahead of any #include <windows.h>
-#include "mulle-c11-bool.h"
 
-// this wants to be ahead of any <windows.h> which mulle-c11-integer might do
-#include "mulle-c11-endian.h"
+static inline uint32_t   mulle_rotate_left_uint32( uint32_t value, unsigned shift)
+{
+   shift &= 31;
+   if( shift)
+      value = (value << shift) | (value >> (32 - shift));
+   return( value);
+}
 
-#include "mulle-c11-integer.h"
-#include "mulle-c11-rotate.h"
 
-#include "mulle-c11-builtin.h"
+static inline uint64_t   mulle_rotate_right_uint64( uint64_t value, unsigned shift)
+{
+   shift &= 63;
+   if( shift)
+      value = (value >> shift) | (value << (64 - shift));
+   return( value);
+}
 
-// these are too rarely used to want to be seen everywhere
-// include them directly or define MULLE_C11_INCLUDE_ALL
-#ifdef MULLE_C11_INCLUDE_ALL
-# include "mulle-c11-align.h"
-# include "mulle-c11-eval.h"
-# include "mulle-c11-swap.h"
-#endif
+
+static inline uint64_t   mulle_rotate_left_uint64( uint64_t value, unsigned shift)
+{
+   shift &= 63;
+   if( shift)
+      value = (value << shift) | (value >> (64 - shift));
+   return( value);
+}
 
 #endif
