@@ -1,1 +1,1 @@
-mulle-c11;${MULLE__C11_NODETYPE:-tar};;A0EC85FD-2528-4BBF-9DB0-9FCA52B2EA6A;${MULLE__C11_URL:-https://github.com/mulle-kybernetik-tv/mulle-c11/archive/${MULLE_TAG}.tar.gz};${MULLE__C11_BRANCH};${MULLE__C11_TAG:-latest};;
+mulle-c11;${MULLE__C11_NODETYPE:-tar};;88AFF4A0-C304-48D8-AC5D-9F524F7DE641;${MULLE__C11_URL:-https://github.com/nat/mulle-c11/archive/${MULLE_TAG}.tar.gz};${MULLE__C11_BRANCH};${MULLE__C11_TAG:-latest};;

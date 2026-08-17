@@ -10,6 +10,8 @@
 | `mulle-c11-endian.h`      | provides endianness detection support and swapping functions like `NSSwapLong`
 | `mulle-c11-eval.h`        | preprocessor evaluation support for really special needs
 | `mulle-c11-feature.h`     | abstracted compile features like attributes and constructors
+| `mulle-c11-rotate.h`      | portable bit rotation functions that compile to `ror`/`rol` instructions
+| `mulle-c11-swap.h`        | byte-swap functions for endian conversion
 
 
 ## Features

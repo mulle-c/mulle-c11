@@ -52,10 +52,11 @@
 #include "mulle-c11-endian.h"
 
 #include "mulle-c11-integer.h"
+#include "mulle-c11-rotate.h"
 
 #include "mulle-c11-builtin.h"
 
-// these are too rearely used to want to be seen everywhere
+// these are too rarely used to want to be seen everywhere
 // include them directly or define MULLE_C11_INCLUDE_ALL
 #ifdef MULLE_C11_INCLUDE_ALL
 # include "mulle-c11-align.h"
