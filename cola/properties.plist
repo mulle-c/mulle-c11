@@ -8,6 +8,6 @@
       repo="mulle-c11";
       homepage="https://github.com/mulle-c/mulle-c11";
       license="BSD-3-Clause";
-      version="4.8.1"
+      version="4.9.0"
    };
 }
