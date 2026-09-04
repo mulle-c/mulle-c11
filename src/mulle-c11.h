@@ -41,7 +41,7 @@
 #endif
 
 
-#define MULLE__C11_VERSION  ((4UL << 20) | (8 << 8) | 1)
+#define MULLE__C11_VERSION  ((4UL << 20) | (9 << 8) | 0)
 
 #include "mulle-c11-feature.h"
 

@@ -75,3 +75,6 @@ src/reflect
 .roam.json
 *.test.*
 .idea
+.kiro/
+TODO.md
+REVIEW.md
