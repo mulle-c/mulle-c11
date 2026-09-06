@@ -138,7 +138,7 @@ static inline void   mulle_c_memcpy( void *dst, const void *src, size_t n)
 #else
 static inline void   mulle_c_memcpy( void *dst, const void *src, size_t n)
 {
-   extern void   memcpy( void *dst, const void *src, size_t n);
+   extern void  *memcpy( void *dst, const void *src, size_t n);
 
    memcpy( dst, src, n);
 }
