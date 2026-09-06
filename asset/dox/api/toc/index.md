@@ -3,7 +3,7 @@
 
 ## 1. Introduction & Purpose
 
-`mulle-c11` is a foundational cross-platform compatibility layer that abstracts C11 language features and compiler-specific extensions behind consistent, portable preprocessor macros. Its primary purpose is to enable the use of modern C language features—like type alignment, function attributes (constructor/destructor), compiler builtins (branch prediction, bit counting), and preprocessor metaprogramming—across diverse compilers (GCC, Clang, MSVC) and platforms (Linux, macOS, Windows, Cosmopolitan).
+`mulle-c11` is a foundational cross-platform compatibility layer that abstracts C11 language features and compiler-specific extensions behind consistent, portable preprocessor macros. Its primary purpose is to enable the use of modern C language features—like type alignment, function attributes (constructor/destructor), compiler builtins (branch prediction, bit counting), portable bit-rotation helpers, and preprocessor metaprogramming—across diverse compilers (GCC, Clang, MSVC) and platforms (Linux, macOS, Windows, Cosmopolitan).
 
 It solves the portability problem by providing a unified API for compiler-specific capabilities with graceful degradation: supported features expand to native compiler syntax; unsupported features expand to safe no-ops. This eliminates the need for scattered `#ifdef` blocks in dependent code and is a dependency for virtually all other `mulle-sde` C and Objective-C projects.
 
@@ -23,7 +23,7 @@ It solves the portability problem by providing a unified API for compiler-specif
 
 ## 3. Core API & Data Structures
 
-The library's API is entirely macro-based; it defines no data structures or runtime functions. All functionality is compile-time or compile-time-configurable.
+The library's API is almost entirely macro-based and defines no data structures. The only runtime code is a small set of `static inline` bit-rotation helper functions in `mulle-c11-rotate.h`; all other functionality is compile-time or compile-time-configurable.
 
 ### 3.1. Function Attributes & Compiler Hints (`mulle-c11.h`)
 
@@ -131,6 +131,26 @@ Advanced compile-time evaluation for macro-based generic programming:
 - `MULLE_C_CONCAT(a, b)`: Concatenate two identifiers
 - `MULLE_C_ASSERT(condition)`: Compile-time assertion; build fails if false
 
+### 3.8. Bit Rotation Helpers (`mulle-c11-rotate.h`)
+
+Portable circular bit-rotation functions for 32- and 64-bit unsigned integers (since 4.9.0). These are the only actual functions in the library; they are declared `static inline` so they vanish into the caller — on GCC and Clang compiled with `-O2` each call compiles to a single `ror`/`rol` machine instruction. The shift count is masked with `& 31` (32-bit) or `& 63` (64-bit), and a zero shift is an identity, so the helpers are free of the undefined behavior that raw `<<`/`>>` shifts exhibit when the shift count is `0` or equal to the type width. They are included from the umbrella `mulle-c11.h` header and can also be included directly via `#include <mulle-c11/mulle-c11-rotate.h>`.
+
+#### Function Signatures (verbatim from `mulle-c11-rotate.h`)
+
+All four functions mask the shift and rotate within the given width:
+
+```c
+static inline uint32_t   mulle_rotate_right_uint32( uint32_t value, unsigned shift)
+static inline uint32_t   mulle_rotate_left_uint32( uint32_t value, unsigned shift)
+static inline uint64_t   mulle_rotate_right_uint64( uint64_t value, unsigned shift)
+static inline uint64_t   mulle_rotate_left_uint64( uint64_t value, unsigned shift)
+```
+
+- `mulle_rotate_left_uint32(value, shift)` / `mulle_rotate_left_uint64(value, shift)`: Rotates `value` left by `shift` bits; bits shifted out the high end reappear at the low end.
+- `mulle_rotate_right_uint32(value, shift)` / `mulle_rotate_right_uint64(value, shift)`: Rotates `value` right by `shift` bits; bits shifted out the low end reappear at the high end.
+- Left and right rotations are exact inverses: `mulle_rotate_left_uint32( mulle_rotate_right_uint32( value, n), n) == value`.
+- **Use Case**: Hashing (e.g., MurmurHash, SHA-like mixing), cryptography primitives, checksum accumulation, pseudo-random bit mixing.
+
 ## 4. Performance Characteristics
 
 - **Runtime Overhead**: Zero. All macros expand at compile time; no dynamic execution.
@@ -138,6 +158,7 @@ Advanced compile-time evaluation for macro-based generic programming:
 - **Compile Time**: Negligible increase from header parsing and macro expansion.
 - **Binary Size**: No impact; purely compile-time.
 - **Optimization Coverage**: Enables compiler optimizations (inlining, null-check elimination, branch prediction); potential runtime speed improvements.
+- **Rotation Helpers**: O(1). Each rotate call compiles to a single `ror`/`rol` instruction on GCC/Clang at `-O2`; zero memory footprint beyond the immediate register operands. The `if( shift)` guard avoids undefined behavior at the cost of one compare, which the compiler folds away.
 
 ## 5. AI Usage Recommendations & Patterns
 
@@ -147,7 +168,7 @@ Advanced compile-time evaluation for macro-based generic programming:
    - ✅ `MULLE_C_ALWAYS_INLINE` (portable across GCC, Clang, MSVC)
    - ❌ `__attribute__((always_inline))` (GCC/Clang-only, fails on MSVC)
 
-2. **Use `MULLE_C_ALWAYS_STATIC_INLINE` for static helpers**:
+2. **Use `MULLE_C_STATIC_ALWAYS_INLINE` for static helpers**:
    - Handles cross-platform inline semantics automatically
    - Preferred over manual `static inline` for consistency
 
@@ -188,7 +209,7 @@ Advanced compile-time evaluation for macro-based generic programming:
 ```c
 MULLE_C_NONNULL_FIRST
 MULLE_C_NONNULL_SECOND
-MULLE_C_CONST
+MULLE_C_CONST_RETURN
 struct mulle_container *mulle_container_get_element( struct mulle_container *c, void *key )
 {
     // Compiler knows c and key are non-null; enables optimizations
@@ -335,7 +356,7 @@ Using preprocessor metaprogramming to enforce constraints.
 #include <stddef.h>
 
 // Ensure this code only compiles on 64-bit systems
-MULLE_C_ALWAYS_STATIC_INLINE
+MULLE_C_STATIC_ALWAYS_INLINE
 void function_for_64bit_only(void)
 {
     MULLE_C_ASSERT(sizeof(void *) >= 8);
@@ -432,6 +453,47 @@ int main(void)
     printf("Network: 0x%08X\n", network_value);
     
     return 0;
+}
+```
+
+### Example 6: Portable Bit Rotation
+
+Demonstrates the rotate helpers, including the `0`/width edge cases that are safe (identity) unlike raw shifts.
+
+*Source: `test/91-rotate/rotate.c`*
+
+```c
+#include <mulle-c11/mulle-c11.h>
+#include <stdio.h>
+#include <assert.h>
+
+
+int   main( void)
+{
+   uint32_t   value;
+
+   value = 0x12345678;
+
+   // right rotation by 8: low byte wraps to the top
+   assert( mulle_rotate_right_uint32( value, 8) == 0x78123456);
+
+   // left and right are inverse operations
+   assert( mulle_rotate_left_uint32( mulle_rotate_right_uint32( value, 13), 13) == value);
+
+   // shift 0 is the identity
+   assert( mulle_rotate_right_uint32( value, 0) == value);
+
+   // shift == width is also the identity (no undefined behavior)
+   assert( mulle_rotate_right_uint32( value, 32) == value);
+
+   // single-bit rotation works on the MSB
+   assert( mulle_rotate_right_uint32( 0x00000001, 1) == 0x80000000);
+
+   // 64-bit variant
+   assert( mulle_rotate_left_uint64( 0x8000000000000000ULL, 1) == 0x0000000000000001ULL);
+
+   printf( "rotate tests passed\n");
+   return( 0);
 }
 ```
 
