@@ -16,7 +16,8 @@
       "src/mulle-c11-integer.h",
       "src/mulle-c11-rotate.h",
       "src/mulle-c11-swap.h",
-      "src/mulle-c11.h"
+      "src/mulle-c11.h",
+      "src/reflect/_mulle-c11-versioncheck.h"
    ],
    "dependencies" : {
       "mulle-c/mulle-c11": "*"
