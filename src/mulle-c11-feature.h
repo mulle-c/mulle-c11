@@ -110,6 +110,10 @@
 
 # define MULLE_C_FALLTHROUGH           __attribute__(( fallthrough))
 
+// mark a function as possibly unused (suppresses -Wunused-function). MSVC does
+// not understand __attribute__, so it expands to nothing there.
+# define MULLE_C_UNUSED_FUNCTION       __attribute__(( unused))
+
 // use these for function pointer modifiers (because win...)
 # define _MULLE_C_NO_RETURN            MULLE_C_NO_RETURN
 # define _MULLE_C_NEVER_INLINE         MULLE_C_NEVER_INLINE
@@ -144,6 +148,7 @@
 # define MULLE_C_NO_INSTRUMENT_FUNCTION
 # define MULLE_C_CONST_RETURN
 # define MULLE_C_DEPRECATED
+# define MULLE_C_UNUSED_FUNCTION
 
 # define _MULLE_C_NO_RETURN
 # define _MULLE_C_NEVER_INLINE
