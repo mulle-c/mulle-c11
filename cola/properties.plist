@@ -3,11 +3,23 @@
    {
       description="🔀 Cross-platform C compiler glue (and some cpp conveniences)";
       domain="github";
+      language="c";
+      dialect="c";
       name="mulle-c11";
       user="mulle-c";
       repo="mulle-c11";
       homepage="https://github.com/mulle-c/mulle-c11";
       license="BSD-3-Clause";
-      version="4.9.0"
    };
+   dependencies =
+   (
+      {
+         description="🔀 Cross-platform C compiler glue (and some cpp conveniences)";
+         domain="github";
+         name="mulle-c11";
+         repo="mulle-c11";
+         url="https://github.com/mulle-c/mulle-c11";
+         user="mulle-c";
+      }
+   );
 }
