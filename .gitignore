@@ -78,3 +78,8 @@ src/reflect
 .kiro/
 TODO.md
 REVIEW.md
+.vscode/
+.touch
+*.workspace
+*.*-workspace
+*.old

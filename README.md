@@ -80,14 +80,9 @@ Some gcc builtins are provided, in case the compiler does not support them.
 |--------------------------------|------------------------------------------------------|
 | `MULLE_C_LIKELY( expr)`        | Predict branch to be taken
 | `MULLE_C_UNLIKELY( expr)`      | Predict branch not to be taken
-| `MULLE_C_EXPECT( expr,value)`  | Special case when expression does not return 0 / 1 (or for style)
-| `mulle_c_popcount`             | Count the number of set bits in `unsigned int`
-| `mulle_c_popcountl`            | Count the number of set bits in `unsigned long`
-| `mulle_c_popcountll`           | Count the number of set bits in `unsigned long long`
-| `mulle_c_clz`                  | Count leading zero bits in `unsigned int`, undefined for 0
-| `mulle_c_clzl`                 | Count leading zero bits in `unsigned long`, undefined for 0
-| `mulle_c_clzll`                | Count leading zero bits in `unsigned long long`, undefined for 0
-| `mulle_c_log2_floor`           | floor( log2( value)) as `unsigned long long`, answers 0 for 0
+| `MULLE_C_EXPECT( expr,value)`  | Special case when expression does not return 0 / 1 (or for style)| `mulle_c_popcount`   | Count the number of set bits in `unsigned int`                |
+| `mulle_c_popcountl`            | Count the number of set bits in `unsigned long`      |
+| `mulle_c_popcountll`           | Count the number of set bits in `unsigned long long` |
 
 
 ## Cross platform attributes
