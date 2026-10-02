@@ -38,10 +38,19 @@
 
 #include <stddef.h>
 
+// __has_builtin is probed below and mulle-c11.h happens to include this file
+// after mulle-c11-feature.h. Embedders that want only these functions include
+// this header directly though, so get the fallback in place ourselves.
+#include "mulle-c11-feature.h"
+
 // useful builtin functions that are easy to re-implement
 // with static inline functions
-
-#if __has_builtin( __builtin_popcount)
+//
+// Define MULLE_C11_NO_BUILTINS to get the reimplementations even where the
+// builtins exist. That is how these fallbacks are tested (see test/92-clz),
+// and it doubles as an escape hatch for a compiler whose builtin is broken.
+//
+#if ! defined( MULLE_C11_NO_BUILTINS) && __has_builtin( __builtin_popcount)
 static inline int   mulle_c_popcount( unsigned int bits)
 {
    return( __builtin_popcount( bits));
@@ -61,7 +70,7 @@ static inline int   mulle_c_popcount( unsigned int bits)
 }
 #endif
 
-#if __has_builtin( __builtin_popcountl)
+#if ! defined( MULLE_C11_NO_BUILTINS) && __has_builtin( __builtin_popcountl)
 static inline int   mulle_c_popcountl( unsigned long bits)
 {
    return( __builtin_popcountl( bits));
@@ -82,7 +91,7 @@ static inline int   mulle_c_popcountl( unsigned long bits)
 #endif
 
 
-#if __has_builtin( __builtin_popcountll)
+#if ! defined( MULLE_C11_NO_BUILTINS) && __has_builtin( __builtin_popcountll)
 static inline int   mulle_c_popcountll( unsigned long long bits)
 {
    return( __builtin_popcountll( bits));
@@ -101,6 +110,86 @@ static inline int   mulle_c_popcountll( unsigned long long bits)
    return( n);
 }
 #endif
+
+
+// The count-leading-zeros builtins are all undefined for 0, as are these.
+// If you want a defined answer for 0, use mulle_c_log2_floor.
+
+#if ! defined( MULLE_C11_NO_BUILTINS) && __has_builtin( __builtin_clz)
+static inline int   mulle_c_clz( unsigned int bits)
+{
+   return( __builtin_clz( bits));
+}
+#else
+static inline int   mulle_c_clz( unsigned int bits)
+{
+   unsigned int   n;
+
+   n = 0;
+   while( bits)
+   {
+      ++n;
+      bits >>= 1;
+   }
+   return( (int) (sizeof( unsigned int) * 8 - n));
+}
+#endif
+
+
+#if ! defined( MULLE_C11_NO_BUILTINS) && __has_builtin( __builtin_clzl)
+static inline int   mulle_c_clzl( unsigned long bits)
+{
+   return( __builtin_clzl( bits));
+}
+#else
+static inline int   mulle_c_clzl( unsigned long bits)
+{
+   unsigned long   n;
+
+   n = 0;
+   while( bits)
+   {
+      ++n;
+      bits >>= 1;
+   }
+   return( (int) (sizeof( unsigned long) * 8 - n));
+}
+#endif
+
+
+#if ! defined( MULLE_C11_NO_BUILTINS) && __has_builtin( __builtin_clzll)
+static inline int   mulle_c_clzll( unsigned long long bits)
+{
+   return( __builtin_clzll( bits));
+}
+#else
+static inline int   mulle_c_clzll( unsigned long long bits)
+{
+   unsigned long long   n;
+
+   n = 0;
+   while( bits)
+   {
+      ++n;
+      bits >>= 1;
+   }
+   return( (int) (sizeof( unsigned long long) * 8 - n));
+}
+#endif
+
+
+//
+// floor( log2( bits)), defined for 0 as well, which answers 0. This is the
+// useful derived function, as a bit index is rarely what you want and
+// clamping the 0 case at every call site is noise.
+//
+static inline unsigned int   mulle_c_log2_floor( unsigned long long bits)
+{
+   if( ! bits)
+      return( 0);
+   return( (unsigned int) (sizeof( unsigned long long) * 8 - 1
+                           - (unsigned int) mulle_c_clzll( bits)));
+}
 
 
 //
@@ -130,7 +219,7 @@ static inline int   mulle_c_popcountll( unsigned long long bits)
 
 
 
-#if __has_builtin( __builtin_memcpy)
+#if ! defined( MULLE_C11_NO_BUILTINS) && __has_builtin( __builtin_memcpy)
 static inline void   mulle_c_memcpy( void *dst, const void *src, size_t n)
 {
    __builtin_memcpy( dst, src, n);

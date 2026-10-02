@@ -9,6 +9,7 @@
       user="mulle-c";
       repo="mulle-c11";
       homepage="https://github.com/mulle-c/mulle-c11";
+      version="4.9.1";
       license="BSD-3-Clause";
    };
    dependencies =

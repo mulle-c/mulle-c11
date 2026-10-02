@@ -28,7 +28,6 @@
 
 int   main( void)
 {
-   char   *s;
    printf( "identifier = %s\n",
       ( MULLE_C_EVAL( MULLE_C_FOR_EACH_IDENTIFIER( STRUCT_VALUE,  
                                                  1.0f, 
