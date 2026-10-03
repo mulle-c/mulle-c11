@@ -48,6 +48,7 @@ The library's API is almost entirely macro-based and defines no data structures.
 - `MULLE_C_DEPRECATED`: Marks function as deprecated; compiler emits warning on use
 - `MULLE_C_NO_RETURN`: Specifies function never returns (e.g., `abort()`, `exit()`); enables dead-code elimination
 - `MULLE_C_UNUSED`: Marks parameter or variable as intentionally unused; suppresses compiler warnings
+- `MULLE_C_UNUSED_FUNCTION`: Marks a function as possibly unused (suppresses `-Wunused-function`); expands to nothing on MSVC
 
 #### Visibility & Linkage
 - `MULLE_C_EXTERN_GLOBAL`: For DLL scenarios; controls global variable linkage (default: `extern`)
@@ -83,8 +84,22 @@ Constructors/destructors have guaranteed execution but order is not guaranteed b
 - `mulle_c_popcount(x)`: Counts set bits in `unsigned int` (native: `__builtin_popcount()`)
 - `mulle_c_popcountl(x)`: Counts set bits in `unsigned long`
 - `mulle_c_popcountll(x)`: Counts set bits in `unsigned long long`
+- `mulle_c_clz(x)`: Counts leading zero bits in `unsigned int` (native: `__builtin_clz()`)
+- `mulle_c_clzl(x)`: Counts leading zero bits in `unsigned long`
+- `mulle_c_clzll(x)`: Counts leading zero bits in `unsigned long long`
+- `mulle_c_log2_floor(x)`: Returns `floor(log2(x))` for `unsigned long long`, defined for `0` (answers `0`)
 - **Fallback**: Portable C implementation if builtin unavailable
+- **Note**: The `clz` builtins are undefined for `0`, as are the helpers; use `mulle_c_log2_floor` when a defined answer for `0` is needed
+- **Configuration**: Define `MULLE_C11_NO_BUILTINS` to force the portable reimplementations even where builtins exist
 - **Use Case**: Bitmap operations, Hamming distance, set cardinality
+
+**Function Signatures (verbatim from `mulle-c11-builtin.h`)**:
+```c
+static inline int   mulle_c_clz( unsigned int bits)
+static inline int   mulle_c_clzl( unsigned long bits)
+static inline int   mulle_c_clzll( unsigned long long bits)
+static inline unsigned int   mulle_c_log2_floor( unsigned long long bits)
+```
 
 #### Expect Builtin (Clang/GCC)
 - `__builtin_expect(expr, value)`: Advanced branch prediction; rarely used directly (use `MULLE_C_LIKELY`/`MULLE_C_UNLIKELY` instead)
