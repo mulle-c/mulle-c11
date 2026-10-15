@@ -3,6 +3,7 @@
 
 
 
+
 feature: add count-leading-zeros and log2 floor helpers
 
 * new ``mulle_c_clz`,` ``mulle_c_clzl`,` and ``mulle_c_clzll`` for counting leading zero bits
