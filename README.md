@@ -11,7 +11,7 @@ mulle-objc projects.
 
 | Release Version                                       | Release Notes  | AI Documentation
 |-------------------------------------------------------|----------------|---------------
-| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-c11.svg) [![Build Status](https://github.com/mulle-c/mulle-c11/workflows/CI/badge.svg)](//github.com/mulle-c/mulle-c11/actions) | [RELEASENOTES](RELEASENOTES.md) | [DeepWiki for mulle-c11](https://deepwiki.com/mulle-c/mulle-c11)
+| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-c11.svg) ![standard: C11/C23](pix/c11-c23.svg) ![apis: ansi](pix/apis-ansi.svg) ![memory: none](pix/memory-none.svg) ![threads: threadsafe](pix/thread-threadsafe.svg) [![Build Status](https://github.com/mulle-c/mulle-c11/workflows/CI/badge.svg)](//github.com/mulle-c/mulle-c11/actions) | [RELEASENOTES](RELEASENOTES.md) | [DeepWiki for mulle-c11](https://deepwiki.com/mulle-c/mulle-c11)
 
 
 ## Includes
@@ -19,15 +19,18 @@ mulle-objc projects.
 
 | Header                    | Description
 |---------------------------|----------------------------------------------------------------
-| `mulle-c11.h`             | includes a minimal set of headers: feature, builtin, bool, integer
+| `mulle-c11.h`             | includes a minimal set of headers: feature, bool, endian, integer, rotate and builtin
 | `mulle-c11-align.h`       | includes `<stdalign.h>`, if detected as available, or provides replacement code. This enables `alignof` and ` alignas`.
 | `mulle-c11-bool.h`        | supplies the `BOOL` type, which is typically `int`
-| `mulle-c11-integer.h`     | supplies the `NSInteger` and `NSUInteger` types, which are based on `intptr_t`
+| `mulle-c11-builtin.h`     | `static inline` wrappers for compiler builtins like `__builtin_popcount`, `__builtin_clz` and `__builtin_memcpy`, with portable fallbacks
 | `mulle-c11-endian.h`      | provides endianness detection support and swapping functions like `NSSwapLong`
 | `mulle-c11-eval.h`        | preprocessor evaluation support for really special needs
 | `mulle-c11-feature.h`     | abstracted compile features like attributes and constructors
+| `mulle-c11-integer.h`     | supplies the `NSInteger` and `NSUInteger` types, which are based on `intptr_t`
 | `mulle-c11-rotate.h`      | portable bit rotation functions that compile to `ror`/`rol` instructions
 | `mulle-c11-swap.h`        | byte-swap functions for endian conversion
+| `mulle-c23-eval.h`        | C23 `__VA_OPT__` based preprocessor evaluation, e.g. `MULLE_C_FOR_EACH`
+| `mulle-c23-feature.h`     | C23 language features like `MULLE_C_TYPE_OF` (`__typeof__`)
 
 
 ## Features
@@ -176,23 +179,23 @@ In your code include its umbrella header:
 #include <mulle-core/mulle-core.h>
 ```
 
-In your project add mulle-core as a git submodule and link against it:
-
-``` bash
-git submodule add -f "https://github.com/mulle-core/mulle-core.git" \
-                     "stash/mulle-core"
-git submodule update --init --recursive
-```
-
-then add these comands to your `CMakeLists.txt`:
+Add mulle-core to your `CMakeLists.txt` with
+[FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html):
 
 ``` cmake
-include_directories( SYSTEM "stash/mulle-core/src")
-add_subdirectory( stash/mulle-core)
+include( FetchContent)
+
+set( MULLE__CORE_TAG "master" CACHE STRING "branch or tag to fetch mulle-core from")
+
+FetchContent_Declare( MULLE__CORE
+   GIT_REPOSITORY https://github.com/mulle-core/mulle-core.git
+   GIT_TAG        "${MULLE__CORE_TAG}")
+FetchContent_MakeAvailable( MULLE__CORE)
+
 target_link_libraries( ${PROJECT_NAME} PUBLIC mulle-core)
 ```
 
-Or let [mulle-sde](//github.com/mulle-sde) do it:
+Or add to your mulle-sde project with:
 
 ``` sh
 mulle-sde add mulle-core/mulle-core
@@ -209,30 +212,32 @@ In your code include its header:
 #include <mulle-c11/mulle-c11.h>
 ```
 
-Add mulle-c11 and dependencies as git submodules and link against
-them:
-
-``` bash
-git submodule add -f --name "mulle-c11" \
-                            "https://github.com/mulle-c/mulle-c11.git" \
-                            "stash/mulle-c11"
-git submodule add -f --name "mulle-c11" \
-                        "https://github.com/mulle-c/mulle-c11" \
-                        "stash/mulle-c11"
-git submodule update --init --recursive
-```
+Add mulle-c11 and its dependencies to your `CMakeLists.txt` with
+[FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html):
 
 ``` cmake
+include( FetchContent)
+
 include_directories( SYSTEM "${CMAKE_BINARY_DIR}/include")
 
-add_subdirectory( stash/mulle-c11)
-add_subdirectory( stash/mulle-c11)
+set( MULLE__C11_TAG "master" CACHE STRING "branch or tag to fetch mulle-c11 from")
 
-target_link_libraries( ${PROJECT_NAME} PUBLIC mulle-c11)
+FetchContent_Declare( MULLE__C11
+   GIT_REPOSITORY https://github.com/mulle-c/mulle-c11.git
+   GIT_TAG        "${MULLE__C11_TAG}")
+FetchContent_MakeAvailable( MULLE__C11)
+
+set( MULLE__C11_TAG "master" CACHE STRING "branch or tag to fetch mulle-c11 from")
+
+FetchContent_Declare( MULLE__C11
+   GIT_REPOSITORY https://github.com/mulle-c/mulle-c11.git
+   GIT_TAG        "${MULLE__C11_TAG}")
+FetchContent_MakeAvailable( MULLE__C11)
+
 target_link_libraries( ${PROJECT_NAME} PUBLIC mulle-c11)
 ```
 
-Or let [mulle-sde](//github.com/mulle-sde) do it:
+Or add to your mulle-sde project with:
 
 ``` sh
 mulle-sde add github:mulle-c/mulle-c11

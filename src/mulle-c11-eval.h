@@ -49,8 +49,6 @@
 
 // treat __VA_ARGS__ like a C array, index starts at 0
 //
-// BUG: __VA_OPT__ only works on gcc and clang or C23
-//
 // MULLE_C_VA_ARGS_0 can be called MULLE_C_VA_ARGS_0() as a0 will be nothing
 #define MULLE_C_VA_ARGS_0(  a0, ...) a0
 #define MULLE_C_VA_ARGS_1(  a0, a1, ...) a1
@@ -113,110 +111,21 @@
 #define MULLE_C_EVAL(...)      MULLE_C_EVAL64( __VA_ARGS__)
 
 
-#define _MULLE_C_HAS_VA_OPT_TEST(...)   MULLE_C_VA_ARGS_2(__VA_OPT__(,),1,0,)
-#define MULLE_C_HAS_VA_OPT              _MULLE_C_HAS_VA_OPT_TEST(x)
-
-
-// --------------------------------------------------------------------------
-// From here on we need __VA_OPT__ which is C23, gcc, clang only
-// MEMO: mulle-c23-eval.h ?  mulle-c23/mulle-c23-eval.h ?
-// --------------------------------------------------------------------------
-#if MULLE_C_HAS_VA_OPT
-
-#define MULLE_C_VA_ARGS_COUNT( ...) \
-   MULLE_C_VA_ARGS_15( dummy __VA_OPT__(,) __VA_ARGS__, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
-
-
-#define MULLE_C_HAS_ARGS( ...)     MULLE_C_HAS_ARGS_ ## __VA_OPT__(1) ()
-#define MULLE_C_HAS_ARGS_()        0
-#define MULLE_C_HAS_ARGS_1()       1
-
-#define MULLE_C_IS_EMPTY( ...)  \
-        _MULLE_C_IS_ ##  __VA_OPT__( NON_) ## EMPTY
-#define _MULLE_C_IS_NON_EMPTY    0
-#define _MULLE_C_IS_EMPTY        1
-
-#define MULLE_C_VA_ARGS_WITH_DEFAULT( d, ...)  \
-        _MULLE_C_ ##  __VA_OPT__( NON_) ## EMPTY_VA_ARGS_WITH_DEFAULT( d, __VA_ARGS__ )
-#define MULLE_C_VA_ARGS_0_WITH_DEFAULT( d, ...)  \
-        _MULLE_C_ ##  __VA_OPT__( NON_) ## EMPTY_VA_ARGS_WITH_DEFAULT( d, MULLE_C_VA_ARGS_0( __VA_ARGS__))
-
-#define _MULLE_C_NON_EMPTY_VA_ARGS_WITH_DEFAULT( d, ...)  __VA_ARGS__
-#define _MULLE_C_EMPTY_VA_ARGS_WITH_DEFAULT( d, ...)      d
-
-
-
-// this is actually original, yay
-#define MULLE_C_FOR_EACH_WITH_SEPARATOR( macro, s, sep, first, ...) \
-    macro( first, s) __VA_OPT__( sep ) \
-    MULLE_C_WHEN( MULLE_C_HAS_ARGS(__VA_ARGS__)) \
-    ( \
-        MULLE_C_OBSTRUCT( MULLE_C_FOR_EACH_WITH_SEPARATOR_INDIRECT) () \
-        ( \
-            macro, s ## i, sep, __VA_ARGS__ \
-        ) \
-    )
-
-#define MULLE_C_FOR_EACH_WITH_SEPARATOR_INDIRECT() \
-    MULLE_C_FOR_EACH_WITH_SEPARATOR
-
-#define MULLE_C_FOR_EACH( macro, first, ...) \
-    MULLE_C_FOR_EACH_WITH_SEPARATOR( macro, v, , first __VA_OPT__(,) __VA_ARGS__)
-
-
 //
-#define _MULLE_C_FOR_EACH_WITH_COMMA_SEPARATOR( macro, s, first, ...) \
-    macro( first, s) __VA_OPT__( , ) \
-    MULLE_C_WHEN( MULLE_C_HAS_ARGS(__VA_ARGS__)) \
-    ( \
-        MULLE_C_OBSTRUCT( _MULLE_C_FOR_EACH_WITH_COMMA_SEPARATOR_INDIRECT) () \
-        ( \
-            macro, s ## i, __VA_ARGS__ \
-        ) \
-    )
-
-#define _MULLE_C_FOR_EACH_WITH_COMMA_SEPARATOR_INDIRECT()  \
-   _MULLE_C_FOR_EACH_WITH_COMMA_SEPARATOR
-
-// Emit a comma separated list. Macro should be defined like this:
+// MEMO: overridable (like MULLE_C_HAS_TYPEOF), so that a test can force the
+//       C11-only path with -DMULLE_C_HAS_VA_OPT=0.
 //
-// #define macro( argument, identifier)
-//
-// Argument will be each vararg in sequence. So with three varargs, the
-// macro will be called three times.
-// The identifier will be unique within the expansion (but very ugly).
-// Call this by wrapping it in MULLE_C_EVAL
-// e.g.
-// #define field( value, identifier)   identifier = value
-// MULLE_C_EVAL( MULLE_C_FOR_EACH_WITH_COMMA_SEPARATOR( field, 1, 2, 3))
-// Expect: v = 1, vi = 2, vii = 3
-//
-
-#define MULLE_C_FOR_EACH_WITH_COMMA_SEPARATOR( macro, first, ...) \
-    _MULLE_C_FOR_EACH_WITH_COMMA_SEPARATOR( macro, v, first __VA_OPT__(,) __VA_ARGS__)
-
-
-// Example:
-// Create a struct from values and initialize it.
-// Step 1. Figure out type of value with __typeof__, create a field in the
-//         struct for it (STRUCT_FIELD).
-// Step 2. Create an initializer with the values (STRUCT_VALUE)
-// Step 3. Create the struct (STRUCT_FOR_VALUES)
-// Step 4. Execute (MULLE_C_EVAL)
-//
-// #define STRUCT_FIELD( expr, s) __typeof__( expr)  s;
-// #define STRUCT_VALUE( expr, s) .s = expr
-//
-// #define STRUCT_FOR_VALUES( name, ...)                                                 \
-//    struct                                                                             \
-//    {                                                                                  \
-//      MULLE_C_EVAL( MULLE_C_FOR_EACH( STRUCT_FIELD, __VA_ARGS__))                      \
-//    } name =                                                                           \
-//    {                                                                                  \
-//      MULLE_C_EVAL( MULLE_C_FOR_EACH_WITH_COMMA_SEPARATOR( STRUCT_VALUE, __VA_ARGS__)) \
-//    }
-// MULLE_C_EVAL( STRUCT_FOR_VALUES( my_struct, 1.0f, "VfL Bochum", 1848LL))
-
+#ifndef MULLE_C_HAS_VA_OPT
+# define _MULLE_C_HAS_VA_OPT_TEST(...)   MULLE_C_VA_ARGS_2(__VA_OPT__(,),1,0,)
+# define MULLE_C_HAS_VA_OPT              _MULLE_C_HAS_VA_OPT_TEST(x)
 #endif
 
+
+//
+// The macros that need __VA_OPT__ (MULLE_C_FOR_EACH, MULLE_C_VA_ARGS_COUNT,
+// MULLE_C_HAS_ARGS, MULLE_C_IS_EMPTY, ...) are C23 and live in their own header,
+// so that this one stays usable with every C99/C11 compiler:
+//
+//    #include <mulle-c11/mulle-c23-eval.h>
+//
 #endif

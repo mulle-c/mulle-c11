@@ -1,7 +1,17 @@
 #include <stdio.h>
+#include <string.h>
 
 #include <mulle-c11/mulle-c11.h>
 #include <mulle-c11/mulle-c11-eval.h>
+
+//
+// The identifier expansion needs __VA_OPT__ (C23). Guarded, so this test also
+// compiles and passes on a compiler without it.
+//
+#if MULLE_C_HAS_VA_OPT
+# include <mulle-c11/mulle-c23-eval.h>
+
+#define STRUCT_VALUE( expr, s) .s = expr
 
 #define MULLE_C_WHEN_NOT( c)         MULLE_C_IIF(c)( MULLE_C_EAT, MULLE_C_EXPAND)
 
@@ -28,14 +38,22 @@
 
 int   main( void)
 {
-   printf( "identifier = %s\n",
-      ( MULLE_C_EVAL( MULLE_C_FOR_EACH_IDENTIFIER( STRUCT_VALUE,  
-                                                 1.0f, 
-                                                 "VfL Bochum", 
-                                                  1848LL)
-                                     ))
-   );
+   const char   *identifier;
 
+   identifier = MULLE_C_EVAL( MULLE_C_FOR_EACH_IDENTIFIER( STRUCT_VALUE,
+                                                          1.0f,
+                                                          "VfL Bochum",
+                                                          1848LL));
+
+   printf( "identifier = %s\n", identifier);
+   return( strcmp( identifier, "viii") == 0 ? 0 : 1);
+}
+
+#else
+
+int   main( void)
+{
    return( 0);
 }
 
+#endif

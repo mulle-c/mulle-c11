@@ -11,6 +11,9 @@ set( PUBLIC_HEADERS "src/mulle-c11.h"
 "src/mulle-c11-feature.h"
 "src/mulle-c11-integer.h"
 "src/mulle-c11-rotate.h"
+"src/mulle-c11-swap.h"
+"src/mulle-c23-eval.h"
+"src/mulle-c23-feature.h"
 )
 
 add_library( mulle-c11 INTERFACE)

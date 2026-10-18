@@ -3,6 +3,13 @@
 #include <mulle-c11/mulle-c11.h>
 #include <mulle-c11/mulle-c11-eval.h>
 
+//
+// The loop expansion needs __VA_OPT__ (C23). Guarded, so this test also
+// compiles and passes on a compiler without it.
+//
+#if MULLE_C_HAS_VA_OPT
+# include <mulle-c11/mulle-c23-eval.h>
+
 
 #define LOOP( first, ...)                         \
    first                                          \
@@ -29,3 +36,11 @@ int   main( void)
    return( 0);
 }
 
+#else
+
+int   main( void)
+{
+   return( 0);
+}
+
+#endif

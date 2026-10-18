@@ -1,7 +1,7 @@
 /* THIS TEST WAS WRITTEN BY PHIND. It missed initially
   1. SQUARE needs a dummy identifier parameter
   2. MULLE_C_FOR_EACH_WITH_COMMA_SEPARATOR needs to be wrapped in MULLE_C_EVAL
-  3. <mulle-c11/mulle-c11-eval.h> needs to be included.
+  3. <mulle-c11/mulle-c23-eval.h> needs to be included.
   But it came up, with the wrapper idea which is nice. Unfortunately it messed
   up the wrapper, but anyway...
 */
@@ -24,6 +24,13 @@ Here's an example of how you might use the MULLE_C_FOR_EACH_WITH_COMMA_SEPARATOR
 #include <mulle-c11/mulle-c11.h>
 #include <mulle-c11/mulle-c11-eval.h>
 
+//
+// MULLE_C_FOR_EACH_WITH_COMMA_SEPARATOR needs __VA_OPT__ (C23). Guarded, so
+// this test also compiles and passes on a compiler without it.
+//
+#if MULLE_C_HAS_VA_OPT
+# include <mulle-c11/mulle-c23-eval.h>
+
 #define SQUARE(x) ((x) * (x))
 #define WRAPPED_SQUARE(x, _) SQUARE(x)
 
@@ -34,8 +41,17 @@ int main() {
     printf("result[%zu] = %d\n", i, result[i]);
   }
 
-  return 0;
+  return (result[0] == 1 && result[1] == 4 && result[2] == 9 && result[3] == 16) ? 0 : 1;
 }
+
+#else
+
+int   main( void)
+{
+   return( 0);
+}
+
+#endif
 
 
 /*

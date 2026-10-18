@@ -61,6 +61,12 @@
 #ifdef MULLE_C11_INCLUDE_ALL
 # include "mulle-c11-align.h"
 # include "mulle-c11-eval.h"
+# if MULLE_C_HAS_TYPEOF
+#  include "mulle-c23-feature.h"
+# endif
+# if MULLE_C_HAS_VA_OPT
+#  include "mulle-c23-eval.h"
+# endif
 # include "mulle-c11-swap.h"
 #endif
 
