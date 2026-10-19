@@ -145,6 +145,18 @@ Advanced compile-time evaluation for macro-based generic programming:
 - `MULLE_C_STRINGIFY(x)`: Convert identifier to string literal
 - `MULLE_C_CONCAT(a, b)`: Concatenate two identifiers
 - `MULLE_C_ASSERT(condition)`: Compile-time assertion; build fails if false
+- `MULLE_C_HAS_VA_OPT`: Capability probe for `__VA_OPT__` support (C23, also accepted pre-C23 by GCC/Clang); may be overridden (e.g. `-DMULLE_C_HAS_VA_OPT=0`) to force the C11-only path
+
+The macros that require `__VA_OPT__` live in a separate header, `mulle-c23-eval.h`, so that `mulle-c11-eval.h` stays usable with every C99/C11 compiler. `mulle-c23-eval.h` errors out at compile time when the compiler has no `__VA_OPT__`; `mulle-c11.h` includes it automatically only when `MULLE_C_HAS_VA_OPT` holds.
+
+**Macros in `mulle-c23-eval.h`** (all require `__VA_OPT__`):
+- `MULLE_C_VA_ARGS_COUNT(...)`: Count variadic arguments at compile time
+- `MULLE_C_HAS_ARGS(...)`: `1` if arguments are present, otherwise `0`
+- `MULLE_C_IS_EMPTY(...)`: `1` if the argument list is empty, otherwise `0`
+- `MULLE_C_VA_ARGS_WITH_DEFAULT(d, ...)` / `MULLE_C_VA_ARGS_0_WITH_DEFAULT(d, ...)`: Substitute a default when no arguments are given
+- `MULLE_C_FOR_EACH(macro, first, ...)`: Invoke `macro` once per argument
+- `MULLE_C_FOR_EACH_WITH_SEPARATOR(macro, s, sep, first, ...)`: Like `MULLE_C_FOR_EACH` with an explicit separator
+- `MULLE_C_FOR_EACH_WITH_COMMA_SEPARATOR(macro, first, ...)`: Emit a comma-separated list
 
 ### 3.8. Bit Rotation Helpers (`mulle-c11-rotate.h`)
 
@@ -165,6 +177,18 @@ static inline uint64_t   mulle_rotate_left_uint64( uint64_t value, unsigned shif
 - `mulle_rotate_right_uint32(value, shift)` / `mulle_rotate_right_uint64(value, shift)`: Rotates `value` right by `shift` bits; bits shifted out the low end reappear at the high end.
 - Left and right rotations are exact inverses: `mulle_rotate_left_uint32( mulle_rotate_right_uint32( value, n), n) == value`.
 - **Use Case**: Hashing (e.g., MurmurHash, SHA-like mixing), cryptography primitives, checksum accumulation, pseudo-random bit mixing.
+
+### 3.9. C23 Language Features (`mulle-c23-feature.h`)
+
+C23 language features that GCC and Clang already accept as an extension in earlier modes; including `mulle-c23-feature.h` means "I am allowed to require C23 (or the GCC/Clang extension)". It errors out at compile time when the compiler lacks the feature. The capability probe deliberately lives in `mulle-c11-feature.h`, because a C11 consumer needs it to decide whether to pull this header in at all; `mulle-c11.h` includes `mulle-c23-feature.h` automatically when `MULLE_C_HAS_TYPEOF` holds.
+
+**Key Macros**:
+- `MULLE_C_HAS_TYPEOF`: Capability probe for `__typeof__` (defined in `mulle-c11-feature.h`); may be overridden
+- `MULLE_C_TYPE_OF( expr)`: Expands to `__typeof__( expr)`, the reserved spelling of C23 `typeof`; guard optional use with `MULLE_C_HAS_TYPEOF` (verbatim from `mulle-c23-feature.h`):
+
+```c
+#define MULLE_C_TYPE_OF( expr)        __typeof__( expr)
+```
 
 ## 4. Performance Characteristics
 
