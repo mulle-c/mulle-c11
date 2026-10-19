@@ -227,13 +227,6 @@ FetchContent_Declare( MULLE__C11
    GIT_TAG        "${MULLE__C11_TAG}")
 FetchContent_MakeAvailable( MULLE__C11)
 
-set( MULLE__C11_TAG "master" CACHE STRING "branch or tag to fetch mulle-c11 from")
-
-FetchContent_Declare( MULLE__C11
-   GIT_REPOSITORY https://github.com/mulle-c/mulle-c11.git
-   GIT_TAG        "${MULLE__C11_TAG}")
-FetchContent_MakeAvailable( MULLE__C11)
-
 target_link_libraries( ${PROJECT_NAME} PUBLIC mulle-c11)
 ```
 
