@@ -1,0 +1,13 @@
+MULLE_C_WEAK                     present
+MULLE_C_STATIC_ALWAYS_INLINE     present
+MULLE_C_ALWAYS_INLINE            present
+MULLE_C_NEVER_INLINE             present
+MULLE_C_NO_INSTRUMENT_FUNCTION   present
+MULLE_C_CONST_RETURN             present
+MULLE_C_NO_RETURN                present
+MULLE_C_DEPRECATED               present
+MULLE_C_FALLTHROUGH              present
+MULLE_C_UNUSED_FUNCTION          present
+_MULLE_C_NO_RETURN               present
+_MULLE_C_NEVER_INLINE            present
+weak absent symbol               absent

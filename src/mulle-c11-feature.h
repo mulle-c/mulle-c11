@@ -94,7 +94,7 @@
 // symbol output (like weak does) for cross compilation use another batch
 // of definitons (see above)
 //
-#if defined( __clang__) || defined( __GNUC__)
+#if defined( __clang__) || defined( __GNUC__) || defined( __TINYC__)
 
 # define MULLE_C_WEAK                 __attribute__(( weak))
 # define MULLE_C_STATIC_ALWAYS_INLINE  static inline  __attribute__(( always_inline))
